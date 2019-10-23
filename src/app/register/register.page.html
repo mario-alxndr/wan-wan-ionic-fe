@@ -1,9 +1,42 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="login"></ion-back-button>
+    </ion-buttons>
     <ion-title>register</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-list>
+    <!-- name -->
+    <ion-item>
+      <ion-label position="floating">Name</ion-label>
+      <ion-input inputmode="text" type="text"></ion-input>
+    </ion-item>
 
+    <!-- email -->
+    <ion-item>
+      <ion-label position="floating">E-mail</ion-label>
+      <ion-input inputmode="email" type="email"></ion-input>
+    </ion-item>
+
+    <!-- password -->
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type=:password></ion-input>
+    </ion-item>
+
+    <!-- retype password-->
+    <ion-item>
+      <ion-label position="floating">Retype Password</ion-label>
+      <ion-input type=:password></ion-input>
+    </ion-item>
+  </ion-list>
+  <!-- register button -->
+  <ion-col size-sm="6" offset-sm="3">
+      <ion-button 
+      color="primary" 
+      expand="block">Register</ion-button>
+  </ion-col>
 </ion-content>
