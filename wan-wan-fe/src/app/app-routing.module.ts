@@ -8,7 +8,6 @@ const routes: Routes = [
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
   { path: 'thread-detail', loadChildren: './home/thread-detail/thread-detail.module#ThreadDetailPageModule' },
   { path: 'thread-category', loadChildren: './home/thread-category/thread-category.module#ThreadCategoryPageModule' },
-  { path: 'add-thread', loadChildren: './add-thread/add-thread.module#AddThreadPageModule' },
   { path: 'add-thread', loadChildren: './home/add-thread/add-thread.module#AddThreadPageModule' },
   { path: 'event', loadChildren: './event/event.module#EventPageModule' },
   { path: 'add-event', loadChildren: './event/add-event/add-event.module#AddEventPageModule' },
