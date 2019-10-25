@@ -1,9 +1,27 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>event</ion-title>
+    <ion-title>Event</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="m1"></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="event">
+        <ion-label>Event</ion-label>
+        <ion-icon name="list-box"></ion-icon>
+      </ion-tab-button>
+      <ion-tab-button tab="add-event">
+        <ion-label>Add</ion-label>
+        <ion-icon name="add"></ion-icon>
+      </ion-tab-button>
+      <ion-tab-button tab="my-event">
+        <ion-label>My Event</ion-label>
+        <ion-icon name="card"></ion-icon>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-content>
