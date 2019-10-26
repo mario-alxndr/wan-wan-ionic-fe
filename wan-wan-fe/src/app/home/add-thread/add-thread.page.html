@@ -1,9 +1,41 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Add New Forum</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>Forum</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+    <ion-grid>
+        <ion-item>
+            <ion-thumbnail>
+                <img src="/wan-wan-ionic-fe/wan-wan-fe/src/assets/2157564-poring.jpg">
+            </ion-thumbnail>
+            <ion-label> Thread Maker</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label position="stacked">Thread's Name</ion-label>
+            <ion-input inputmode="text" type="text" minlength="3" maxlength="50"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label position="stacked">Game Category</ion-label>
+            <ion-select okText="Select" cancelText="Cancel">
+                <ion-select-option>Dota2</ion-select-option>
+                <ion-select-option>Mobile Legend</ion-select-option>
+                <ion-select-option>PUBG</ion-select-option>
+                <ion-select-option>AOV</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label position="stacked">Description</ion-label>
+            <ion-textarea
+                    maxlength="500"
+                    placeholder="Please make description that easy to understand and not to long (max: 500)"
+                    minlength="1"
+                    autofocus
+                    autoGrow
+            >
+            </ion-textarea>
+        </ion-item>
+        <ion-button expand="block">Add Thread</ion-button>
+    </ion-grid>
 </ion-content>
