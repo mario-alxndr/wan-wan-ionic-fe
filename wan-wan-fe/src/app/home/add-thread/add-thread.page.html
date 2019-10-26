@@ -6,36 +6,45 @@
 
 <ion-content>
     <ion-grid>
-        <ion-item>
-            <ion-thumbnail>
-                <img src="/wan-wan-ionic-fe/wan-wan-fe/src/assets/2157564-poring.jpg">
-            </ion-thumbnail>
-            <ion-label> Thread Maker</ion-label>
-        </ion-item>
-        <ion-item>
-            <ion-label position="stacked">Thread's Name</ion-label>
-            <ion-input inputmode="text" type="text" minlength="3" maxlength="50"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label position="stacked">Game Category</ion-label>
-            <ion-select okText="Select" cancelText="Cancel">
-                <ion-select-option>Dota2</ion-select-option>
-                <ion-select-option>Mobile Legend</ion-select-option>
-                <ion-select-option>PUBG</ion-select-option>
-                <ion-select-option>AOV</ion-select-option>
-            </ion-select>
-        </ion-item>
-        <ion-item>
-            <ion-label position="stacked">Description</ion-label>
-            <ion-textarea
-                    maxlength="500"
-                    placeholder="Please make description that easy to understand and not to long (max: 500)"
-                    minlength="1"
-                    autofocus
-                    autoGrow
-            >
-            </ion-textarea>
-        </ion-item>
+        <ion-col size="12" text-center>
+            <ion-card>
+                <ion-card-title>
+                        <ion-avatar>
+                            <ion-img class="img-avt" src="assets/2157564-poring.jpg">
+                            </ion-img>
+                        </ion-avatar>
+                </ion-card-title>
+                <ion-card-subtitle>
+                    Thread Maker
+                </ion-card-subtitle>
+            </ion-card>
+        </ion-col>
+        <ion-item-group>
+            <ion-item>
+                <ion-label position="stacked">Thread's Name</ion-label>
+                <ion-input inputmode="text" type="text" minlength="3" maxlength="50"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Game Category</ion-label>
+                <ion-select okText="Select" cancelText="Cancel">
+                    <ion-select-option>Dota2</ion-select-option>
+                    <ion-select-option>Mobile Legend</ion-select-option>
+                    <ion-select-option>PUBG</ion-select-option>
+                    <ion-select-option>AOV</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Description</ion-label>
+                <ion-textarea
+                        maxlength="500"
+                        placeholder="Please make description that easy to understand and not to long (max: 500)"
+                        minlength="1"
+                        autofocus
+                        autoGrow
+                >
+                </ion-textarea>
+            </ion-item>
+        </ion-item-group>
         <ion-button expand="block">Add Thread</ion-button>
     </ion-grid>
 </ion-content>
