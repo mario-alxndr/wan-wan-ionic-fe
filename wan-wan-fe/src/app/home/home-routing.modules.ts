@@ -8,11 +8,6 @@ const routes: Routes = [
         component: HomePage,
         children: [
             {
-                path: 'home',
-                redirectTo: '/home',
-                pathMatch: 'full'
-            },
-            {
                 path: 'add-thread',
                 loadChildren: './add-thread/add-thread.module#AddThreadPageModule'
             },
@@ -21,15 +16,19 @@ const routes: Routes = [
                 loadChildren: './thread-category/thread-category.module#ThreadCategoryPageModule'
             },
             {
+                path: 'main',
+                loadChildren: './main/main.module#MainPageModule'
+            },
+            {
                 path: '',
-                redirectTo: '/home',
+                redirectTo: '/home/main',
                 pathMatch: 'full'
             }
         ]
     },
     {
         path: '',
-        redirectTo: '/home',
+        redirectTo: '/home/main',
         pathMatch: 'full'
     }
 ];

@@ -8,11 +8,6 @@ const routes: Routes = [
         component: EventPage,
         children: [
             {
-                path: 'event',
-                redirectTo: '/event',
-                pathMatch: 'full'
-            },
-            {
                 path: 'add-event',
                 loadChildren: './add-event/add-event.module#AddEventPageModule'
             },
@@ -21,15 +16,19 @@ const routes: Routes = [
                 loadChildren: './my-event/my-event.module#MyEventPageModule'
             },
             {
+                path: 'main',
+                loadChildren: './main/main.module#MainPageModule'
+            },
+            {
                 path: '',
-                redirectTo: '/event',
+                redirectTo: '/event/main',
                 pathMatch: 'full'
             }
         ]
     },
     {
         path: '',
-        redirectTo: '/event',
+        redirectTo: '/event/main',
         pathMatch: 'full'
     }
 ];

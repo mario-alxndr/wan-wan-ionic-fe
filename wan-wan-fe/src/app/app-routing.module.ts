@@ -17,7 +17,9 @@ const routes: Routes = [
   { path: 'event-detail', loadChildren: './event/event-detail/event-detail.module#EventDetailPageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
   { path: 'edit-profile', loadChildren: './profile/edit-profile/edit-profile.module#EditProfilePageModule' },
-  { path: 'game-list', loadChildren: './profile/edit-profile/game-list/game-list.module#GameListPageModule' },
+  { path: 'game-list', loadChildren: './profile/edit-profile/game-list/game-list.module#GameListPageModule' },  { path: 'main', loadChildren: './home/main/main.module#MainPageModule' },
+  { path: 'main', loadChildren: './event/main/main.module#MainPageModule' },
+
 ];
 
 @NgModule({
