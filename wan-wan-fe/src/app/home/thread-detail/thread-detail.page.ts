@@ -1,6 +1,7 @@
 import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Thread} from './thread';
 import {Comment} from './comment';
+import { AlertController } from '@ionic/angular';
 
 @Component({
     selector: 'app-thread-detail',
@@ -151,7 +152,9 @@ export class ThreadDetailPage implements OnInit {
     private pages = 0;
     selectedPlace: number;
 
-    constructor() {
+    constructor(
+        public alertController: AlertController
+    ) {
     }
 
     ngOnInit() {
@@ -188,6 +191,7 @@ export class ThreadDetailPage implements OnInit {
     }
 
     addNewComment() {
+
         this.threads.comment.push(
             new Comment(
                 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png',
@@ -201,5 +205,36 @@ export class ThreadDetailPage implements OnInit {
         if (this.selectedPlace < this.pages) {
             this.selectedPlace += 1;
         }
+    }
+
+    async presentAlertPrompt() {
+        const alert = await this.alertController.create({
+          header: 'Add Comment',
+          inputs: [
+            {
+              name: 'Comment',
+              type: 'text',
+              placeholder: 'Comment Content'
+            }
+          ],
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: () => {
+                console.log('Confirm Cancel');
+              }
+            }, {
+              text: 'Ok',
+              handler: () => {
+                console.log('Confirm Ok');
+              }
+            }
+          ]
+        });
+    
+        await alert.present();
+        this.addNewComment();
     }
 }
