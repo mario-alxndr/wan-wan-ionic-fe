@@ -16,7 +16,7 @@ const routes: Routes = [
                 loadChildren: './thread-category/thread-category.module#ThreadCategoryPageModule'
             },
             {
-                path: 'main-forum',
+                path: 'main',
                 loadChildren: './main-forum/main-forum.module#MainForumPageModule'
             },
             {
