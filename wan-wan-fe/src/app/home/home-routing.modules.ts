@@ -17,7 +17,7 @@ const routes: Routes = [
             },
             {
                 path: 'main',
-                loadChildren: './main/main.module#MainPageModule'
+                loadChildren: './main-forum/main-forum.module#MainForumPageModule'
             },
             {
                 path: ':threadId',
