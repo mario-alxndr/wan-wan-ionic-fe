@@ -1,9 +1,81 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>event-detail</ion-title>
+    <ion-title>Event Detail</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon name="bookmark"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-grid>
+    <ion-row>
+      <ion-col size-sm="5" offset="0.5">
+        <ion-label>Event Name</ion-label>
+      </ion-col>
+      <ion-col size-sm="6" offset="5">
+        <ion-label>On Site</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-sm="5" offset="0.5">
+        <ion-label>Event Tag</ion-label>
+      </ion-col>
+      <ion-col size-sm="6" offset="5">
+        <ion-label>Event Type</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-item>
+      <ion-label>Event Organizer</ion-label>
+    </ion-item>
+    <ion-row>
+      <ion-col size-sm="3" offset-sm="3">
+        <ion-item>
+          <ion-label position="floating">From</ion-label>
+          <ion-datetime
+            display-format="MMM DD YYYY"
+            picker-format="YY MMM DD"
+            name="date-from">
+          </ion-datetime>
+        </ion-item>
+      </ion-col>
+      <ion-col size-sm="3">
+        <ion-item>
+          <ion-label position="floating">To</ion-label>
+          <ion-datetime
+            display-format="MMM DD YYYY"
+            picker-format="YY MMM DD"
+            name="date-from">
+          </ion-datetime>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size-sm="3">
+          <ion-item>
+            <ion-label position="floating">Time</ion-label>
+            <ion-datetime displayFormat="HH:mm"></ion-datetime>
+          </ion-item>
+      </ion-col>
+    </ion-row>
+    <br>
+    <ion-label>Location :</ion-label>
+    <p class="textfield">Lorem ipsum dolor sit amet, atqui maluisset ne sea, quo suas everti at. Nulla mucius et quo, id duo utroque elaboraret, consulatu omittantur voluptatibus id cum. Id eirmod percipit pertinax per, cum solet timeam appetere ea, ius laoreet delicata ad. Alb</p>
+    <br>
+    <ion-row>
+        <ion-col size="3" offset="1">
+          <ion-label>Games:</ion-label>
+        </ion-col>
+        <ion-col size="8">
+          <ion-label>Yugi, Dota, Pokemon</ion-label>
+        </ion-col>
+    </ion-row>
+    <img class="containerpict" src="https://midnightlaunchstudios.files.wordpress.com/2014/03/norwichgamingfestival_poster_png.png">
+    <ion-row>
+        <p class="textfield">
+            Lorem ipsum dolor sit amet, atqui maluisset ne sea, quo suas everti at. Nulla mucius et quo, id duo utroque elaboraret, consulatu omittantur voluptatibus id cum. Id eirmod percipit pertinax per, cum solet timeam appetere ea, ius laoreet delicata ad. Albucius molestiae voluptaria ex nec, ullum admodum consectetuer nam id, salutatus constituto dissentias quo at. At laoreet salutatus accommodare nam.
+            Id has elaboraret appellantur conclusionemque. Iriure iuvaret maiestatis in qui, qui id iuvaret gloriatur, ad ius omnes apeirian. Est cu agam reprimique sadipscing. Ad qui detraxit facilisis consetetur, ad nam agam legimus laboramus, vel habeo animal an. Quo at tacimates iudicabit.
+        </p>
+    </ion-row>
+  </ion-grid>
 </ion-content>
