@@ -188,6 +188,18 @@ export class ThreadDetailPage implements OnInit {
     }
 
     addNewComment() {
-        this.threads.comment.push(new Comment('http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', new Date(), 'Anon', 'HueHueHue'));
+        this.threads.comment.push(
+            new Comment(
+                'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png',
+                new Date(),
+                'Anon',
+                'HueHueHue')
+        );
+    }
+
+    nextPage() {
+        if (this.selectedPlace < this.pages) {
+            this.selectedPlace += 1;
+        }
     }
 }
