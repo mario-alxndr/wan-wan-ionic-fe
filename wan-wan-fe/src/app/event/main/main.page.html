@@ -14,7 +14,7 @@
     </ion-row>
     <ion-row *ngFor="let number of [0,1,2,3,4]">
       <ion-col size="12">
-        <ion-card>
+        <ion-card [routerLink]="['/','event', number]">
           <ion-item>
             <ion-col size="2">
               <ion-thumbnail>
