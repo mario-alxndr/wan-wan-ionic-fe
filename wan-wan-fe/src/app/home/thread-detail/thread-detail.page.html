@@ -1,9 +1,6 @@
 <ion-header>
     <ion-toolbar>
         <ion-title>Forum</ion-title>
-        <ion-buttons>
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
         <ion-buttons slot="end">
             <ion-menu-button menu="m1"></ion-menu-button>
         </ion-buttons>
@@ -28,7 +25,7 @@
         </ion-row>
         <ion-row>
             <ion-col size="12" size-sm="4" offset-sm="2">
-                <ion-button (click)="addNewComment()">Add New Comment</ion-button>
+                <ion-button (click)="presentAlertPrompt()">Add New Comment</ion-button>
             </ion-col>
             <ion-col size="12" size-sm="3">
                 <ion-item>
