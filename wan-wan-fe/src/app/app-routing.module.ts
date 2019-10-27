@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import {PreloadAllModules, PreloadingStrategy, RouterModule, Routes} from '@angular/router';
 import {HomeRoutingModule} from "./home/home-routing.modules";
 import {EventRoutingModule} from "./event/event-routing.modules";
 
@@ -17,14 +17,15 @@ const routes: Routes = [
   { path: 'event-detail', loadChildren: './event/event-detail/event-detail.module#EventDetailPageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
   { path: 'edit-profile', loadChildren: './profile/edit-profile/edit-profile.module#EditProfilePageModule' },
-  { path: 'game-list', loadChildren: './profile/edit-profile/game-list/game-list.module#GameListPageModule' },  { path: 'main', loadChildren: './home/main/main.module#MainPageModule' },
-  { path: 'main', loadChildren: './event/main/main.module#MainPageModule' },
+  { path: 'game-list', loadChildren: './profile/edit-profile/game-list/game-list.module#GameListPageModule' },
+  { path: 'main', loadChildren: './home/main/main.module#MainPageModule' },
 
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules
+      , enableTracing: true}),
   ],
   exports: [RouterModule]
 })
