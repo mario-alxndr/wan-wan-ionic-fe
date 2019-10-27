@@ -32,7 +32,7 @@ const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: '/home/main',
+        redirectTo: '/home/main-forum',
         pathMatch: 'full'
     }
 ];
