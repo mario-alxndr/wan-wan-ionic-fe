@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Thread} from './thread';
 import {Comment} from './comment';
 
@@ -21,156 +21,173 @@ export class ThreadDetailPage implements OnInit {
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent1'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent2'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent3'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent4'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent5'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent6'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent7'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent8'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent9'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent10'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent11'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent12'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent13'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent14'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent15'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent16'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent17'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent18'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent19'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent20'
             ),
             new Comment(
                 'assets/2157564-poring.jpg',
                 new Date(),
                 'CommentName',
-                'CommentContent'
+                'CommentContent21'
             ),
         ]
     );
 
     private comments = [];
     private paging = [];
-    private selectedPage;
+    private pages = 0;
+    selectedPlace: number;
 
     constructor() {
     }
 
     ngOnInit() {
-        if (this.threads.comment.length > 0) {
-            this.selectedPage = 1;
+        this.selectedPlace = 1;
+        if (this.threads.comment.length <= 0) {
+            this.paging.push(1);
+        } else {
+            let page: number;
+            page = Math.floor(this.threads.comment.length / 10);
+            if (this.threads.comment.length % 10 > 0) {
+                page += 1;
+            }
+            for (let i = 1; i <= page; i++) {
+                this.paging.push(i);
+            }
+            this.pages = page;
         }
-        let page = Math.round(this.threads.comment.length / 10);
-        if (this.threads.comment.length % 10 > 0) {
-            page += 1;
-        }
-        for (let i = 0; i <= page; i++) {
-            this.paging.push(i);
-        }
-        let availableComment = 0;
+        this.updateComment();
+    }
+
+    updateComment() {
+        this.comments = [];
+        const availableComment = this.threads.comment.length - this.selectedPlace * 10;
         let slicedComment;
-        if (this.selectedPage + 9 > this.threads.comment.length) {
-            availableComment = this.threads.comment.length;
-            slicedComment = this.threads.comment.slice(this.selectedPage - 1, availableComment);
-            return;
+        if (availableComment > 0) {
+            slicedComment = this.threads.comment.slice((this.selectedPlace - 1) * 10, ((this.selectedPlace - 1) * 10) + 10);
+        } else {
+            const max = (this.threads.comment.length - (this.selectedPlace - 1)) * 10;
+            slicedComment = this.threads.comment.slice((this.selectedPlace - 1) * 10, max);
         }
-        slicedComment = this.threads.comment.slice(this.selectedPage - 1, this.selectedPage + 9);
+        for (const com of slicedComment) {
+            this.comments.push(com);
+        }
+    }
+
+    addNewComment() {
+        this.threads.comment.push(new Comment('http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', new Date(), 'Anon', 'HueHueHue'));
     }
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, PreloadingStrategy, RouterModule, Routes} from '@angular/router';
-import {HomeRoutingModule} from "./home/home-routing.modules";
-import {EventRoutingModule} from "./event/event-routing.modules";
+import {HomeRoutingModule} from './home/home-routing.modules';
+import {EventRoutingModule} from './event/event-routing.modules';
 import { LoginGuard } from './login/login.guard';
 
 const routes: Routes = [
