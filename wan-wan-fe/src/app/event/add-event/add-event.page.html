@@ -6,4 +6,137 @@
 
 <ion-content>
 
+  <ion-grid style="margin-top: 5%;">
+    <ion-row align-items-center>
+      <ion-col size="3" offset="1">
+        <ion-label>Event Name</ion-label>
+      </ion-col>
+      <ion-col size="7">
+        <ion-card>
+          <ion-input placeholder="Lomba Abal-Abal"></ion-input>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row align-items-center>
+      <ion-col size="3" offset="1">
+        <ion-label>Event Type</ion-label>
+      </ion-col>
+      <ion-col size="7">
+        <ion-card>
+          <ion-select placeholder="Event Type">
+            <ion-select-option value="competition">Competition</ion-select-option>
+            <ion-select-option value="gathering">Gathering</ion-select-option>
+            <ion-select-option value="event">Event</ion-select-option>
+          </ion-select>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row align-items-center>
+      <ion-col size="3" offset="1">
+        <ion-label>Event Games</ion-label>
+      </ion-col>
+      <ion-col size="7">
+        <ion-card>
+          <ion-input value="Dota, Yugi, Pokemon"></ion-input>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="3" offset="1" style="margin-top: 3%;">
+        <ion-label>Description</ion-label>
+      </ion-col>
+      <ion-col size="7">
+        <ion-card>
+          <ion-textarea
+            rows="3"
+            autogrow="true"
+            placeholder="Jadwal dan Hadiah"></ion-textarea>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row align-items-center>
+      <ion-col size="3" offset="1">
+        <ion-label>Event Date</ion-label>
+      </ion-col>
+      <ion-col size="3">
+        <ion-card>
+          <ion-datetime
+            displayFormat="D/M/YYYY"
+            pickerFormat="DD MMMM YYYY"></ion-datetime>
+        </ion-card>
+      </ion-col>
+      <ion-col size="0.8">to</ion-col>
+      <ion-col size="3">
+        <ion-card>
+          <ion-datetime
+          displayFormat="D/M/YYYY"
+          pickerFormat="DD MMMM YYYY"></ion-datetime>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row align-items-center>
+      <ion-col size="3" offset="1">
+        <ion-label>Start Time</ion-label>
+      </ion-col>
+      <ion-col size="1" style="margin-left: 5%;">
+        <ion-icon name="time" style="font-size: 30px;"></ion-icon>
+      </ion-col>
+      <ion-col size="3">
+        <ion-card>
+          <ion-datetime
+            displayFormat="hh : mm A"
+            pickerFormat="hh mm A"></ion-datetime>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row align-items-center>
+      <ion-col size="3" offset="1">
+        <ion-label>Event Tag</ion-label>
+      </ion-col>
+      <ion-col size="7">
+        <ion-card>
+          <ion-select placeholder="Event Tag">
+            <ion-select-option value="moba">Moba</ion-select-option>
+            <ion-select-option value="tcg">TCG</ion-select-option>
+          </ion-select>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row align-items-center>
+      <ion-col size="3" offset="1">
+        <ion-label>Event Site</ion-label>
+      </ion-col>
+      <ion-col size="7">
+        <ion-card>
+          <ion-select placeholder="Event Site">
+            <ion-select-option value="on">On Site</ion-select-option>
+            <ion-select-option value="off">Off Site</ion-select-option>
+          </ion-select>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row align-items-center>
+      <ion-col size="3" offset="1">
+        <ion-label>Event Location</ion-label>
+      </ion-col>
+      <ion-col size="1" style="margin-left: 5%;">
+        <ion-icon name="pin" style="font-size: 30px;"></ion-icon>
+      </ion-col>
+      <ion-col size="6">
+        <ion-label>Lokasi Input</ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row align-items-center>
+      <ion-col size="3" offset="1">
+        <ion-label>Event Poster</ion-label>
+      </ion-col>
+      <ion-col size="1" style="margin-left: 5%;">
+        <ion-icon name="attach" style="font-size: 30px;"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div text-center margin>
+    <ion-button>Add Thread</ion-button>
+  </div>
+
 </ion-content>
