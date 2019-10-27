@@ -20,6 +20,10 @@ const routes: Routes = [
                 loadChildren: './main/main.module#MainPageModule'
             },
             {
+                path: ':eventId',
+                loadChildren: './event-detail/event-detail.module#EventDetailPageModule'
+            },
+            {
                 path: '',
                 redirectTo: '/event/main',
                 pathMatch: 'full'

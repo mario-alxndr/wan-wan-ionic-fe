@@ -20,6 +20,10 @@ const routes: Routes = [
                 loadChildren: './main-forum/main-forum.module#MainForumPageModule'
             },
             {
+                path: ':threadId',
+                loadChildren: './thread-detail/thread-detail.module#ThreadDetailPageModule'
+            },
+            {
                 path: '',
                 redirectTo: '/home/main',
                 pathMatch: 'full'
