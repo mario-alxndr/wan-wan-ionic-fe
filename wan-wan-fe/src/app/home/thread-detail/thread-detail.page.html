@@ -1,9 +1,109 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>thread-detail</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>Forum</ion-title>
+        <ion-buttons>
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-menu-button menu="m1"></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content padding>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12" size-sm="8" offset-sm="2" text-center>
+                <ion-text>
+                    <h1>Thread's Name</h1>
+                </ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12" size-sm="8" offset-sm="2" text-center>
+                <ion-text>
+                    <h5>Game Category</h5>
+                </ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12" size-sm="4" offset-sm="2">
+                <ion-button (click)="addNewComment()">Add New Comment</ion-button>
+            </ion-col>
+            <ion-col size="12" size-sm="3">
+                <ion-item>
+                    <ion-label>Page</ion-label>
+                    <ion-select [(ngModel)]="selectedPlace" (ionChange)="updateComment()">
+                        <ion-select-option [value]="page" *ngFor="let page of paging">{{page}}</ion-select-option>
+                    </ion-select>
+                    <ion-text>of {{pages}}</ion-text>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12" size-sm="1">
+                <ion-button (click)="nextPage()">Next</ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12" size-sm="8" offset-sm="2">
+                <ion-card>
+                    <ion-card-header>
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col size="2">
+                                    <ion-avatar>
+                                        <ion-img class="img-avt" [src]="threads.makerImage"></ion-img>
+                                    </ion-avatar>
+                                </ion-col>
+                                <ion-col style="padding-top: 20px">
+                                    <ion-card-title>{{threads.makerUsername}}</ion-card-title>
+                                </ion-col>
+                                <ion-col style="padding-top: 20px">
+                                    <ion-card-subtitle text-right>{{threads.timeStamp}}</ion-card-subtitle>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-card>
+                            <ion-card-content>
+                                <ion-text>{{threads.description}}</ion-text>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+        <ion-virtual-scroll [items]="comments">
+            <ion-row *virtualItem="let comment">
+                <ion-col size="12" size-sm="8" offset-sm="2">
+                    <ion-card>
+                        <ion-card-header>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col size="2">
+                                        <ion-avatar>
+                                            <ion-img class="img-avt" [src]="comment.image"></ion-img>
+                                        </ion-avatar>
+                                    </ion-col>
+                                    <ion-col style="padding-top: 20px">
+                                        <ion-card-title>{{comment.username}}</ion-card-title>
+                                    </ion-col>
+                                    <ion-col style="padding-top: 20px">
+                                        <ion-card-subtitle text-right>{{comment.timeStamp}}</ion-card-subtitle>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-card>
+                                <ion-card-content>
+                                    <ion-text>{{comment.threadComment}}</ion-text>
+                                </ion-card-content>
+                            </ion-card>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+        </ion-virtual-scroll>
+    </ion-grid>
 </ion-content>
