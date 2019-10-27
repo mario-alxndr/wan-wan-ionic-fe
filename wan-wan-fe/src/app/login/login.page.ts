@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from './login.service';
+// import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,13 +9,13 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private loginService: LoginService, private router: Router) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
   onLogin() {
-    this.loginService.logIn();
+    // this.loginService.logIn();
     this.router.navigateByUrl('/home/main');
   }
 
