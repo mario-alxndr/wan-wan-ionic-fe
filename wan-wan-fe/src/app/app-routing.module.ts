@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import {PreloadAllModules, PreloadingStrategy, RouterModule, Routes} from '@angular/router';
-import {HomeRoutingModule} from "./home/home-routing.modules";
-import {EventRoutingModule} from "./event/event-routing.modules";
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -18,9 +16,7 @@ const routes: Routes = [
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
   { path: 'edit-profile', loadChildren: './profile/edit-profile/edit-profile.module#EditProfilePageModule' },
   { path: 'game-list', loadChildren: './profile/edit-profile/game-list/game-list.module#GameListPageModule' },
-  { path: 'main', loadChildren: './home/main/main.module#MainPageModule' },  { path: 'main-forum', loadChildren: './home/main-forum/main-forum.module#MainForumPageModule' },
-
-
+  { path: 'main', loadChildren: './home/main/main.module#MainPageModule' },
 ];
 
 @NgModule({
