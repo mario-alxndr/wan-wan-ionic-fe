@@ -1,49 +1,42 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="login"></ion-back-button>
+     <ion-back-button  defaultHref="login"></ion-back-button>
     </ion-buttons>
-    <ion-title>register</ion-title>
+    <ion-title>Register Wan Wan Account</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-
-     <!-- email -->
-    <ion-item>
-      <ion-label position="floating">E-mail</ion-label>
-      <ion-input inputmode="email" type="email"></ion-input>
-    </ion-item>
-    
-    <!-- password -->
-  <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type=:password></ion-input>
-    </ion-item>
-
-    <!-- retype password-->
-    <ion-item>
-      <ion-label position="floating">Retype Password</ion-label>
-      <ion-input type=:password></ion-input>
-    </ion-item>
-
-    <!-- user name -->
-    <ion-item>
-      <ion-label position="floating">Username</ion-label>
-      <ion-input inputmode="text" type="text"></ion-input>
-    </ion-item>
-
-    <!-- phone number -->
-    <ion-item>
-      <ion-label position="floating">Phone Number</ion-label>
-      <ion-input inputmode="text" type="text"></ion-input>
-    </ion-item>
-  </ion-list>
-  <!-- register button -->
-  <ion-col size-sm="6" offset-sm="3">
-      <ion-button 
-      color="primary" 
-      expand="block">Register</ion-button>
-  </ion-col>
+  <ion-card>
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">E-mail: </ion-label>
+        <ion-input inputmode="email" type="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Password: </ion-label>
+        <ion-input type="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Retype Password: </ion-label>
+        <ion-input type="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Username: </ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Phone Number: </ion-label>
+        <ion-input type="number"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" offset="5">
+          <ion-button color="primary">Register</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
 </ion-content>

@@ -1,35 +1,83 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, PreloadingStrategy, RouterModule, Routes} from '@angular/router';
+import {HomeRoutingModule} from "./home/home-routing.modules";
+import {EventRoutingModule} from "./event/event-routing.modules";
+// import { LoginGuard } from './login/login.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-
-  { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
-  { path: 'add-thread', loadChildren: './home/add-thread/add-thread.module#AddThreadPageModule' },
-  { path: 'thread-category', loadChildren: './home/thread-category/thread-category.module#ThreadCategoryPageModule' },
-  { path: 'thread-detail', loadChildren: './home/thread-detail/thread-detail.module#ThreadDetailPageModule' },
-  
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
+    // canLoad: [LoginGuard]
+  },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
-
-  { path: 'group', loadChildren: './group/group.module#GroupPageModule' },
-  { path: 'create-group', loadChildren: './group/create-group/create-group.module#CreateGroupPageModule' },
-  { path: 'enter-group', loadChildren: './group/enter-group/enter-group.module#EnterGroupPageModule' },
-  { path: 'detail-group', loadChildren: './group/detail-group/detail-group.module#DetailGroupPageModule' },
-  { path: 'group-info', loadChildren: './group/detail-group/group-info/group-info.module#GroupInfoPageModule' },
-  { path: 'current-event', loadChildren: './group/detail-group/current-event/current-event.module#CurrentEventPageModule' },
-  { path: 'event-history', loadChildren: './group/detail-group/event-history/event-history.module#EventHistoryPageModule' },
-  { path: 'add-event', loadChildren: './group/detail-group/add-event/add-event.module#AddEventPageModule' },
-
-  { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
-  { path: 'edit-profile', loadChildren: './profile/edit-profile/edit-profile.module#EditProfilePageModule' },
-  { path: 'game-list', loadChildren: './profile/edit-profile/game-list/game-list.module#GameListPageModule' },
+  { path: 'thread-detail',
+    loadChildren: './home/thread-detail/thread-detail.module#ThreadDetailPageModule'
+    // canLoad: [LoginGuard]
+  },
+  {
+    path: 'thread-category',
+    loadChildren: './home/thread-category/thread-category.module#ThreadCategoryPageModule'
+    // canLoad: [LoginGuard]
+  },
+  {
+    path: 'add-thread',
+    loadChildren: './home/add-thread/add-thread.module#AddThreadPageModule'
+    // canLoad: [LoginGuard]
+  },
+  {
+    path: 'event',
+    loadChildren: './event/event.module#EventPageModule'
+    // canLoad: [LoginGuard]
+  },
+  {
+    path: 'add-event',
+    loadChildren: './event/add-event/add-event.module#AddEventPageModule'
+    // canLoad: [LoginGuard]
+  },
+  {
+    path: 'my-event',
+    loadChildren: './event/my-event/my-event.module#MyEventPageModule'
+    // canLoad: [LoginGuard]
+  },
+  {
+    path: 'event-detail',
+    loadChildren: './event/event-detail/event-detail.module#EventDetailPageModule'
+    // canLoad: [LoginGuard]
+  },
+  {
+    path: 'profile',
+    loadChildren: './profile/profile.module#ProfilePageModule'
+    // canLoad: [LoginGuard]
+  },
+  {
+    path: 'edit-profile',
+    loadChildren: './profile/edit-profile/edit-profile.module#EditProfilePageModule'
+    // canLoad: [LoginGuard]
+  },
+  {
+    path: 'game-list',
+    loadChildren: './profile/edit-profile/game-list/game-list.module#GameListPageModule'
+    // canLoad: [LoginGuard]
+  },
+  {
+    path: 'main',
+    loadChildren: './home/main/main.module#MainPageModule'
+    // canLoad: [LoginGuard]
+  },
+  {
+    path: 'main-forum',
+    loadChildren: './home/main-forum/main-forum.module#MainForumPageModule'
+    // canLoad: [LoginGuard]
+  },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules
+      , enableTracing: true}),
   ],
   exports: [RouterModule]
 })
