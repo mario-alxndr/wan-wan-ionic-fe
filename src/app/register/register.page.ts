@@ -23,7 +23,7 @@ export class RegisterPage implements OnInit {
   }
 
   validatePhoneNumber(phonenumber) {
-    var regex = /^[+][0-9]*$/;
+    var regex = /^[+|0-9][0-9]*$/;
     return regex.test(phonenumber);
   }
 
@@ -54,7 +54,7 @@ export class RegisterPage implements OnInit {
         if(counter>0){
           stringNotification += ", ";
         }
-        stringNotification += "password ";
+        stringNotification += "password";
         counter++;
       } 
       if(!form.value.retypepassword){

@@ -5,27 +5,62 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item>
-      <ion-label position="floating">E-mail</ion-label>
-      <ion-input inputmode="email" type="email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password"></ion-input>
-    </ion-item>
-  </ion-list>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6">
-        <ion-button color="primary" (click)="onLogin()">Login</ion-button>    
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="6">
-        <ion-button color="primary" (click)="onRegister()">Register</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
+  <form #f="ngForm" (ngSubmit)="onSubmit()">
+    <ion-list>
+      <ion-item>
+        <ion-label 
+          position="floating">
+          E-mail: 
+        </ion-label>
+        <ion-input 
+          inputmode="email"
+          ngModel
+          name="email"
+          required
+          email
+          #emailCtrl="ngModel"
+          type="email"          
+        ></ion-input>
+      </ion-item>
+      <ion-item
+        *ngIf="!emailCtrl.valid && emailCtrl.touched"
+        lines="none"
+      >
+        <ion-label class="red">Should be a valid email address</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Password: </ion-label>
+          <ion-input
+            inputmode="password"
+            ngModel
+            name="password"
+            required
+            password
+            type="password"
+          ></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-button 
+            expand="block"
+            color="primary" 
+            (click)="onLogin(f)">
+              Login
+          </ion-button>    
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-button 
+            expand="block" 
+            color="primary"
+            (click)="onRegister()">
+              Register
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
 </ion-content>
