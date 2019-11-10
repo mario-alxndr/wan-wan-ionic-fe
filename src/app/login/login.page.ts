@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Route, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-login',
@@ -9,13 +10,14 @@ import { AlertController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
   isFormValid = false; 
+  
   constructor(
     private router: Router,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private loginSrvc: LoginService,
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   validateEmail(email) {
     var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -60,6 +62,7 @@ export class LoginPage implements OnInit {
       //do hit endpoint
       //handle kalau password email not match
       this.isFormValid = true;
+      this.loginSrvc.logIn();
       this.router.navigateByUrl('/home/main');
     }
     this.presentAlert(stringNotification);
@@ -67,5 +70,5 @@ export class LoginPage implements OnInit {
 
   onRegister() {
     this.router.navigateByUrl('/register');
-  }
+  } 
 }

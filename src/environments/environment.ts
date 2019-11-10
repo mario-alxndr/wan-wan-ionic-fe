@@ -2,8 +2,13 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const defaultEndpoint = 'http://25.30.127.196:1323';
+
 export const environment = {
-  production: false
+  production: false,
+  endPointConstant: {
+    registerEndPoint: defaultEndpoint+'/register'
+  }
 };
 
 /*
