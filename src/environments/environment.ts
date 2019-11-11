@@ -7,7 +7,8 @@ const defaultEndpoint = 'http://25.30.127.196:1323';
 export const environment = {
   production: false,
   endPointConstant: {
-    registerEndPoint: defaultEndpoint+'/register'
+    registerEndPoint: defaultEndpoint+'/register',
+    loginEndPoint: defaultEndpoint+'/login'
   }
 };
 
