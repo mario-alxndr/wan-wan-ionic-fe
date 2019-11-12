@@ -42,6 +42,5 @@ export class AppComponent {
 
   onLogout() {
     this.loginSrvc.logOut();
-    this.router.navigateByUrl('/login');
   }
 }

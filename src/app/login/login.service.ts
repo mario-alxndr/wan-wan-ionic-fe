@@ -1,22 +1,50 @@
+import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
+import { BehaviorSubject} from 'rxjs';
+
+const TOKEN_LOGIN = 'login-key';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class LoginService {
-  private _userIsLoggedIn = false;
-  
+  loginState = new BehaviorSubject(false)
+
+  constructor(
+    private storage: Storage,
+    private platform: Platform,
+    private router: Router
+  ) {
+    this.platform.ready().then(() => {
+      this.checkLogin();
+    });
+  }
+
+  checkLogin() {
+    this.storage.get(TOKEN_LOGIN).then(res => {
+      if(res) {
+        this.loginState.next(true);
+      }
+    })
+  }
+
   get userIsLoggedIn() {
-    return this._userIsLoggedIn;
+    return this.loginState.value;
   }
   
-  constructor() { }
-  
-  logIn() {
-    this._userIsLoggedIn = true;
+  logIn(username) {
+    this.storage.set(TOKEN_LOGIN, username).then((response) => {
+      this.loginState.next(true);
+    });
   }
   
   logOut() {
-    this._userIsLoggedIn = false;
+    this.storage.remove(TOKEN_LOGIN).then((response) => {
+      this.loginState.next(false);
+      this.router.navigateByUrl('/login');
+    });
   }
 }
