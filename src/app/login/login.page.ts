@@ -19,7 +19,11 @@ export class LoginPage implements OnInit {
     private loginSrvc: LoginService,
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if(this.loginSrvc.userIsLoggedIn) {
+      this.router.navigateByUrl('/main-forum');
+    }
+  }
 
   validateEmail(email) {
     var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -40,6 +44,7 @@ export class LoginPage implements OnInit {
     var stringNotification = "";
     var counter = 0;
     var loginSuccess = false;
+    var tempUsername
 
     if(!form.value.email || !form.value.password) {
       stringNotification += "Please enter your ";
@@ -72,13 +77,13 @@ export class LoginPage implements OnInit {
         }
       })
       .then(function (response) {
-        if(response.data.Response.responseCode == "Email or password not found"){
+        if(response.data.Response.responseCode == "Login Failed"){
           stringNotification = response.data.Response.message;
         }
-        else if(response.data.Response.responseCode === "Success Login"){
+        else if(response.data.Response.responseCode === "Success Login") {
           loginSuccess = true;
+          tempUsername = response.data.username;
         }
-        console.log(response);
       })
       .catch(function (error) {
         console.log(error);
@@ -87,7 +92,7 @@ export class LoginPage implements OnInit {
     return new Promise(() => {
       setTimeout(() => {
         if(loginSuccess){
-          this.loginSrvc.logIn();
+          this.loginSrvc.logIn(tempUsername);
           this.router.navigateByUrl('/main-forum');
         } else {
           this.presentAlert(stringNotification);

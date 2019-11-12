@@ -1,5 +1,7 @@
 {
   "name": "wan-wan-fe",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
