@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { LoginService } from './../../login/login.service';
 import axios from 'axios';
+import { BehaviorSubject } from 'rxjs';
+import { Thread } from '../thread.model';
 
 @Component({
   selector: 'app-main-forum',
@@ -10,30 +12,59 @@ import axios from 'axios';
   styleUrls: ['./main-forum.page.scss'],
 })
 export class MainForumPage implements OnInit {
-  thread_maker = "Thread Maker";
+  threadList: Promise<Thread[]>;
+  private selectedPage = 1;
+
   constructor(
     private loginSrvc: LoginService,
     private router: Router,
-  ) { }
+  ) {
+    this.getThreads(this.selectedPage);
+  }
   
-  ngOnInit() { 
-    var temp_thread_maker;
-    axios.get(environment.endPointConstant.ThreadPageEndPoint)
-    .then(resp => {
-      // console.log(resp.data);
-      // console.log(resp.data[0].makerUsername);
-      temp_thread_maker = resp.data[1].makerUsername;
+  getThreads(selectedPage) {
+    var tempThreadList = undefined; 
+    axios({
+      method: 'get',
+      url: environment.endPointConstant.threadPageEndPoint + '?page=' + selectedPage,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => {
+      if(response.data.thread) {
+        console.log(response);
+        tempThreadList = response.data.thread;
+      }
     })
     .catch(function (error) {
       console.log(error);
-    });
+    })
+
     return new Promise(() => {
       setTimeout(() => {
         if(!this.loginSrvc.userIsLoggedIn) {
           this.router.navigateByUrl('/login');
         }
-        this.thread_maker = temp_thread_maker;
-      }, 1000);
+        this.threadList = tempThreadList;
+        if(this.threadList === undefined) {
+          this.getThreads(selectedPage);
+        }
+      }, 2000);
     });
+  }
+
+  changePage(selectedPage) {
+    this.selectedPage = selectedPage;
+    this.getThreads(selectedPage);
+  }
+
+  // nextPage(selectedPage) {
+  //   this.getThreads(selectedPage++);
+  //   console.log(selectedPage);
+  // }
+
+  ngOnInit() {
+    
   }
 }

@@ -9,7 +9,7 @@ export const environment = {
   endPointConstant: {
     registerEndPoint: defaultEndpoint+'/register',
     loginEndPoint: defaultEndpoint+'/login',
-    ThreadPageEndPoint: defaultEndpoint+'/getThreadPage'
+    threadPageEndPoint: defaultEndpoint+'/getThreadPage'
   }
 };
 

@@ -77,6 +77,7 @@ export class LoginPage implements OnInit {
         }
       })
       .then(function (response) {
+        console.log(response);
         if(response.data.Response.responseCode == "Login Failed"){
           stringNotification = response.data.Response.message;
         }

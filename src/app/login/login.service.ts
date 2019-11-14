@@ -2,7 +2,7 @@ import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
-import { BehaviorSubject} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 const TOKEN_LOGIN = 'login-key';
 
