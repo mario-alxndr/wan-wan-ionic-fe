@@ -13,6 +13,7 @@ import { Thread } from '../thread.model';
 })
 export class MainForumPage implements OnInit {
   threadList: Promise<Thread[]>;
+
   private selectedPage = 1;
 
   constructor(
@@ -23,7 +24,7 @@ export class MainForumPage implements OnInit {
   }
   
   getThreads(selectedPage) {
-    var tempThreadList = undefined; 
+    var tempThreadList = undefined;
     axios({
       method: 'get',
       url: environment.endPointConstant.threadPageEndPoint + '?page=' + selectedPage,
