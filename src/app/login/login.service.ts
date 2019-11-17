@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 const TOKEN_LOGIN = 'login-key';
+const TOKEN_USERNAME = 'username-key';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class LoginService {
       this.checkLogin();
     });
   }
-
+  
   checkLogin() {
     this.storage.get(TOKEN_LOGIN).then(res => {
       if(res) {
@@ -35,8 +36,9 @@ export class LoginService {
     return this.loginState.value;
   }
   
-  logIn(username) {
-    this.storage.set(TOKEN_LOGIN, username).then((response) => {
+  logIn(objectUsername) {
+    this.storage.set(TOKEN_LOGIN, JSON.stringify(objectUsername)).then((response) => {
+      this.storage.set(TOKEN_USERNAME, objectUsername.username);
       this.loginState.next(true);
     });
   }

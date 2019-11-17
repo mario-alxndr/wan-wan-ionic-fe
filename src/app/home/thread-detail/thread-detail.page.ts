@@ -1,7 +1,15 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {Thread} from './thread';
-import {Comment} from './comment';
+import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { Thread } from '../thread.model';
+import { Comment } from './comment';
+import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { LoginService } from './../../login/login.service';
+import { ActivatedRoute } from '@angular/router';
+import axios from 'axios';
+import { Storage } from '@ionic/storage';
+import { environment } from 'src/environments/environment';
+
+const TOKEN_LOGIN = 'login-key';
 
 @Component({
     selector: 'app-thread-detail',
@@ -9,232 +17,144 @@ import { AlertController } from '@ionic/angular';
     styleUrls: ['./thread-detail.page.scss'],
 })
 export class ThreadDetailPage implements OnInit {
-    private threads = new Thread(
-        1,
-        new Date(),
-        'Name',
-        'Category',
-        'MakerUsername',
-        'assets/2157564-poring.jpg',
-        'Description',
-        [
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent1'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent2'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent3'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent4'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent5'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent6'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent7'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent8'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent9'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent10'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent11'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent12'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent13'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent14'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent15'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent16'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent17'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent18'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent19'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent20'
-            ),
-            new Comment(
-                'assets/2157564-poring.jpg',
-                new Date(),
-                'CommentName',
-                'CommentContent21'
-            ),
-        ]
-    );
+  thread: Thread = new Thread();
+  comments: Promise<Comment[]>;
+  newComment;
+  commentCount;
 
-    private comments = [];
-    private paging = [];
-    private pages = 0;
-    selectedPlace: number;
 
-    constructor(
-        public alertController: AlertController
-    ) {
-    }
+  private selectedPage = 1;
 
-    ngOnInit() {
-        this.selectedPlace = 1;
-        if (this.threads.comment.length <= 0) {
-            this.paging.push(1);
+  constructor(
+      public alertController: AlertController,
+      private loginSrvc: LoginService,
+      private router: Router,
+      private route: ActivatedRoute,
+      private storage: Storage
+  ) {
+     
+  }
+
+  getThreadDetail(selectedPage) {
+    var tempResponse = undefined;
+    var threadId;
+    this.route.paramMap.subscribe(paramMap => {
+      threadId = paramMap.params.threadId;
+      axios({
+        method: 'get',
+        url: environment.endPointConstant.threadDetailEndPoint + '?threadId=' + threadId  + '&page=' + selectedPage,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => {
+        if(response.data) {
+          console.log(response);
+          tempResponse = response.data;
+        }
+      })
+      .catch(function (error){
+          console.log(error);
+      })
+    });
+
+    return new Promise(() => {
+      setTimeout(() => {
+        if(!this.loginSrvc.userIsLoggedIn) {
+          this.router.navigateByUrl('/login');
+        }
+        if(tempResponse == undefined){
+          this.getThreadDetail(selectedPage)
         } else {
-            let page: number;
-            page = Math.floor(this.threads.comment.length / 10);
-            if (this.threads.comment.length % 10 > 0) {
-                page += 1;
-            }
-            for (let i = 1; i <= page; i++) {
-                this.paging.push(i);
-            }
-            this.pages = page;
+          this.thread = tempResponse.thread;
+          this.comments = tempResponse.commentList;
+          this.commentCount = tempResponse.thread.commentCount;
         }
-        this.updateComment();
-    }
+        
+      }, 2000);
+    });
+  }
+  async presentAlertInvalidComment() {
+    const alertInvalidComment = await this.alertController.create({ 
+      header: 'Invalid Comment!',
+      message: 'please re-enter comment',
+      buttons: ['OK']
+    });
 
-    updateComment() {
-        this.comments = [];
-        const availableComment = this.threads.comment.length - this.selectedPlace * 10;
-        let slicedComment;
-        if (availableComment > 0) {
-            slicedComment = this.threads.comment.slice((this.selectedPlace - 1) * 10, ((this.selectedPlace - 1) * 10) + 10);
-        } else {
-            const max = (this.threads.comment.length - (this.selectedPlace - 1)) * 10;
-            slicedComment = this.threads.comment.slice((this.selectedPlace - 1) * 10, max);
+    await alertInvalidComment.present();
+  }
+
+  async presentAlertPrompt() {
+    const alert = await this.alertController.create({
+      header: 'Add Comment',
+      message: 'Comment mush between 1 - 100 character',
+      inputs: [
+        {
+          name: 'comment',
+          type: 'text',
+          placeholder: 'Comment Content'
         }
-        for (const com of slicedComment) {
-            this.comments.push(com);
-        }
-    }
-
-    addNewComment() {
-
-        this.threads.comment.push(
-            new Comment(
-                'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png',
-                new Date(),
-                'Anon',
-                'HueHueHue')
-        );
-    }
-
-    nextPage() {
-        if (this.selectedPlace < this.pages) {
-            this.selectedPlace += 1;
-        }
-    }
-
-    async presentAlertPrompt() {
-        const alert = await this.alertController.create({
-          header: 'Add Comment',
-          inputs: [
-            {
-              name: 'Comment',
-              type: 'text',
-              placeholder: 'Comment Content'
-            }
-          ],
-          buttons: [
-            {
-              text: 'Cancel',
-              role: 'cancel',
-              cssClass: 'secondary',
-              handler: () => {
-                console.log('Confirm Cancel');
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Ok',
+          handler: comment => {
+            if(typeof comment !=null) {
+              var tempComment = comment as string;
+              if(tempComment.comment.length > 55 || tempComment.comment.length <= 0) {
+                this.presentAlertInvalidComment();
               }
-            }, {
-              text: 'Ok',
-              handler: () => {
-                console.log('Confirm Ok');
+              else {
+                this.addNewComment(tempComment.comment);
               }
             }
-          ]
-        });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
     
-        await alert.present();
-        this.addNewComment();
-    }
+  }
+
+  addNewComment(comment) {
+    this.storage.get(TOKEN_LOGIN).then(userObject => {
+      var tempUserObject = JSON.parse(userObject);
+      var tempImgCommentator = tempUserObject.profileImage;
+      var tempUsername = tempUserObject.username;
+
+      axios({
+        method: 'put',
+        url: environment.endPointConstant.createThreadComment + tempUsername,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: {
+          'threadMasterId': this.thread.id,
+          'timestamp': new Date(),
+          'category': this.thread.category,
+          'makerImage': tempImgCommentator,
+          'description': comment
+        }
+      })
+      .then(res => {
+        console.log(res);
+        this.getThreadDetail(this.selectedPage);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    })
+  }
+
+  ngOnInit() {
+    this.getThreadDetail(this.selectedPage);
+  }
 }

@@ -60,11 +60,6 @@ export class MainForumPage implements OnInit {
     this.getThreads(selectedPage);
   }
 
-  // nextPage(selectedPage) {
-  //   this.getThreads(selectedPage++);
-  //   console.log(selectedPage);
-  // }
-
   ngOnInit() {
     
   }

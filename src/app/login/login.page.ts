@@ -77,7 +77,7 @@ export class LoginPage implements OnInit {
         }
       })
       .then(function (response) {
-        console.log(response);
+        console.log("login response", response);
         if(response.data.Response.responseCode == "Login Failed"){
           stringNotification = response.data.Response.message;
         }
@@ -93,13 +93,25 @@ export class LoginPage implements OnInit {
     return new Promise(() => {
       setTimeout(() => {
         if(loginSuccess){
-          this.loginSrvc.logIn(tempUsername);
-          this.router.navigateByUrl('/main-forum');
+          this.setUserToStorage(tempUsername);
         } else {
           this.presentAlert(stringNotification);
         }
       }, 1250);
     });
+  }
+
+  setUserToStorage(username) {
+    axios({
+      method: 'get',
+      url: environment.endPointConstant.getUserData + username,
+      headers: { "Content-Type": "application/json" }
+    })
+    .then(res => {
+      console.log("get user data response ",res);
+      this.loginSrvc.logIn(res.data);
+      this.router.navigateByUrl('/main-forum');
+    })
   }
 
   onRegister() {
