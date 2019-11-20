@@ -14,41 +14,68 @@
                 <div align="center">
                     <ion-card-title>
                         <ion-avatar>
-                            <ion-img class="img-avt" src="assets/2157564-poring.jpg"></ion-img>
+                            <ion-img class="img-avt" src="{{user.profileImage}}"></ion-img>
                         </ion-avatar>
                     </ion-card-title>
                 </div>
                 <ion-card-subtitle>
-                    Thread Maker
+                    {{user.username}}
                 </ion-card-subtitle>
             </ion-card>
         </ion-col>
-        <ion-item-group>
-            <ion-item>
-                <ion-label position="stacked">Thread's Name</ion-label>
-                <ion-input inputmode="text" type="text" minlength="3" maxlength="50"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label position="stacked">Game Category</ion-label>
-                <ion-select okText="Select" cancelText="Cancel">
-                    <ion-select-option>Dota2</ion-select-option>
-                    <ion-select-option>Mobile Legend</ion-select-option>
-                    <ion-select-option>PUBG</ion-select-option>
-                    <ion-select-option>AOV</ion-select-option>
-                </ion-select>
-            </ion-item>
-            <ion-item>
-                <ion-label position="stacked">Description</ion-label>
-                <ion-textarea
+        <form #f="ngForm" (ngSubmit)="onSubmit()">
+            <ion-item-group>
+                <ion-item>
+                    <ion-label position="stacked">
+                        Thread's Name
+                    </ion-label>
+                    <ion-input 
+                        inputmode="text"
+                        ngModel
+                        name="name"
+                        required
+                        #nameCtrl="ngModel"
+                        type="text"
+                    ></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">Game Category</ion-label>
+                    <ion-select 
+                        okText="Select"
+                        ngModel
+                        name="category"
+                        required
+                        #categoryCtrl="ngModel" 
+                        cancelText="Cancel"
+                    >
+                        <ion-select-option value="Moba">Moba</ion-select-option>
+                        <ion-select-option value="TCG">TCG</ion-select-option>
+                        <ion-select-option value="Shooting">Shooting</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">Description</ion-label>
+                    <ion-textarea
                         maxlength="500"
                         placeholder="Please make description that easy to understand and not to long (max: 500)"
+                        inputmode="text"
+                        ngModel
+                        name="description"
+                        required
+                        description
+                        #descriptionCtrl="ngModel"
+                        type="text"
                         minlength="1"
                         autofocus
                         autoGrow
-                >
-                </ion-textarea>
-            </ion-item>
-        </ion-item-group>
-        <ion-button expand="block">Add Thread</ion-button>
+                    ></ion-textarea>
+                </ion-item>
+            </ion-item-group>
+            <ion-button 
+                expand="block"
+                (click)="onAddThread(f)">
+                Add Thread
+            </ion-button>
+        </form>
     </ion-grid>
 </ion-content>

@@ -1,6 +1,6 @@
 import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { Thread } from '../thread.model';
-import { Comment } from './comment';
+import { Comment } from '../comment.model';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { LoginService } from './../../login/login.service';
@@ -65,7 +65,8 @@ export class ThreadDetailPage implements OnInit {
         }
         if(tempResponse == undefined){
           this.getThreadDetail(selectedPage)
-        } else {
+        } 
+        else {
           this.thread = tempResponse.thread;
           this.comments = tempResponse.commentList;
           this.commentCount = tempResponse.thread.commentCount;
