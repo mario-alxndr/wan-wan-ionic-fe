@@ -65,7 +65,8 @@ export class ThreadDetailPage implements OnInit {
         }
         if(tempResponse == undefined){
           this.getThreadDetail(selectedPage)
-        } else {
+        } 
+        else {
           this.thread = tempResponse.thread;
           this.comments = tempResponse.commentList;
           this.commentCount = tempResponse.thread.commentCount;

@@ -1,7 +1,9 @@
+import { Event } from '../event/event.model';
+
 export class User {
     private _category: string;
     private _email: string;
-    private eventList: string;
+    private _eventList: Event[];
     private _gameList: string[];
     private _phoneNumber: string;
     private _profileImage: string;
@@ -23,6 +25,14 @@ export class User {
 
     set email(value: string) {
         this._email = value;
+    }
+
+    get eventList(): Event[] {
+        return this._eventList;
+    }
+
+    set eventList(value: Event[]) {
+        this._eventList = value;
     }
 
     get gameList(): string[] {
