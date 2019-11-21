@@ -26,17 +26,17 @@ export class ProfilePage implements OnInit {
   getProfile(){
     this.storage.get(TOKEN_LOGIN).then(userObject => {
       var tempUserObject = JSON.parse(userObject);
-      console.log(tempUserObject);
+      console.log("profile-storage : ", tempUserObject);
 
       this.username = tempUserObject.username;
       this.phoneNumber = tempUserObject.phoneNumber;
-      console.log("data:image/jpeg;base64,"+tempUserObject.profileImage);
       if(tempUserObject.profileImage === ""){
         this.profileImage = environment.defaultImageProfile;
       }
       else{
         this.profileImage = "data:image/jpeg;base64,"+tempUserObject.profileImage;
       }
+      
       this.gameList = tempUserObject.gameList;
     });
   }
