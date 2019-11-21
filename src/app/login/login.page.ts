@@ -97,7 +97,7 @@ export class LoginPage implements OnInit {
         } else {
           this.presentAlert(stringNotification);
         }
-      }, 1250);
+      }, 2000);
     });
   }
 

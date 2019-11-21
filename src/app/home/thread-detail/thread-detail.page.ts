@@ -22,7 +22,6 @@ export class ThreadDetailPage implements OnInit {
   newComment;
   commentCount;
 
-
   private selectedPage = 1;
 
   constructor(
@@ -126,6 +125,7 @@ export class ThreadDetailPage implements OnInit {
   }
 
   addNewComment(comment) {
+    console.log(comment);
     this.storage.get(TOKEN_LOGIN).then(userObject => {
       var tempUserObject = JSON.parse(userObject);
       var tempImgCommentator = tempUserObject.profileImage;
@@ -133,7 +133,7 @@ export class ThreadDetailPage implements OnInit {
 
       axios({
         method: 'put',
-        url: environment.endPointConstant.createThreadComment + tempUsername,
+        url: environment.endPointConstant.createComment + tempUsername,
         headers: {
           "Content-Type": "application/json"
         },
@@ -147,11 +147,19 @@ export class ThreadDetailPage implements OnInit {
       })
       .then(res => {
         console.log(res);
-        this.getThreadDetail(this.selectedPage);
+        setTimeout(() => {
+          this.getThreadDetail(this.selectedPage);
+        }, 150);
       })
       .catch(error => {
         console.log(error);
       });
+
+      // return new Promise(() => {
+      //   setTimeout(() => {
+      //     location.reload();
+      //   }, 1500);
+      // });
     })
   }
 

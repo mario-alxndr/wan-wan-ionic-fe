@@ -13,6 +13,8 @@ import { Thread } from '../thread.model';
 })
 export class MainForumPage implements OnInit {
   threadList: Promise<Thread[]>;
+  maxPageArr: Promise<number[]>;
+  maxPage: Promise<number>;
 
   private selectedPage = 1;
 
@@ -20,11 +22,15 @@ export class MainForumPage implements OnInit {
     private loginSrvc: LoginService,
     private router: Router,
   ) {
+    if(!this.loginSrvc.userIsLoggedIn) {
+      this.router.navigateByUrl('/login');
+    }
     this.getThreads(this.selectedPage);
   }
   
   getThreads(selectedPage) {
     var tempThreadList = undefined;
+    var tempMaxPage;
     axios({
       method: 'get',
       url: environment.endPointConstant.threadPageEndPoint + '?page=' + selectedPage,
@@ -36,6 +42,7 @@ export class MainForumPage implements OnInit {
       if(response.data.thread) {
         console.log(response);
         tempThreadList = response.data.thread;
+        tempMaxPage = response.data.maxPage;
       }
     })
     .catch(function (error) {
@@ -44,15 +51,19 @@ export class MainForumPage implements OnInit {
 
     return new Promise(() => {
       setTimeout(() => {
-        if(!this.loginSrvc.userIsLoggedIn) {
-          this.router.navigateByUrl('/login');
-        }
         this.threadList = tempThreadList;
+        this.maxPage = tempMaxPage;
+        this.maxPageArr = this.toBeArray(tempMaxPage);
+        console.log(this.maxPageArr);
         if(this.threadList === undefined) {
           this.getThreads(selectedPage);
         }
-      }, 2000);
+      }, 5000);
     });
+  }
+
+  toBeArray(n: number): number[] {
+    return [...Array(n).keys()].map(i => i + 1);
   }
 
   changePage(selectedPage) {

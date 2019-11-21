@@ -19,7 +19,7 @@ export class AddThreadPage implements OnInit {
   constructor(
     private storage: Storage,
     private loginSrvc: LoginService,
-    private router: Router,
+    private router: Router
   ) {
     
   }
@@ -71,10 +71,11 @@ export class AddThreadPage implements OnInit {
       stringNotification += "please enter thread content minimal 10 character, maximum 200 character";
     }
     else {
+      console.log(environment.endPointConstant.createThread);
       this.storage.get(TOKEN_USERNAME).then(username => {
         axios({
           method: 'put',
-          url: environment.endPointConstant.createThread,
+          url: environment.endPointConstant.createThread + username,
           headers: {
             "Content-Type": "application/json"
           },

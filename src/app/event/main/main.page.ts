@@ -33,12 +33,12 @@ export class MainPage implements OnInit {
     .then((response) => {
       this.currLatitude = response.coords.latitude;
       this.currLongitude = response.coords.longitude;
+      console.log(this.currLatitude,this.currLongitude);
       if(!this.currLatitude && !this.currLongitude) {
         this.presentAlertGeolocation("Error when receive current location.");
       }
       else {
         var tempResponse = undefined;
-        console.log(this.currLatitude,this.currLongitude);
         axios({
           method: 'get',
           url: environment.endPointConstant.eventPageEndPoint + "?page=" + selectedPage + "&latitude=" + this.currLatitude + '&longitude=' + this.currLongitude,
@@ -100,7 +100,13 @@ export class MainPage implements OnInit {
   }
 
   ngOnInit() {
-
+    // return new Promise(() => {
+    //   setTimeout(() => {
+    //     if(this.events == null) {
+    //       location.reload();
+    //     }
+    //   }, 10000);
+    // });
   }
 
 }
