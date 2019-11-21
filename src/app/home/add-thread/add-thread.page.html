@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>Add Forum</ion-title>
+        <ion-title>Add Thread</ion-title>
         <ion-buttons slot="end">
             <ion-menu-button menu="m1"></ion-menu-button>
         </ion-buttons>
@@ -11,16 +11,18 @@
     <ion-grid>
         <ion-col size="12" text-center>
             <ion-card>
-                <div align="center">
+                <div align="center" style="margin-top: 5px;">
                     <ion-card-title>
                         <ion-avatar>
                             <ion-img class="img-avt" src="{{user.profileImage}}"></ion-img>
                         </ion-avatar>
                     </ion-card-title>
                 </div>
+                <br>
                 <ion-card-subtitle>
                     {{user.username}}
                 </ion-card-subtitle>
+                <br>
             </ion-card>
         </ion-col>
         <form #f="ngForm" (ngSubmit)="onSubmit()">

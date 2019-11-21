@@ -132,6 +132,7 @@ export class ThreadDetailPage implements OnInit {
       var tempImgCommentator = tempUserObject.profileImage;
       var tempUsername = tempUserObject.username;
 
+      console.log(this.thread.id);
       axios({
         method: 'put',
         url: environment.endPointConstant.createComment + tempUsername,
@@ -142,7 +143,6 @@ export class ThreadDetailPage implements OnInit {
           'threadMasterId': this.thread.id,
           'timestamp': new Date(),
           'category': this.thread.category,
-          'makerImage': tempImgCommentator,
           'description': comment
         }
       })

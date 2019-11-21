@@ -16,9 +16,11 @@ export const environment = {
     getUserData: defaultEndpoint+'/getUserData/',
     createThread: defaultEndpoint+'/createThread/',
     eventPageEndPoint: defaultEndpoint+'/getEventHome',
-    eventDetailEndPoint: defaultEndpoint+'/getEventDetail'
+    eventDetailEndPoint: defaultEndpoint+'/getEventDetail',
+
+    getMapAddress: 'https://maps.googleapis.com/maps/api/geocode/'
   },
-  mapsAPIKey: 'AIzaSyCcX5UrXGP_qbsVLsdpUy3hdnyNRq1nmyU',
+  mapsAPIKey: 'AIzaSyB5km7rlUUS8THKK0OO5V9VIhCs61giBLU',
   defaultImageProfile: "assets/2157564-poring.jpg"
 };
 
