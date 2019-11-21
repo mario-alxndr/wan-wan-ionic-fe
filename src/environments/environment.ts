@@ -13,9 +13,10 @@ export const environment = {
     threadDetailEndPoint: defaultEndpoint+'/getThreadDetail',
     createComment: defaultEndpoint+'/createComment/',
     threadCategoryEndPoint: defaultEndpoint+'/getThreadCategoryPage',
-    eventPageEndPoint: defaultEndpoint+'/getEventHome',
     getUserData: defaultEndpoint+'/getUserData/',
-    createThread: defaultEndpoint+'/createThread/'
+    createThread: defaultEndpoint+'/createThread/',
+    eventPageEndPoint: defaultEndpoint+'/getEventHome',
+    eventDetailEndPoint: defaultEndpoint+'/getEventDetail'
   },
   mapsAPIKey: 'AIzaSyCcX5UrXGP_qbsVLsdpUy3hdnyNRq1nmyU',
   defaultImageProfile: "assets/2157564-poring.jpg"

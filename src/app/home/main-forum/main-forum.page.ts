@@ -22,44 +22,46 @@ export class MainForumPage implements OnInit {
     private loginSrvc: LoginService,
     private router: Router,
   ) {
-    if(!this.loginSrvc.userIsLoggedIn) {
-      this.router.navigateByUrl('/login');
-    }
     this.getThreads(this.selectedPage);
   }
   
   getThreads(selectedPage) {
     var tempThreadList = undefined;
     var tempMaxPage;
-    axios({
-      method: 'get',
-      url: environment.endPointConstant.threadPageEndPoint + '?page=' + selectedPage,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    .then(response => {
-      if(response.data.thread) {
-        console.log(response);
-        tempThreadList = response.data.thread;
-        tempMaxPage = response.data.maxPage;
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-
-    return new Promise(() => {
-      setTimeout(() => {
-        this.threadList = tempThreadList;
-        this.maxPage = tempMaxPage;
-        this.maxPageArr = this.toBeArray(tempMaxPage);
-        console.log(this.maxPageArr);
-        if(this.threadList === undefined) {
-          this.getThreads(selectedPage);
+    if(!this.loginSrvc.userIsLoggedIn) {
+      this.router.navigateByUrl('/login');
+    }
+    else {
+      axios({
+        method: 'get',
+        url: environment.endPointConstant.threadPageEndPoint + '?page=' + selectedPage,
+        headers: {
+          "Content-Type": "application/json"
         }
-      }, 5000);
-    });
+      })
+      .then(response => {
+        if(response.data.thread) {
+          console.log(response);
+          tempThreadList = response.data.thread;
+          tempMaxPage = response.data.maxPage;
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  
+      return new Promise(() => {
+        setTimeout(() => {
+          this.threadList = tempThreadList;
+          this.maxPage = tempMaxPage;
+          this.maxPageArr = this.toBeArray(tempMaxPage);
+          console.log(this.maxPageArr);
+          if(this.threadList === undefined) {
+            this.getThreads(selectedPage);
+          }
+        }, 5000);
+      });
+    }
   }
 
   toBeArray(n: number): number[] {

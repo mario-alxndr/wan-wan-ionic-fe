@@ -35,44 +35,45 @@ export class ThreadDetailPage implements OnInit {
   }
 
   getThreadDetail(selectedPage) {
-    var tempResponse = undefined;
-    var threadId;
-    this.route.paramMap.subscribe(paramMap => {
-      threadId = paramMap.params.threadId;
-      axios({
-        method: 'get',
-        url: environment.endPointConstant.threadDetailEndPoint + '?threadId=' + threadId  + '&page=' + selectedPage,
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      .then(response => {
-        if(response.data) {
-          console.log(response);
-          tempResponse = response.data;
-        }
-      })
-      .catch(function (error){
-          console.log(error);
-      })
-    });
+    if(!this.loginSrvc.userIsLoggedIn) {
+      this.router.navigateByUrl('/login');
+    }
+    else {
+      var tempResponse = undefined;
+      var threadId;
+      this.route.paramMap.subscribe(paramMap => {
+        threadId = paramMap.params.threadId;
+        axios({
+          method: 'get',
+          url: environment.endPointConstant.threadDetailEndPoint + '?threadId=' + threadId  + '&page=' + selectedPage,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+        .then(response => {
+          if(response.data) {
+            console.log(response);
+            tempResponse = response.data;
+          }
+        })
+        .catch(function (error){
+            console.log(error);
+        })
+      });
 
-    return new Promise(() => {
-      setTimeout(() => {
-        if(!this.loginSrvc.userIsLoggedIn) {
-          this.router.navigateByUrl('/login');
-        }
-        if(tempResponse == undefined){
-          this.getThreadDetail(selectedPage)
-        } 
-        else {
-          this.thread = tempResponse.thread;
-          this.comments = tempResponse.commentList;
-          this.commentCount = tempResponse.thread.commentCount;
-        }
-        
-      }, 2000);
-    });
+      return new Promise(() => {
+        setTimeout(() => {
+          if(tempResponse == undefined){
+            this.getThreadDetail(selectedPage)
+          } 
+          else {
+            this.thread = tempResponse.thread;
+            this.comments = tempResponse.commentList;
+            this.commentCount = tempResponse.thread.commentCount;
+          }
+        }, 2000);
+      });
+    }
   }
   async presentAlertInvalidComment() {
     const alertInvalidComment = await this.alertController.create({ 
