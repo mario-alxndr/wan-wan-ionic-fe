@@ -29,53 +29,55 @@ export class MainPage implements OnInit {
   }
 
   getLocationAndEvents(selectedPage) {
-    this.geolocation.getCurrentPosition()
-    .then((response) => {
-      this.currLatitude = response.coords.latitude;
-      this.currLongitude = response.coords.longitude;
-      if(!this.currLatitude && !this.currLongitude) {
-        this.presentAlertGeolocation("Error when receive current location.");
-      }
-      else {
-        var tempResponse = undefined;
-        console.log(this.currLatitude,this.currLongitude);
-        axios({
-          method: 'get',
-          url: environment.endPointConstant.eventPageEndPoint + "?page=" + selectedPage + "&latitude=" + this.currLatitude + '&longitude=' + this.currLongitude,
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
-        .then(response => {
-          if(response.data) {
-            console.log(response);
-            tempResponse = response.data;
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        })
+    var tempResponse = undefined;
 
-        return new Promise(() => {
-          setTimeout(() => {
-            if(!this.loginSrvc.userIsLoggedIn) {
-              this.router.navigateByUrl('/login');
+    if(!this.loginSrvc.userIsLoggedIn) {
+      this.router.navigateByUrl('/login');
+    }
+    else {
+      this.geolocation.getCurrentPosition()
+      .then((response) => {
+        this.currLatitude = response.coords.latitude;
+        this.currLongitude = response.coords.longitude;
+        console.log(this.currLatitude,this.currLongitude);
+        if(!this.currLatitude && !this.currLongitude) {
+          this.presentAlertGeolocation("Error when receive current location.");
+        }
+        else {
+          axios({
+            method: 'get',
+            url: environment.endPointConstant.eventPageEndPoint + "?page=" + selectedPage + "&latitude=" + this.currLatitude + '&longitude=' + this.currLongitude,
+            headers: {
+              "Content-Type": "application/json"
             }
-            if(tempResponse == undefined) {
-              this.getLocationAndEvents(selectedPage);
+          })
+          .then(response => {
+            if(response.data) {
+              console.log(response);
+              tempResponse = response.data;
             }
-            else {
-              this.events = tempResponse.eventList;
-              console.log("cuyyy",this.events);
-            }
-          }, 2000);
-        });
-      }
-    })
-    .catch((error) => {
-      this.presentAlertGeolocation("Please Allow Location Access");
-      console.log('error getting location', error);
-    })
+          })
+          .catch(error => {
+            console.log(error);
+          })
+
+          return new Promise(() => {
+            setTimeout(() => {
+              if(tempResponse == undefined) {
+                this.getLocationAndEvents(selectedPage);
+              }
+              else {
+                this.events = tempResponse.eventList;
+              }
+            }, 2000);
+          });
+        }
+      })
+      .catch((error) => {
+        this.presentAlertGeolocation("Please Allow Location Access");
+        console.log('error getting location', error);
+      })
+    }
   }
 
   async presentAlertGeolocation(message) {
@@ -100,7 +102,6 @@ export class MainPage implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
 }

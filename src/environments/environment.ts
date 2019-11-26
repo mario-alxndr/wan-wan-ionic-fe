@@ -11,12 +11,14 @@ export const environment = {
     loginEndPoint: defaultEndpoint+'/login',
     threadPageEndPoint: defaultEndpoint+'/getThreadPage',
     threadDetailEndPoint: defaultEndpoint+'/getThreadDetail',
-    createThreadComment: defaultEndpoint+'/createThreadComment/',
+    createComment: defaultEndpoint+'/createComment/',
     threadCategoryEndPoint: defaultEndpoint+'/getThreadCategoryPage',
-    eventPageEndPoint: defaultEndpoint+'/getEventHome',
     getUserData: defaultEndpoint+'/getUserData/',
-    createThread: defaultEndpoint+'/createThread',
-    addUpdatePhoneNumber: defaultEndpoint+'/addUpdatePhoneNumber/'
+    createThread: defaultEndpoint+'/createThread/',
+    eventPageEndPoint: defaultEndpoint+'/getEventHome',
+    eventDetailEndPoint: defaultEndpoint+'/getEventDetail',
+    addUpdatePhoneNumber: defaultEndpoint+'/addUpdatePhoneNumber/',
+    addUpdateProfileImage: defaultEndpoint+ '/addUpdateProfileImage/'
   },
   mapsAPIKey: 'AIzaSyCcX5UrXGP_qbsVLsdpUy3hdnyNRq1nmyU',
   defaultImageProfile: "assets/2157564-poring.jpg"

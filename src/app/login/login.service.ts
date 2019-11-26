@@ -38,8 +38,10 @@ export class LoginService {
   
   logIn(objectUsername) {
     this.storage.set(TOKEN_LOGIN, JSON.stringify(objectUsername)).then((response) => {
-      this.storage.set(TOKEN_USERNAME, objectUsername.username);
-      this.loginState.next(true);
+      this.storage.set(TOKEN_USERNAME, objectUsername.username).then((res) => {
+        this.router.navigateByUrl('home');
+        this.loginState.next(true);
+      });
     });
   }
   

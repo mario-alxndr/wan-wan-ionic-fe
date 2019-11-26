@@ -97,7 +97,7 @@ export class LoginPage implements OnInit {
         } else {
           this.presentAlert(stringNotification);
         }
-      }, 1250);
+      }, 2500);
     });
   }
 
@@ -110,7 +110,6 @@ export class LoginPage implements OnInit {
     .then(res => {
       console.log("get user data response ",res);
       this.loginSrvc.logIn(res.data);
-      this.router.navigateByUrl('/main-forum');
     })
   }
 

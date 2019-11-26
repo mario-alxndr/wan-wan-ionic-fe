@@ -13,6 +13,8 @@ import { Thread } from '../thread.model';
 })
 export class MainForumPage implements OnInit {
   threadList: Promise<Thread[]>;
+  maxPageArr: Promise<number[]>;
+  maxPage: Promise<number>;
 
   private selectedPage = 1;
 
@@ -25,34 +27,45 @@ export class MainForumPage implements OnInit {
   
   getThreads(selectedPage) {
     var tempThreadList = undefined;
-    axios({
-      method: 'get',
-      url: environment.endPointConstant.threadPageEndPoint + '?page=' + selectedPage,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    .then(response => {
-      if(response.data.thread) {
-        console.log(response);
-        tempThreadList = response.data.thread;
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+    var tempMaxPage;
+    if(!this.loginSrvc.userIsLoggedIn) {
+      this.router.navigateByUrl('/login');
+    }
+    else {
+      axios({
+        method: 'get',
+        url: environment.endPointConstant.threadPageEndPoint + '?page=' + selectedPage,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => {
+        if(response.data.thread) {
+          console.log(response);
+          tempThreadList = response.data.thread;
+          tempMaxPage = response.data.maxPage;
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  
+      return new Promise(() => {
+        setTimeout(() => {
+          this.threadList = tempThreadList;
+          this.maxPage = tempMaxPage;
+          this.maxPageArr = this.toBeArray(tempMaxPage);
+          console.log(this.maxPageArr);
+          if(this.threadList === undefined) {
+            this.getThreads(selectedPage);
+          }
+        }, 5000);
+      });
+    }
+  }
 
-    return new Promise(() => {
-      setTimeout(() => {
-        if(!this.loginSrvc.userIsLoggedIn) {
-          this.router.navigateByUrl('/login');
-        }
-        this.threadList = tempThreadList;
-        if(this.threadList === undefined) {
-          this.getThreads(selectedPage);
-        }
-      }, 2000);
-    });
+  toBeArray(n: number): number[] {
+    return [...Array(n).keys()].map(i => i + 1);
   }
 
   changePage(selectedPage) {
