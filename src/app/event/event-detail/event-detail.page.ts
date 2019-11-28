@@ -44,7 +44,7 @@ export class EventDetailPage implements OnInit {
     }
     else {
       this.route.paramMap.subscribe(paramMap => {
-        eventId = paramMap.params.eventId;
+        eventId = paramMap.get('eventId');
         this.geolocation.getCurrentPosition()
         .then((response) => {
           this.currLatitude = response.coords.latitude;

@@ -13,8 +13,8 @@ import { Thread } from '../thread.model';
 })
 export class MainForumPage implements OnInit {
   threadList: Promise<Thread[]>;
-  maxPageArr: Promise<number[]>;
-  maxPage: Promise<number>;
+  maxPageArr: Number[];
+  maxPage: Number;
 
   private selectedPage = 1;
 
@@ -54,8 +54,14 @@ export class MainForumPage implements OnInit {
         setTimeout(() => {
           this.threadList = tempThreadList;
           this.maxPage = tempMaxPage;
+          // console.log("ahahahah", this.maxPage);
+          // this.maxPageArr.pop();
+          // for(let i=1; i <= tempMaxPage; i++) {
+          //   this.maxPageArr.push(i);
+          // }
+          //console.log(this.maxPageArr);
           this.maxPageArr = this.toBeArray(tempMaxPage);
-          console.log(this.maxPageArr);
+          console.log("coy", this.maxPageArr);
           if(this.threadList === undefined) {
             this.getThreads(selectedPage);
           }

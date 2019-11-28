@@ -42,7 +42,7 @@ export class ThreadDetailPage implements OnInit {
       var tempResponse = undefined;
       var threadId;
       this.route.paramMap.subscribe(paramMap => {
-        threadId = paramMap.params.threadId;
+        threadId = paramMap.get('threadId');
         axios({
           method: 'get',
           url: environment.endPointConstant.threadDetailEndPoint + '?threadId=' + threadId  + '&page=' + selectedPage,
@@ -108,12 +108,11 @@ export class ThreadDetailPage implements OnInit {
           text: 'Ok',
           handler: comment => {
             if(typeof comment !=null) {
-              var tempComment = comment as string;
-              if(tempComment.comment.length > 55 || tempComment.comment.length <= 0) {
+              if(comment.comment.length > 55 || comment.comment.length <= 0) {
                 this.presentAlertInvalidComment();
               }
               else {
-                this.addNewComment(tempComment.comment);
+                this.addNewComment(comment.comment);
               }
             }
           }
