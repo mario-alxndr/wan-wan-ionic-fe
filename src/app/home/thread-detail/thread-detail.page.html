@@ -23,16 +23,17 @@
             </ion-col>
             <ion-col size="1.5">
                 <ion-list>
-                    <ion-select 
-                        [(ngModel)]="selectedPlace" 
-                        (ionChange)="updateComment()"
-                    >
-                        <ion-select-option [value]="page" *ngFor="let page of paging">{{page}}</ion-select-option>
+                    <ion-select
+                        placeholder="1"
+                        ngModel
+                        #selectedPage="ngModel" 
+                        (ionChange)="changePage(selectedPage.value)">
+                        <ion-select-option [value]="page" *ngFor="let page of maxPageArr">{{page}}</ion-select-option>
                     </ion-select>
                 </ion-list>
             </ion-col>
             <ion-col size="1.5">
-                <ion-text>of {{pages}}</ion-text>
+                <ion-text>of {{maxPage}} </ion-text>
             </ion-col>
         </ion-row>
         <ion-row>

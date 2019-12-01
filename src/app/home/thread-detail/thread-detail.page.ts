@@ -6,6 +6,8 @@ import { AlertController } from '@ionic/angular';
 import { LoginService } from './../../login/login.service';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
+//import * as moment from 'moment/moment';
+import * as moment from 'moment-timezone';
 import { Storage } from '@ionic/storage';
 import { environment } from 'src/environments/environment';
 
@@ -19,6 +21,8 @@ const TOKEN_LOGIN = 'login-key';
 export class ThreadDetailPage implements OnInit {
   thread: Thread = new Thread();
   comments: Promise<Comment[]>;
+  maxPageArr: Number[];
+  maxPage: Number;
   newComment;
   commentCount;
 
@@ -31,7 +35,7 @@ export class ThreadDetailPage implements OnInit {
       private route: ActivatedRoute,
       private storage: Storage
   ) {
-     
+    this.getThreadDetail(this.selectedPage);
   }
 
   getThreadDetail(selectedPage) {
@@ -40,6 +44,7 @@ export class ThreadDetailPage implements OnInit {
     }
     else {
       var tempResponse = undefined;
+      var tempMaxPage;
       var threadId;
       this.route.paramMap.subscribe(paramMap => {
         threadId = paramMap.get('threadId');
@@ -54,6 +59,7 @@ export class ThreadDetailPage implements OnInit {
           if(response.data) {
             console.log(response);
             tempResponse = response.data;
+            tempMaxPage = response.data.maxPage;
           }
         })
         .catch(function (error){
@@ -68,7 +74,16 @@ export class ThreadDetailPage implements OnInit {
           } 
           else {
             this.thread = tempResponse.thread;
+            this.thread.timestamp = moment(this.thread.timestamp).startOf('day').fromNow();
             this.comments = tempResponse.commentList;
+            for(let i=0; i<tempResponse.commentList.length; i++) {
+              this.comments[i].timestamp = moment(moment.utc(this.comments[i].timestamp).toDate()).tz("Asia/Jakarta").format("MMM Do YY");
+
+              //this.comments[i].timestamp = moment(this.comments[i].timestamp).startOf('day').fromNow();
+            }
+            this.maxPage = tempMaxPage;
+            this.maxPageArr = this.toBeArray(tempMaxPage);
+            console.log("coey", this.maxPageArr);
             this.commentCount = tempResponse.thread.commentCount;
           }
         }, 2000);
@@ -83,6 +98,10 @@ export class ThreadDetailPage implements OnInit {
     });
 
     await alertInvalidComment.present();
+  }
+
+  toBeArray(n: number): number[] {
+    return [...Array(n).keys()].map(i => i + 1);
   }
 
   async presentAlertPrompt() {
@@ -128,7 +147,6 @@ export class ThreadDetailPage implements OnInit {
     console.log(comment);
     this.storage.get(TOKEN_LOGIN).then(userObject => {
       var tempUserObject = JSON.parse(userObject);
-      var tempImgCommentator = tempUserObject.profileImage;
       var tempUsername = tempUserObject.username;
 
       console.log(this.thread.id);
@@ -140,9 +158,8 @@ export class ThreadDetailPage implements OnInit {
         },
         data: {
           'threadMasterId': this.thread.id,
-          'timestamp': new Date(),
-          'category': this.thread.category,
-          'description': comment
+          'makerUsername' : tempUsername,
+          'threadComment': comment
         }
       })
       .then(res => {
@@ -154,16 +171,16 @@ export class ThreadDetailPage implements OnInit {
       .catch(error => {
         console.log(error);
       });
-
-      // return new Promise(() => {
-      //   setTimeout(() => {
-      //     location.reload();
-      //   }, 1500);
-      // });
     })
   }
 
+  changePage(selectedPage) {
+    this.selectedPage = selectedPage;
+    console.log(selectedPage);
+    this.getThreadDetail(selectedPage);
+  }
+
   ngOnInit() {
-    this.getThreadDetail(this.selectedPage);
+    
   }
 }

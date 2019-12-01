@@ -132,7 +132,12 @@ export class EventDetailPage implements OnInit {
     await alertFailed.present();
   }
 
+  onSaveEvent() {
+    //if()
+  }
+
   ngOnInit() {
+
   }
 
 }

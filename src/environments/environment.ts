@@ -2,7 +2,7 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-const defaultEndpoint = 'http://172.16.94.120:1323';
+const defaultEndpoint = 'http://25.15.132.101:1323';
 
 export const environment = {
   production: false,
@@ -15,8 +15,10 @@ export const environment = {
     threadCategoryEndPoint: defaultEndpoint+'/getThreadCategoryPage',
     getUserData: defaultEndpoint+'/getUserData/',
     createThread: defaultEndpoint+'/createThread/',
+
     eventPageEndPoint: defaultEndpoint+'/getEventHome',
     eventDetailEndPoint: defaultEndpoint+'/getEventDetail',
+    createEvent: defaultEndpoint+'/createEvent/',
 
     getMapAddress: 'https://maps.googleapis.com/maps/api/geocode/'
   },
