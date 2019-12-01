@@ -22,6 +22,10 @@ export const environment = {
 
     getMapAddress: 'https://maps.googleapis.com/maps/api/geocode/'
   },
+  tokenStorage: {
+    user_latitude: "USER_LATITUDE",
+    user_longitude: "USER_LONGITUDE"
+  },
   mapsAPIKey: 'AIzaSyB5km7rlUUS8THKK0OO5V9VIhCs61giBLU',
   defaultImageProfile: "assets/2157564-poring.jpg"
 };
