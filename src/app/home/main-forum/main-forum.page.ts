@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { LoginService } from './../../login/login.service';
 import axios from 'axios';
 import { BehaviorSubject } from 'rxjs';
+import * as moment from 'moment';
 import { Thread } from '../thread.model';
 
 @Component({
@@ -13,8 +14,8 @@ import { Thread } from '../thread.model';
 })
 export class MainForumPage implements OnInit {
   threadList: Promise<Thread[]>;
-  maxPageArr: Promise<number[]>;
-  maxPage: Promise<number>;
+  maxPageArr: Number[];
+  maxPage: Number;
 
   private selectedPage = 1;
 
@@ -53,9 +54,11 @@ export class MainForumPage implements OnInit {
       return new Promise(() => {
         setTimeout(() => {
           this.threadList = tempThreadList;
+          for(let i=0; i< tempThreadList.length; i++) { 
+            this.threadList[i].timestamp =  moment(this.threadList[i].timestamp).startOf('day').fromNow();
+          }
           this.maxPage = tempMaxPage;
           this.maxPageArr = this.toBeArray(tempMaxPage);
-          console.log(this.maxPageArr);
           if(this.threadList === undefined) {
             this.getThreads(selectedPage);
           }
@@ -70,6 +73,7 @@ export class MainForumPage implements OnInit {
 
   changePage(selectedPage) {
     this.selectedPage = selectedPage;
+    console.log(selectedPage);
     this.getThreads(selectedPage);
   }
 

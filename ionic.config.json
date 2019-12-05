@@ -1,7 +1,8 @@
 {
   "name": "wan-wan-fe",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular"
 }

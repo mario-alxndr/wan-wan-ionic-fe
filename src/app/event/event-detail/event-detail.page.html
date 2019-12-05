@@ -1,8 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Event Detail</ion-title>
-    <ion-buttons slot="end">
-      <ion-icon name="bookmark"></ion-icon>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="event"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -10,28 +9,38 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col size-sm="5" offset="0.5">
-        <ion-label>Event Name</ion-label>
+      <ion-col size-sm="5" offset="0.25">
+        <ion-label>{{event.name}}</ion-label>
       </ion-col>
       <ion-col size-sm="6" offset="5">
-        <ion-label>On Site</ion-label>
+        <ion-label>{{event.site}}</ion-label>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size-sm="5" offset="0.5">
-        <ion-label>Event Tag</ion-label>
+      <ion-col size-sm="9" offset="0.25">
+          Tag: <ion-label class="gametag-title" *ngFor="let game of event.category">{{game}} </ion-label>
       </ion-col>
-      <ion-col size-sm="6" offset="5">
-        <ion-label>Event Type</ion-label>
+      <ion-col size-sm="3" offset="5">
+        <ion-label>{{event.type}}</ion-label>
       </ion-col>
     </ion-row>
-    <ion-item>
-      <ion-label>Event Organizer</ion-label>
-    </ion-item>
+    <ion-row>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label>{{event.makerusername}}</ion-label>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label>Posted {{event.timestamp}}</ion-label>
+          <!-- <ion-datetime displayFormat="HH:mm"></ion-datetime> -->
+        </ion-item>
+      </ion-col>
+    </ion-row>    
     <ion-row>
       <ion-col size-sm="3" offset-sm="3">
         <ion-item>
-          <ion-label>From</ion-label>
+          <ion-label>From: {{event.dateStart}}</ion-label>
           <!-- <ion-datetime
             display-format="MMM DD YYYY"
             picker-format="YY MMM DD"
@@ -41,7 +50,7 @@
       </ion-col>
       <ion-col size-sm="3">
         <ion-item>
-          <ion-label>To</ion-label>
+          <ion-label>To: {{event.dateEnd}}</ion-label>
           <!-- <ion-datetime
             display-format="MMM DD YYYY"
             picker-format="YY MMM DD"
@@ -50,19 +59,24 @@
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <!-- <ion-row>
       <ion-col size-sm="3">
           <ion-item>
-            <ion-label>Time</ion-label>
-            <!-- <ion-datetime displayFormat="HH:mm"></ion-datetime> -->
+            <ion-label>Time: {{event.timestamp}}</ion-label>
+            <ion-datetime displayFormat="HH:mm"></ion-datetime>
           </ion-item>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
     <br>
     <ion-row>
       <ion-col size="3">
         <ion-item>
           <ion-label>Location :</ion-label>
+        </ion-item>
+      </ion-col>
+      <ion-col size="3">
+        <ion-item>
+          <ion-label>{{event.distance}} km</ion-label>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -76,21 +90,18 @@
           </ion-card-content>
         </ion-card> -->
         <p style="margin: 3%; border: solid 1px black; padding: 4px;">
-          :")))
+          {{locationAddress}}
         </p>
       </ion-col>
     </ion-row>
     <ion-row>
-        <ion-col size="3" offset="1">
-          <ion-label>Games:</ion-label>
-        </ion-col>
-        <ion-col size="8">
-          <ion-label>Yugi, Dota, Pokemon</ion-label>
+        <ion-col size="6" offset="0.5">
+          Games: <ion-label *ngFor="let game of event.games">{{game}} </ion-label>
         </ion-col>
     </ion-row>
     <img class="containerpict" src="https://midnightlaunchstudios.files.wordpress.com/2014/03/norwichgamingfestival_poster_png.png">
     <ion-row>
-      <ion-col size="3">
+      <ion-col size="4">
         <ion-item>
           <ion-label>Description :</ion-label>
         </ion-item>
@@ -108,5 +119,11 @@
         </ion-card> -->
       </ion-col>
     </ion-row>
+    <ion-button
+      expand="block"
+      color="primary"
+      (click)="onSaveEvent()">
+      Save This Event
+    </ion-button>
   </ion-grid>
 </ion-content>

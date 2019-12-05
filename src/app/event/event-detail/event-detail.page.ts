@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import axios from 'axios';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
 import { LoginService } from './../../login/login.service';
 import { Event } from '../event.model';
+import * as moment from 'moment';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-event-detail',
@@ -18,13 +22,15 @@ export class EventDetailPage implements OnInit {
   event: Event = new Event();
   private currLatitude;
   private currLongitude;
+  private locationAddress;
 
   constructor(
     private loginSrvc: LoginService,
     private router: Router,
     private route: ActivatedRoute,
     private geolocation: Geolocation,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private http: HttpClient
   ) {
     this.getLocDetailEvent();
   }
@@ -38,7 +44,7 @@ export class EventDetailPage implements OnInit {
     }
     else {
       this.route.paramMap.subscribe(paramMap => {
-        eventId = paramMap.params.eventId;
+        eventId = paramMap.get('eventId');
         this.geolocation.getCurrentPosition()
         .then((response) => {
           this.currLatitude = response.coords.latitude;
@@ -70,7 +76,24 @@ export class EventDetailPage implements OnInit {
                 }
                 else {
                   this.event = tempResponse.data.event;
-                  console.log(this.event);
+                  this.event.dateStart = moment(this.event.dateStart).format("MMM Do YY");
+                  this.event.dateEnd = moment(this.event.dateEnd).format("MMM Do YY");
+                  this.event.timestamp = moment(this.event.timestamp).startOf('day').fromNow();
+                  this.locationAddress = this.getAddress(this.event.latitude, this.event.longitude);
+                  axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.event.latitude},${this.event.longitude}&key=${environment.mapsAPIKey}`).then((response) => {
+                    console.log(response);
+                    this.locationAddress = response.data.results[0].formatted_address;
+                  });
+                  // this.http.get<any>(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.event.latitude},${this.event.longitude}&key=${environment.mapsAPIKey}`).pipe(
+                  //   map(geoData => {
+                  //     console.log("coyyyy", geoData.results);
+                  //     if(!geoData || !geoData.results || !geoData.results.length) {
+                  //       return null;
+                  //     }
+                  //     return geoData.results[0].formatted_address;
+                  //   })
+                  // )
+                  //console.log(this.event);
                 }
               }, 2000);
             });
@@ -78,6 +101,19 @@ export class EventDetailPage implements OnInit {
         })
       })
     }
+  }
+
+  private getAddress(lat, lng){
+    return this.http.get<any>(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${environment.mapsAPIKey}`)
+    .pipe(
+      map(geoData => {
+        if(!geoData || !geoData.results || !geoData.results.length) {
+          return null;
+        }
+        console.log("coyyyy", geoData.results);
+        return geoData.results[0].formatted_address;
+      })
+    )
   }
 
   async presentAlertGeolocation(message) {
@@ -96,7 +132,12 @@ export class EventDetailPage implements OnInit {
     await alertFailed.present();
   }
 
+  onSaveEvent() {
+    //if()
+  }
+
   ngOnInit() {
+
   }
 
 }

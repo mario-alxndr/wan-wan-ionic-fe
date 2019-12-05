@@ -15,13 +15,24 @@ export const environment = {
     threadCategoryEndPoint: defaultEndpoint+'/getThreadCategoryPage',
     getUserData: defaultEndpoint+'/getUserData/',
     createThread: defaultEndpoint+'/createThread/',
+
     eventPageEndPoint: defaultEndpoint+'/getEventHome',
     eventDetailEndPoint: defaultEndpoint+'/getEventDetail',
+<<<<<<< HEAD
     addUpdatePhoneNumber: defaultEndpoint+'/addUpdatePhoneNumber/',
     addUpdateProfileImage: defaultEndpoint+ '/addUpdateProfileImage/',
     addUpdateGameList: defaultEndpoint+ '/addUpdateGameList/'
+=======
+    createEvent: defaultEndpoint+'/createEvent/',
+
+    getMapAddress: 'https://maps.googleapis.com/maps/api/geocode/'
   },
-  mapsAPIKey: 'AIzaSyCcX5UrXGP_qbsVLsdpUy3hdnyNRq1nmyU',
+  tokenStorage: {
+    user_latitude: "USER_LATITUDE",
+    user_longitude: "USER_LONGITUDE"
+>>>>>>> f83ff351fd2dea8414db8b0332e012caa2571b1c
+  },
+  mapsAPIKey: 'AIzaSyB5km7rlUUS8THKK0OO5V9VIhCs61giBLU',
   defaultImageProfile: "assets/2157564-poring.jpg"
 };
 
