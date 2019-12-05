@@ -15,5 +15,8 @@
       "SplashScreen": "screen",
       "SplashScreenDelay": "3000"
     }
+  },
+  "server": {
+    "url": "http://localhost:8101"
   }
 }

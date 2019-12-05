@@ -18,19 +18,17 @@ export const environment = {
 
     eventPageEndPoint: defaultEndpoint+'/getEventHome',
     eventDetailEndPoint: defaultEndpoint+'/getEventDetail',
-<<<<<<< HEAD
+    createEvent: defaultEndpoint+'/createEvent/',
+
     addUpdatePhoneNumber: defaultEndpoint+'/addUpdatePhoneNumber/',
     addUpdateProfileImage: defaultEndpoint+ '/addUpdateProfileImage/',
-    addUpdateGameList: defaultEndpoint+ '/addUpdateGameList/'
-=======
-    createEvent: defaultEndpoint+'/createEvent/',
+    addUpdateGameList: defaultEndpoint+ '/addUpdateGameList/',
 
     getMapAddress: 'https://maps.googleapis.com/maps/api/geocode/'
   },
   tokenStorage: {
     user_latitude: "USER_LATITUDE",
     user_longitude: "USER_LONGITUDE"
->>>>>>> f83ff351fd2dea8414db8b0332e012caa2571b1c
   },
   mapsAPIKey: 'AIzaSyB5km7rlUUS8THKK0OO5V9VIhCs61giBLU',
   defaultImageProfile: "assets/2157564-poring.jpg"
