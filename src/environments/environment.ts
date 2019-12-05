@@ -18,7 +18,8 @@ export const environment = {
     eventPageEndPoint: defaultEndpoint+'/getEventHome',
     eventDetailEndPoint: defaultEndpoint+'/getEventDetail',
     addUpdatePhoneNumber: defaultEndpoint+'/addUpdatePhoneNumber/',
-    addUpdateProfileImage: defaultEndpoint+ '/addUpdateProfileImage/'
+    addUpdateProfileImage: defaultEndpoint+ '/addUpdateProfileImage/',
+    addUpdateGameList: defaultEndpoint+ '/addUpdateGameList/'
   },
   mapsAPIKey: 'AIzaSyCcX5UrXGP_qbsVLsdpUy3hdnyNRq1nmyU',
   defaultImageProfile: "assets/2157564-poring.jpg"

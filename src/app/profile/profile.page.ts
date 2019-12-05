@@ -30,14 +30,21 @@ export class ProfilePage implements OnInit {
 
       this.username = tempUserObject.username;
       this.phoneNumber = tempUserObject.phoneNumber;
+      
       if(tempUserObject.profileImage === ""){
         this.profileImage = environment.defaultImageProfile;
       }
       else{
         this.profileImage = "data:image/jpeg;base64,"+tempUserObject.profileImage;
       }
-      
-      this.gameList = tempUserObject.gameList;
+      if(tempUserObject.gameList === null){
+        this.gameList = ["No game added yet"];
+      }
+      else{
+        this.gameList = tempUserObject.gameList;
+      }
+
+      console.log("game-list : ", this.gameList[0]);
     });
   }
 
