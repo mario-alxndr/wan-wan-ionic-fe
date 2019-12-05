@@ -11,7 +11,7 @@
   <ion-grid padding style="margin-top: 8%;">
     <ion-row>
       <ion-col size="8" offset="2">
-        <ion-searchbar placeholder="search event name or tag"></ion-searchbar>
+        <ion-searchbar placeholder="search event name or tag" (search)="getSearchData($event.target.value)"></ion-searchbar>
       </ion-col>
     </ion-row>
     <ion-row text-right align-items-center ion-justify-content-end>
@@ -43,6 +43,11 @@
         Thread Kosong
       </ion-label>
     </ion-row> -->
+    <ion-row *ngIf="searchEmpty">
+      <ion-col text-center>
+        forum tidak ditemukan
+      </ion-col>
+    </ion-row>
     <ion-row *ngFor="let thread of threadList">
       <ion-col size="12">
         <ion-card [routerLink]="['/','home', thread.id]">

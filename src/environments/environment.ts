@@ -15,11 +15,15 @@ export const environment = {
     threadCategoryEndPoint: defaultEndpoint+'/getThreadCategoryPage',
     getUserData: defaultEndpoint+'/getUserData/',
     createThread: defaultEndpoint+'/createThread/',
+    searchTread: defaultEndpoint+'/searchThread/',
 
     eventPageEndPoint: defaultEndpoint+'/getEventHome',
     eventDetailEndPoint: defaultEndpoint+'/getEventDetail',
     createEvent: defaultEndpoint+'/createEvent/',
 
+    addUpdatePhoneNumber: defaultEndpoint+'/addUpdatePhoneNumber/',
+    addUpdateProfileImage: defaultEndpoint+ '/addUpdateProfileImage/',
+    addUpdateGameList: defaultEndpoint+ '/addUpdateGameList/',
     getMapAddress: 'https://maps.googleapis.com/maps/api/geocode/'
   },
   tokenStorage: {

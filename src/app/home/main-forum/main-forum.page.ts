@@ -6,6 +6,9 @@ import axios from 'axios';
 import { BehaviorSubject } from 'rxjs';
 import * as moment from 'moment';
 import { Thread } from '../thread.model';
+import { Storage } from '@ionic/storage';
+
+const TOKEN_LOGIN = 'login-key';
 
 @Component({
   selector: 'app-main-forum',
@@ -16,16 +19,71 @@ export class MainForumPage implements OnInit {
   threadList: Promise<Thread[]>;
   maxPageArr: Number[];
   maxPage: Number;
+  searchEmpty: boolean;
 
   private selectedPage = 1;
 
   constructor(
     private loginSrvc: LoginService,
     private router: Router,
+    private storage: Storage
   ) {
     this.getThreads(this.selectedPage);
   }
   
+  public getSearchData(searchFilter){
+    this.searchEmpty = false;
+    var tempThreadList = undefined;
+    var tempMaxPage;
+    if(!this.loginSrvc.userIsLoggedIn) {
+      this.router.navigateByUrl('/login');
+    }
+    if(searchFilter === ""){
+      console.log("asddsa");
+      this.getThreads(1);
+    }
+    else{
+      this.storage.get(TOKEN_LOGIN).then(userObject => {
+        var tempUserObject = JSON.parse(userObject);
+        axios({
+          method: 'get',
+          url: environment.endPointConstant.searchTread +  tempUserObject.username +'/' + searchFilter.toString() + '/' + 1,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+        .then(response => {
+          if(response.data.thread) {
+            console.log(response);
+            tempThreadList = response.data.thread;
+            tempMaxPage = response.data.maxPage;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+      });
+      return new Promise(() => {
+        setTimeout(() => {
+          this.threadList = tempThreadList;
+          console.log("coyy", this.threadList);
+          if(this.threadList == undefined) {
+            this.searchEmpty = true;
+            this.maxPage = 0;
+            this.maxPageArr = [1];
+          }
+          else {
+            for(let i=0; i< tempThreadList.length; i++) { 
+              this.threadList[i].timestamp =  moment(this.threadList[i].timestamp).startOf('day').fromNow();
+            }
+            this.maxPage = tempMaxPage;
+            this.maxPageArr = this.toBeArray(tempMaxPage);
+          }
+        }, 5000);
+      });
+    }
+  }  
+
   getThreads(selectedPage) {
     var tempThreadList = undefined;
     var tempMaxPage;
@@ -42,7 +100,6 @@ export class MainForumPage implements OnInit {
       })
       .then(response => {
         if(response.data.thread) {
-          console.log(response);
           tempThreadList = response.data.thread;
           tempMaxPage = response.data.maxPage;
         }
@@ -54,6 +111,7 @@ export class MainForumPage implements OnInit {
       return new Promise(() => {
         setTimeout(() => {
           this.threadList = tempThreadList;
+          console.log(this.threadList);
           for(let i=0; i< tempThreadList.length; i++) { 
             this.threadList[i].timestamp =  moment(this.threadList[i].timestamp).startOf('day').fromNow();
           }
