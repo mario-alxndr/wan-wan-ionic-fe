@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Storage } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import axios from 'axios';
 import { HttpClient } from '@angular/common/http';
@@ -11,6 +12,8 @@ import { Event } from '../event.model';
 import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+const TOKEN_ID = 'userid-key';
 
 @Component({
   selector: 'app-event-detail',
@@ -26,6 +29,7 @@ export class EventDetailPage implements OnInit {
 
   constructor(
     private loginSrvc: LoginService,
+    private storage: Storage,
     private router: Router,
     private route: ActivatedRoute,
     private geolocation: Geolocation,
@@ -43,63 +47,66 @@ export class EventDetailPage implements OnInit {
       this.router.navigateByUrl('/login');
     }
     else {
-      this.route.paramMap.subscribe(paramMap => {
-        eventId = paramMap.get('eventId');
-        this.geolocation.getCurrentPosition()
-        .then((response) => {
-          this.currLatitude = response.coords.latitude;
-          this.currLongitude = response.coords.longitude;
-          console.log(this.currLatitude,this.currLongitude);
-          if(!this.currLatitude && !this.currLongitude) {
-            this.presentAlertGeolocation("Error when receive current location.");
-          }
-          else {
-            axios({
-              method: 'get',
-              url: environment.endPointConstant.eventDetailEndPoint + '?eventId=' + eventId + "&userLatitude=" + this.currLatitude + '&userLongitude=' + this.currLongitude,
-              headers: {
-                "Content-Type": "application/json"
-              }
-            })
-            .then(response => {
-              console.log(response);
-              tempResponse = response;
-            })
-            .catch(error => {
-              console.log(error);
-            })
-
-            return new Promise(() => {
-              setTimeout(() => {
-                if(tempResponse == undefined) {
-                  this.getLocDetailEvent();
+      this.storage.get(TOKEN_ID).then(userId => {
+        console.log("cokk", userId);
+        this.route.paramMap.subscribe(paramMap => {
+          eventId = paramMap.get('eventId');
+          this.geolocation.getCurrentPosition()
+          .then((response) => {
+            this.currLatitude = response.coords.latitude;
+            this.currLongitude = response.coords.longitude;
+            console.log(this.currLatitude,this.currLongitude);
+            if(!this.currLatitude && !this.currLongitude) {
+              this.presentAlertGeolocation("Error when receive current location.");
+            }
+            else {
+              axios({
+                method: 'get',
+                url: environment.endPointConstant.eventDetailEndPoint + '?eventId=' + eventId + "&userLatitude=" + this.currLatitude + '&userLongitude=' + this.currLongitude + '&userId=' + userId,
+                headers: {
+                  "Content-Type": "application/json"
                 }
-                else {
-                  this.event = tempResponse.data.event;
-                  this.event.dateStart = moment(this.event.dateStart).format("MMM Do YY");
-                  this.event.dateEnd = moment(this.event.dateEnd).format("MMM Do YY");
-                  this.event.timestamp = moment(this.event.timestamp).startOf('day').fromNow();
-                  this.locationAddress = this.getAddress(this.event.latitude, this.event.longitude);
-                  axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.event.latitude},${this.event.longitude}&key=${environment.mapsAPIKey}`).then((response) => {
-                    console.log(response);
-                    this.locationAddress = response.data.results[0].formatted_address;
-                  });
-                  // this.http.get<any>(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.event.latitude},${this.event.longitude}&key=${environment.mapsAPIKey}`).pipe(
-                  //   map(geoData => {
-                  //     console.log("coyyyy", geoData.results);
-                  //     if(!geoData || !geoData.results || !geoData.results.length) {
-                  //       return null;
-                  //     }
-                  //     return geoData.results[0].formatted_address;
-                  //   })
-                  // )
-                  //console.log(this.event);
-                }
-              }, 2000);
-            });
-          }
+              })
+              .then(response => {
+                console.log(response);
+                tempResponse = response;
+              })
+              .catch(error => {
+                console.log(error);
+              })
+  
+              return new Promise(() => {
+                setTimeout(() => {
+                  if(tempResponse == undefined) {
+                    this.getLocDetailEvent();
+                  }
+                  else {
+                    this.event = tempResponse.data.event;
+                    this.event.dateStart = moment(this.event.dateStart).format("MMM Do YY");
+                    this.event.dateEnd = moment(this.event.dateEnd).format("MMM Do YY");
+                    this.event.timestamp = moment(this.event.timestamp).startOf('day').fromNow();
+                    this.locationAddress = this.getAddress(this.event.latitude, this.event.longitude);
+                    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.event.latitude},${this.event.longitude}&key=${environment.mapsAPIKey}`).then((response) => {
+                      console.log(response);
+                      this.locationAddress = response.data.results[0].formatted_address;
+                    });
+                    // this.http.get<any>(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.event.latitude},${this.event.longitude}&key=${environment.mapsAPIKey}`).pipe(
+                    //   map(geoData => {
+                    //     console.log("coyyyy", geoData.results);
+                    //     if(!geoData || !geoData.results || !geoData.results.length) {
+                    //       return null;
+                    //     }
+                    //     return geoData.results[0].formatted_address;
+                    //   })
+                    // )
+                    //console.log(this.event);
+                  }
+                }, 2000);
+              });
+            }
+          })
         })
-      })
+      });
     }
   }
 
@@ -110,7 +117,6 @@ export class EventDetailPage implements OnInit {
         if(!geoData || !geoData.results || !geoData.results.length) {
           return null;
         }
-        console.log("coyyyy", geoData.results);
         return geoData.results[0].formatted_address;
       })
     )

@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 
 const TOKEN_LOGIN = 'login-key';
 const TOKEN_USERNAME = 'username-key';
+const TOKEN_ID = 'userid-key';
 
 @Injectable({
   providedIn: 'root'
@@ -39,8 +40,10 @@ export class LoginService {
   logIn(objectUsername) {
     this.storage.set(TOKEN_LOGIN, JSON.stringify(objectUsername)).then((response) => {
       this.storage.set(TOKEN_USERNAME, objectUsername.username).then((res) => {
-        this.router.navigateByUrl('home');
-        this.loginState.next(true);
+        this.storage.set(TOKEN_ID, objectUsername.id).then((res) => {
+          this.router.navigateByUrl('home');
+          this.loginState.next(true);
+        })
       });
     });
   }

@@ -32,6 +32,7 @@ export class MainForumPage implements OnInit {
   }
   
   public getSearchData(searchFilter){
+    console.log("KONTOL");
     this.searchEmpty = false;
     var tempThreadList = undefined;
     var tempMaxPage;
