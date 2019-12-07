@@ -20,6 +20,7 @@ export const environment = {
     eventPageEndPoint: defaultEndpoint+'/getEventHome',
     eventDetailEndPoint: defaultEndpoint+'/getEventDetail',
     createEvent: defaultEndpoint+'/createEvent/',
+    searchEvent: defaultEndpoint+'/searchEvent',
 
     addUpdatePhoneNumber: defaultEndpoint+'/addUpdatePhoneNumber/',
     addUpdateProfileImage: defaultEndpoint+ '/addUpdateProfileImage/',
