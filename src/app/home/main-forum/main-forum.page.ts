@@ -32,7 +32,6 @@ export class MainForumPage implements OnInit {
   }
   
   public getSearchData(searchFilter){
-    console.log("KONTOL");
     this.searchEmpty = false;
     var tempThreadList = undefined;
     var tempMaxPage;
@@ -40,7 +39,6 @@ export class MainForumPage implements OnInit {
       this.router.navigateByUrl('/login');
     }
     if(searchFilter === ""){
-      console.log("asddsa");
       this.getThreads(1);
     }
     else{
