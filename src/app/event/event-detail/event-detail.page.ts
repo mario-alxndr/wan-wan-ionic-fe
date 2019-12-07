@@ -26,6 +26,7 @@ export class EventDetailPage implements OnInit {
   private currLatitude;
   private currLongitude;
   private locationAddress;
+  private bookmark : String;
 
   constructor(
     private loginSrvc: LoginService,
@@ -82,6 +83,8 @@ export class EventDetailPage implements OnInit {
                   }
                   else {
                     this.event = tempResponse.data.event;
+                    this.bookmark = tempResponse.data.event.bookmarkStatus; 
+                    console.log("bookmark", this.bookmark);
                     this.event.dateStart = moment(this.event.dateStart).format("MMM Do YY");
                     this.event.dateEnd = moment(this.event.dateEnd).format("MMM Do YY");
                     this.event.timestamp = moment(this.event.timestamp).startOf('day').fromNow();

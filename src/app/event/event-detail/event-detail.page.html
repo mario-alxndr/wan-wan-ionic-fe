@@ -119,11 +119,21 @@
         </ion-card> -->
       </ion-col>
     </ion-row>
-    <ion-button
-      expand="block"
-      color="primary"
-      (click)="onSaveEvent()">
-      Save This Event
-    </ion-button>
+    <ion-col *ngIf="bookmark === 'false'">
+      <ion-button
+        expand="block"
+        color="primary"
+        (click)="onSaveEvent()">
+        Save This Event
+      </ion-button>
+    </ion-col>
+    <ion-col *ngIf="bookmark === 'true'">
+      <ion-button
+        expand="block"
+        color="primary"
+        (click)="onSaveEvent()">
+        Cancel
+      </ion-button>
+    </ion-col>
   </ion-grid>
 </ion-content>

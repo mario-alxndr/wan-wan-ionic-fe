@@ -11,7 +11,7 @@
   <ion-grid padding style="margin-top: 8%;">
     <ion-row>
       <ion-col size="8" offset="2">
-        <ion-searchbar placeholder="search event name or tag"></ion-searchbar>
+        <ion-searchbar placeholder="search event name or tag" (ionChange)="getSearchData($event.target.value)"></ion-searchbar>
       </ion-col>
     </ion-row>
     <ion-row text-right align-items-center ion-justify-content-end>
@@ -38,6 +38,11 @@
           next >
         </ion-button>
       </ion-col> -->
+    </ion-row>
+    <ion-row *ngIf="searchEmpty">
+      <ion-col text-center>
+        forum tidak ditemukan
+      </ion-col>
     </ion-row>
     <ion-row *ngFor="let event of events">
       <ion-col size="12">
