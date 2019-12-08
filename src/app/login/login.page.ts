@@ -41,6 +41,7 @@ export class LoginPage implements OnInit {
   }
 
   onLogin(form) {
+    console.log(new Date);
     var stringNotification = "";
     var counter = 0;
     var loginSuccess = false;

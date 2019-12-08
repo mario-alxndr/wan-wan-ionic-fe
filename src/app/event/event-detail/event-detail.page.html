@@ -89,7 +89,7 @@
             </ion-text>
           </ion-card-content>
         </ion-card> -->
-        <p style="margin: 3%; border: solid 1px black; padding: 4px;">
+        <p style="margin: 3%; border: solid 1px rgb(125, 125, 125); padding: 4px;">
           {{locationAddress}}
         </p>
       </ion-col>
@@ -109,7 +109,7 @@
     </ion-row>
     <ion-row>
       <ion-col>
-          <p style="margin: 3%; border: solid 1px black; padding: 4px;">
+          <p style="margin: 3%; border: solid 1px rgb(125, 125, 125); padding: 4px;">
             {{event.description}}
           </p>
         <!-- <ion-card>
@@ -123,15 +123,15 @@
       <ion-button
         expand="block"
         color="primary"
-        (click)="onSaveEvent()">
+        (click)="onSaveOrRemoveEvent()">
         Save This Event
       </ion-button>
     </ion-col>
-    <ion-col *ngIf="bookmark === 'true'">
+    <ion-col  *ngIf="bookmark === 'true'">
       <ion-button
         expand="block"
-        color="primary"
-        (click)="onSaveEvent()">
+        color="danger"
+        (click)="onSaveOrRemoveEvent()">
         Cancel
       </ion-button>
     </ion-col>

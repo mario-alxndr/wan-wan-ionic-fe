@@ -19,8 +19,10 @@ export const environment = {
 
     eventPageEndPoint: defaultEndpoint+'/getEventHome',
     eventDetailEndPoint: defaultEndpoint+'/getEventDetail',
+    eventGetMyEventEndPoint: defaultEndpoint+'/getMyEvent/',
     createEvent: defaultEndpoint+'/createEvent/',
     searchEvent: defaultEndpoint+'/searchEvent',
+    saveorremoveMyEvent: defaultEndpoint+'/bookmark/',
 
     addUpdatePhoneNumber: defaultEndpoint+'/addUpdatePhoneNumber/',
     addUpdateProfileImage: defaultEndpoint+ '/addUpdateProfileImage/',

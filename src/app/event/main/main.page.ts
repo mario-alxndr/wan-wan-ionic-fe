@@ -23,6 +23,8 @@ export class MainPage implements OnInit {
   private currLatitude;
   private currLongitude;
   private selectedPage = 1;
+  maxPageArr: Number[];
+  maxPage: Number;
   searchEmpty: boolean;
 
   constructor(
@@ -87,6 +89,10 @@ export class MainPage implements OnInit {
           }
           else {
             this.events = tempResponse.eventList;
+            this.maxPage = tempResponse.maxPage;
+            console.log("cuyy", this.maxPage);
+            this.maxPageArr = this.toBeArray(tempResponse.maxPage);
+            console.log("coyy", this.maxPageArr);
           }
         }, 2000);
       });
@@ -136,6 +142,10 @@ export class MainPage implements OnInit {
                 }
                 else {
                   this.events = tempResponse.eventList;
+                  this.maxPage = tempResponse.maxPage;
+                  console.log("cuyy", this.maxPage);
+                  this.maxPageArr = this.toBeArray(tempResponse.maxPage);
+                  console.log("coyy", this.maxPageArr);
                 }
               }, 2000);
             });
@@ -171,6 +181,10 @@ export class MainPage implements OnInit {
   changePage(selectedPage) {
     this.selectedPage = selectedPage;
     this.getLocationAndEvents(selectedPage);
+  }
+
+  toBeArray(n: number): number[] {
+    return [...Array(n).keys()].map(i => i + 1);
   }
 
   ngOnInit() {

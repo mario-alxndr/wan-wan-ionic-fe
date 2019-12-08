@@ -5,14 +5,16 @@ import axios from 'axios';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
 import { LoginService } from './../../login/login.service';
 import { Event } from '../event.model';
 import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { present } from '@ionic/core/dist/types/utils/overlays';
 
+const TOKEN_USERNAME = 'username-key';
 const TOKEN_ID = 'userid-key';
 
 @Component({
@@ -25,6 +27,8 @@ export class EventDetailPage implements OnInit {
   event: Event = new Event();
   private currLatitude;
   private currLongitude;
+  private eventId;
+  private userId;
   private locationAddress;
   private bookmark : String;
 
@@ -35,6 +39,7 @@ export class EventDetailPage implements OnInit {
     private route: ActivatedRoute,
     private geolocation: Geolocation,
     public alertController: AlertController,
+    public toastController: ToastController,
     private http: HttpClient
   ) {
     this.getLocDetailEvent();
@@ -42,16 +47,15 @@ export class EventDetailPage implements OnInit {
 
   getLocDetailEvent() {
     var tempResponse = undefined;
-    var eventId;
 
     if(!this.loginSrvc.userIsLoggedIn) {
       this.router.navigateByUrl('/login');
     }
     else {
       this.storage.get(TOKEN_ID).then(userId => {
-        console.log("cokk", userId);
+        this.userId = userId;
         this.route.paramMap.subscribe(paramMap => {
-          eventId = paramMap.get('eventId');
+          this.eventId = paramMap.get('eventId');
           this.geolocation.getCurrentPosition()
           .then((response) => {
             this.currLatitude = response.coords.latitude;
@@ -63,7 +67,7 @@ export class EventDetailPage implements OnInit {
             else {
               axios({
                 method: 'get',
-                url: environment.endPointConstant.eventDetailEndPoint + '?eventId=' + eventId + "&userLatitude=" + this.currLatitude + '&userLongitude=' + this.currLongitude + '&userId=' + userId,
+                url: environment.endPointConstant.eventDetailEndPoint + '?eventId=' + this.eventId + "&userLatitude=" + this.currLatitude + '&userLongitude=' + this.currLongitude + '&userId=' + this.userId,
                 headers: {
                   "Content-Type": "application/json"
                 }
@@ -141,8 +145,41 @@ export class EventDetailPage implements OnInit {
     await alertFailed.present();
   }
 
-  onSaveEvent() {
-    //if()
+  async presentToast() {
+    var toastString = "added";
+    if(this.bookmark === "true") {
+      toastString = "removed" 
+    }
+    const toast = await this.toastController.create({
+      message: 'Event has been ' + toastString,
+      duration: 1000
+    });
+    toast.present();
+  }
+
+  onSaveOrRemoveEvent() {
+    this.storage.get(TOKEN_USERNAME).then(username => {
+      var endPointExt = "add";
+      if(this.bookmark === "true") {
+        endPointExt = "remove";
+      }
+      console.log(endPointExt);
+      axios({
+        method: 'put',
+        url: environment.endPointConstant.saveorremoveMyEvent + endPointExt,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: {
+          'userId': this.userId,
+          'eventId': this.eventId,
+        }
+      }).then(response => {
+        console.log(response);
+        this.presentToast();
+        this.getLocDetailEvent();
+      });
+    });
   }
 
   ngOnInit() {
