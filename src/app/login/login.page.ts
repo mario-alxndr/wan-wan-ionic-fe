@@ -21,7 +21,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     if(this.loginSrvc.userIsLoggedIn) {
-      this.router.navigateByUrl('/main-forum');
+      this.router.navigateByUrl('/forum');
     }
   }
 
@@ -85,6 +85,7 @@ export class LoginPage implements OnInit {
         else if(response.data.Response.responseCode === "Success Login") {
           loginSuccess = true;
           tempUsername = response.data.username;
+          console.log(tempUsername);
         }
       })
       .catch(function (error) {
@@ -98,7 +99,7 @@ export class LoginPage implements OnInit {
         } else {
           this.presentAlert(stringNotification);
         }
-      }, 2500);
+      }, 3000);
     });
   }
 
@@ -109,7 +110,7 @@ export class LoginPage implements OnInit {
       headers: { "Content-Type": "application/json" }
     })
     .then(res => {
-      console.log("get user data response ",res);
+      console.log("user data", res);
       this.loginSrvc.logIn(res.data);
     })
   }

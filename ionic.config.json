@@ -1,8 +1,7 @@
 {
-  "name": "wan-wan-fe",
+  "name": "wan-wan-ionic-fe-rewrite",
   "integrations": {
-    "cordova": {},
-    "capacitor": {}
+    "cordova": {}
   },
   "type": "angular"
 }

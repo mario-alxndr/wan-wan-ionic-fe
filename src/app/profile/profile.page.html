@@ -1,50 +1,12 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-title>Profile</ion-title>
-      <ion-buttons slot="end">
-        <ion-menu-button menu="m1"></ion-menu-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
+  <ion-toolbar>
+    <ion-title>profile</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button menu="m1"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
-    <ion-grid>
-        <ion-row>
-            <ion-col size="12" offset="5">
-                <ion-button [routerLink]="['/','edit-profile']">Edit</ion-button>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col size="12">
-                <ion-card>
-                    <div align="center">
-                        <ion-card-title>
-                            <ion-avatar>
-                                <ion-col size="12" offset="5">
-                                    <ion-img class="img-avt" src="{{profileImage}}"></ion-img>
-                                </ion-col>
-                            </ion-avatar>
-                        </ion-card-title>
-                    </div>
-                    <ion-card-subtitle  text-center>
-                        <br><br><br>
-                        <h3>{{username}}</h3><br>
-                        <h4>Phone number : </h4>
-                        <h4>{{phoneNumber}}</h4>
-                    </ion-card-subtitle>
-                </ion-card>
-                <ion-item text-center>
-                    <ion-list>
-                        <ion-list-header >
-                            Game
-                        </ion-list-header>
-    
-                        <ion-item *ngFor="let game of gameList">
-                            <ion-label>{{ game }}</ion-label>
-                        </ion-item>
-                    </ion-list>
-                </ion-item>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+
 </ion-content>

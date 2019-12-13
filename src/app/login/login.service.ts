@@ -41,7 +41,7 @@ export class LoginService {
     this.storage.set(TOKEN_LOGIN, JSON.stringify(objectUsername)).then((response) => {
       this.storage.set(TOKEN_USERNAME, objectUsername.username).then((res) => {
         this.storage.set(TOKEN_ID, objectUsername.id).then((res) => {
-          this.router.navigateByUrl('home');
+          this.router.navigateByUrl('forum');
           this.loginState.next(true);
         })
       });
