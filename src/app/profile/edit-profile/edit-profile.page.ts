@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login/login.service';
 import { Storage } from '@ionic/storage';
 import { NgForm } from '@angular/forms';
-
 import { Base64 } from '@ionic-native/base64/ngx';
 
 const TOKEN_LOGIN = 'login-key';
@@ -129,7 +128,6 @@ export class EditProfilePage implements OnInit {
             if(res.data.response.responseCode === "Update Success"){
               stringNotification = res.data.response.message;
             }
-            
           })
           .catch(error => {
             console.log("edit-profile-error", error);

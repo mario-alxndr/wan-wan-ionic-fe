@@ -32,6 +32,7 @@
     "@ionic/storage": "^2.2.0",
     "axios": "^0.19.0",
     "com-badrit-base64": "^0.2.0",
+    "cordova-android": "8.1.0",
     "cordova-browser": "6.0.0",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-sqlite-storage": "^3.4.0",
@@ -85,11 +86,14 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-ionic-webview": {
+        "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
+      },
       "cordova-plugin-ionic-keyboard": {}
     },
     "platforms": [
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }

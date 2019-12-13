@@ -29,19 +29,16 @@
         <ion-label>Page</ion-label>
       </ion-col>
       <ion-col size="1.5">
-        <ion-select
-          placeholder="1"
-          ngModel
-          #selectedPage="ngModel"
-          (ionChange)="changePage(selectedPage.viewModel)">
-          <ion-select-option value="1">1</ion-select-option>
-          <ion-select-option value="2">2</ion-select-option>
-          <ion-select-option value="3">3</ion-select-option>
-          <ion-select-option value="4">4</ion-select-option>
+        <ion-select 
+            placeholder="1" 
+            ngModel
+            #selectedPage="ngModel"
+            (ionChange)="changePage(selectedPage.value)">
+            <ion-select-option [value]="page" *ngFor="let page of maxPageArr">{{page}}</ion-select-option>
         </ion-select>
       </ion-col>
       <ion-col size="1.5">
-        <ion-label>of 4 </ion-label>
+        <ion-label> of {{maxPage}} </ion-label>
       </ion-col>
       <!-- <ion-col size="1">
         <ion-button>next ></ion-button>
@@ -53,10 +50,10 @@
           <ion-item>
             <ion-col size="2">
               <ion-thumbnail>
-                <ion-img src="{{thread.makerImage}}"></ion-img>
+                <ion-img src={{thread.makerImage}}></ion-img>
               </ion-thumbnail>
             </ion-col>
-            <ion-col>
+            <ion-col size="4">
               <ion-row>
                 <ion-label class="thread-title">{{thread.makerUsername}}</ion-label>
               </ion-row>
@@ -67,17 +64,20 @@
                 <ion-label class="thread-title">Category: {{thread.category}}</ion-label>
               </ion-row>
             </ion-col>
+            <ion-col size="4" offset="2">
+              <ion-label>{{thread.timestamp}}</ion-label>
+            </ion-col>
           </ion-item>
-          <ion-card-content>
-            <ion-card>
-                <ion-card-content>
-                    <ion-text>{{thread.description}}</ion-text>
-                </ion-card-content>
-            </ion-card>
-        </ion-card-content>
+          <ion-row>
+            <ion-col>
+                <p style="margin: 3%; border: solid 1px black; padding: 4px;">
+                  {{thread.description}}
+                </p>
+            </ion-col>
+          </ion-row>
           <ion-row align-items-center text-right>
-            <ion-col size="1" offset="9">
-              <ion-icon name="happy" style="font-size: 30px;"></ion-icon>
+            <ion-col size="0.5" offset="10">
+              <ion-icon name="chatboxes"></ion-icon>
             </ion-col>
             <ion-col size="1">
               <ion-label>{{thread.commentCount}}</ion-label>

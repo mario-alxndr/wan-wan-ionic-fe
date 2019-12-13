@@ -65,7 +65,6 @@ export class MainForumPage implements OnInit {
       return new Promise(() => {
         setTimeout(() => {
           this.threadList = tempThreadList;
-          console.log("coyy", this.threadList);
           if(this.threadList == undefined) {
             this.searchEmpty = true;
             this.maxPage = 0;

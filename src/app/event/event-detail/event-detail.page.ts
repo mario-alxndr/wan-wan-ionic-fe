@@ -158,6 +158,7 @@ export class EventDetailPage implements OnInit {
   }
 
   onSaveOrRemoveEvent() {
+    console.log(this.userId);
     this.storage.get(TOKEN_USERNAME).then(username => {
       var endPointExt = "add";
       if(this.bookmark === "true") {

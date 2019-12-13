@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Thread } from '../thread.model';
 import axios from 'axios';
+import * as moment from 'moment';
 import { LoginService } from '../../login/login.service';
 
 @Component({
@@ -13,6 +14,9 @@ import { LoginService } from '../../login/login.service';
 
 export class ThreadCategoryPage implements OnInit {
   threadList: Promise<Thread[]>;
+  maxPageArr: Number[];
+  maxPage: Number;
+
   private selectedPage = 1;
   private category = "Moba";
 
@@ -25,6 +29,10 @@ export class ThreadCategoryPage implements OnInit {
 
   getCategoryThread(selectedPage, selectedCategory) {
     var tempThreadList = undefined;
+    var tempMaxPage;
+    if(!this.loginSrvc.userIsLoggedIn) {
+      this.router.navigateByUrl('/login');
+    }
     axios({
       method: 'get',
       url: environment.endPointConstant.threadCategoryEndPoint + "?category=" + selectedCategory + "&page=" + selectedPage,
@@ -36,6 +44,7 @@ export class ThreadCategoryPage implements OnInit {
       if(response.data.thread) {
         console.log(response);
         tempThreadList = response.data.thread;
+        tempMaxPage = response.data.maxPage;
       }
     })
     .catch(function (error) {
@@ -43,15 +52,25 @@ export class ThreadCategoryPage implements OnInit {
     })
     return new Promise(() => {
       setTimeout(() => {
-        if(!this.loginSrvc.userIsLoggedIn) {
-          this.router.navigateByUrl('/login');
-        }
         this.threadList = tempThreadList;
-        if(this.threadList === undefined) { 
-          this.getCategoryThread(selectedPage, selectedCategory);
+        if(this.threadList === undefined) {
+          this.maxPage = 0;
+          this.maxPageArr = [1];
+          //this.getCategoryThread(selectedPage, selectedCategory);
+        }
+        else {
+          for(let i=0; i< tempThreadList.length; i++) { 
+            this.threadList[i].timestamp =  moment(this.threadList[i].timestamp).startOf('day').fromNow();
+          }
+          this.maxPage = tempMaxPage
+          this.maxPageArr = this.toBeArray(tempMaxPage);
         }
       }, 2000);
     })
+  }
+
+  toBeArray(n: number): number[] {
+    return [...Array(n).keys()].map(i => i + 1);
   }
 
   changePage(selectedPage) {
@@ -60,8 +79,9 @@ export class ThreadCategoryPage implements OnInit {
   }
 
   changeCategory(selectedCategory) {
+    console.log(selectedCategory);
     this.category = selectedCategory;
-    this.getCategoryThread(this.selectedPage, selectedCategory);
+    this.getCategoryThread(1, selectedCategory);
   }
 
   ngOnInit() {

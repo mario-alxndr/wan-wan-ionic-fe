@@ -169,10 +169,10 @@
               name="eventSite"
               [ngModel]="'eventSite'"
               #eventSite="ngModel"
-              (ionChange)="changeSite(eventSite.value)">
+              (ionChange)="changeSite(eventSite.value)"
               placeholder="Event Site">
-              <ion-select-option value="on">On Site</ion-select-option>
-              <ion-select-option value="off">Off Site</ion-select-option>
+              <ion-select-option value="Online">Online</ion-select-option>
+              <ion-select-option value="Onsite">OnSite</ion-select-option>
             </ion-select>
           </ion-card>
         </ion-col>
