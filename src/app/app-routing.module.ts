@@ -1,81 +1,34 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, PreloadingStrategy, RouterModule, Routes} from '@angular/router';
-//import { LoginGuard } from './login/login.guard';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
-    //canLoad: [LoginGuard]
-  },
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-  { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
-  { path: 'thread-detail',
-    loadChildren: './home/thread-detail/thread-detail.module#ThreadDetailPageModule',
-    //canLoad: [LoginGuard]
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: 'thread-category',
-    loadChildren: './home/thread-category/thread-category.module#ThreadCategoryPageModule',
-    //canLoad: [LoginGuard]
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
   {
-    path: 'add-thread',
-    loadChildren: './home/add-thread/add-thread.module#AddThreadPageModule',
-    //canLoad: [LoginGuard]
+    path: 'forum',
+    loadChildren: () => import('./forum/forum.module').then( m => m.ForumPageModule)
   },
   {
     path: 'event',
-    loadChildren: './event/event.module#EventPageModule',
-    //canLoad: [LoginGuard]
-  },
-  {
-    path: 'add-event',
-    loadChildren: './event/add-event/add-event.module#AddEventPageModule',
-    //canLoad: [LoginGuard]
-  },
-  {
-    path: 'my-event',
-    loadChildren: './event/my-event/my-event.module#MyEventPageModule',
-    //canLoad: [LoginGuard]
-  },
-  {
-    path: 'event-detail',
-    loadChildren: './event/event-detail/event-detail.module#EventDetailPageModule',
-    //canLoad: [LoginGuard]
+    loadChildren: () => import('./event/event.module').then( m => m.EventPageModule)
   },
   {
     path: 'profile',
-    loadChildren: './profile/profile.module#ProfilePageModule',
-    //canLoad: [LoginGuard]
-  },
-  {
-    path: 'edit-profile',
-    loadChildren: './profile/edit-profile/edit-profile.module#EditProfilePageModule',
-    //canLoad: [LoginGuard]
-  },
-  {
-    path: 'game-list',
-    loadChildren: './profile/edit-profile/game-list/game-list.module#GameListPageModule',
-    //canLoad: [LoginGuard]
-  },
-  {
-    path: 'main',
-    loadChildren: './home/main/main.module#MainPageModule',
-    //canLoad: [LoginGuard]
-  },
-  {
-    path: 'main-forum',
-    loadChildren: './home/main-forum/main-forum.module#MainForumPageModule',
-    //canLoad: [LoginGuard]
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules
-      , enableTracing: false}),
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],
   exports: [RouterModule]
 })

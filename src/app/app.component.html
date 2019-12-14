@@ -1,37 +1,36 @@
 <ion-app>
-  <ion-menu side="end" menuId="m1">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>wan wan</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    
-    <ion-content>
-      <ion-list>
-        <ion-menu-toggle>
-          <ion-item lines="none" (click)="onOpenHome()">
-            <ion-icon name="chatboxes" slot="start"></ion-icon>
-            <ion-label>Forum</ion-label>
-            <ion-icon name="ios-arrow-forward"></ion-icon>
-          </ion-item>
-          <ion-item lines="none" (click)="onOpenEvent()">
-            <ion-icon name="list-box" slot="start"></ion-icon>
-            <ion-label>Event</ion-label>
-            <ion-icon name="ios-arrow-forward"></ion-icon>
-          </ion-item>
-          <ion-item lines="none" (click)="onOpenProfile()">
-            <ion-icon name="contact" slot="start"></ion-icon>
-            <ion-label>Profile</ion-label>
-            <ion-icon name="ios-arrow-forward"></ion-icon>
-          </ion-item>
-          <ion-item lines="none" (click)="onLogout()">
-            <ion-icon name="exit" slot="start"></ion-icon>
-            <ion-label>Logout</ion-label>
-            <ion-icon name="ios-arrow-forward"></ion-icon>
-          </ion-item>
-        </ion-menu-toggle>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
-  <ion-router-outlet main></ion-router-outlet>
-</ion-app>
+    <ion-menu side="end" menuId="m1">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>wan wan</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-menu-toggle>
+            <ion-item lines="none" (click)="onOpenHome()">
+              <ion-icon name="chatboxes" slot="start"></ion-icon>
+              <ion-label>Forum</ion-label>
+              <ion-icon name="ios-arrow-forward"></ion-icon>
+            </ion-item>
+            <ion-item lines="none" (click)="onOpenEvent()">
+              <ion-icon name="list-box" slot="start"></ion-icon>
+              <ion-label>Event</ion-label>
+              <ion-icon name="ios-arrow-forward"></ion-icon>
+            </ion-item>
+            <ion-item lines="none" (click)="onOpenProfile()">
+              <ion-icon name="contact" slot="start"></ion-icon>
+              <ion-label>Profile</ion-label>
+              <ion-icon name="ios-arrow-forward"></ion-icon>
+            </ion-item>
+            <ion-item lines="none" (click)="onLogout()">
+              <ion-icon name="exit" slot="start"></ion-icon>
+              <ion-label>Logout</ion-label>
+              <ion-icon name="ios-arrow-forward"></ion-icon>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet main></ion-router-outlet>
+  </ion-app>

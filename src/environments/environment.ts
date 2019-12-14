@@ -2,7 +2,8 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-const defaultEndpoint = 'http://25.15.132.101:1323';
+//const defaultEndpoint = 'http://192.168.199.219:1323';
+const defaultEndpoint = 'https://mobile-uas-go.herokuapp.com';
 
 export const environment = {
   production: false,

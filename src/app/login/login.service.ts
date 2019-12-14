@@ -41,8 +41,8 @@ export class LoginService {
     this.storage.set(TOKEN_LOGIN, JSON.stringify(objectUsername)).then((response) => {
       this.storage.set(TOKEN_USERNAME, objectUsername.username).then((res) => {
         this.storage.set(TOKEN_ID, objectUsername.id).then((res) => {
-          this.router.navigateByUrl('home');
           this.loginState.next(true);
+          this.router.navigateByUrl('/forum/forum-home');
         })
       });
     });
@@ -50,8 +50,12 @@ export class LoginService {
   
   logOut() {
     this.storage.remove(TOKEN_LOGIN).then((response) => {
-      this.loginState.next(false);
-      this.router.navigateByUrl('/login');
+      this.storage.remove(TOKEN_USERNAME).then((res) => {
+        this.storage.remove(TOKEN_ID).then((res) => {
+          this.loginState.next(false);
+          this.router.navigateByUrl('/login');
+        })
+      })
     });
   }
 }

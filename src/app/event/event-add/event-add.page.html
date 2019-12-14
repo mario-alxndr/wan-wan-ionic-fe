@@ -1,0 +1,212 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-title>Add Event</ion-title>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="event"></ion-back-button>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-menu-button menu="m1"></ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content padding>
+    <form #f="ngForm" (ngSubmit)="onSubmit()">
+      <ion-grid style="margin-top: 5%;">
+        <ion-row align-items-center>
+          <ion-col size="3" offset="1">
+            <ion-label>Event Name</ion-label>
+          </ion-col>
+          <ion-col size="7">
+            <ion-card>
+              <ion-input
+                inputmode="text"
+                ngModel
+                name="eventName"
+                required
+                eventName
+                #eventNameCtrl="ngModel"
+                type="text"
+                placeholder="Lomba Abal-Abal">
+              </ion-input>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+          <ion-col size="3" offset="1">
+            <ion-label>Event Type</ion-label>
+          </ion-col>
+          <ion-col size="7">
+            <ion-card>
+              <ion-select 
+                placeholder="Event Type"
+                name="eventType"
+                [ngModel]="'eventType'"
+                #eventType="ngModel"
+                (ionChange)="changeType(eventType.value)">
+                <ion-select-option value="Competition">Competition</ion-select-option>
+                <ion-select-option value="Gathering">Gathering</ion-select-option>
+                <ion-select-option value="Event">Event</ion-select-option>
+              </ion-select>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+          <ion-col size="3" offset="1">
+            <ion-label>Event Games</ion-label>
+          </ion-col>
+          <ion-col size="7">
+            <ion-card>
+              <ion-input
+                inputmode="text"
+                ngModel
+                name="eventGames"
+                required
+                eventGames
+                type="text"
+                placeholder="insert events game">
+              </ion-input>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="3" offset="1" style="margin-top: 3%;">
+            <ion-label>Description</ion-label>
+          </ion-col>
+          <ion-col size="7">
+            <ion-card>
+              <ion-textarea
+                inputmode="text"
+                ngModel
+                name="description"
+                required
+                description
+                type="text"
+                rows="3"
+                autogrow="true"
+                placeholder="Jadwal dan Hadiah">
+              </ion-textarea>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+          <ion-col size="3" offset="1">
+            <ion-label>Event Date</ion-label>
+          </ion-col>
+          <ion-col size="3">
+            <ion-card>
+              <ion-datetime
+                ngModel
+                name="startDate"
+                required
+                startDate
+                type="datetime"
+                displayFormat="D/M/YYYY"
+                pickerFormat="DD MMMM YYYY">
+              </ion-datetime>
+            </ion-card>
+          </ion-col>
+          <ion-col size="0.8">to</ion-col>
+          <ion-col size="3">
+            <ion-card>
+              <ion-datetime
+                ngModel
+                name="endDate"
+                required
+                endDate
+                type="datetime"  
+                displayFormat="D/M/YYYY"
+                pickerFormat="DD MMMM YYYY"></ion-datetime>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+          <ion-col size="3" offset="1">
+            <ion-label>Start Time</ion-label>
+          </ion-col>
+          <ion-col size="1" style="margin-left: 5%;">
+            <ion-icon name="time" style="font-size: 30px;"></ion-icon>
+          </ion-col>
+          <ion-col size="3">
+            <ion-card>
+              <ion-datetime
+                ngModel
+                name="startTime"
+                required
+                startTime
+                displayFormat="hh : mm A"
+                pickerFormat="hh mm A"></ion-datetime>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+          <ion-col size="3" offset="1">
+            <ion-label>Event Tag</ion-label>
+          </ion-col>
+          <ion-col size="7">
+            <ion-card>
+              <ion-select 
+                placeholder="Event Tag"
+                name="eventTag"
+                [ngModel]="'eventTag'"
+                #eventTag="ngModel"
+                (ionChange)="changeTag(eventTag.value)">
+                <ion-select-option value="Moba">Moba</ion-select-option>
+                <ion-select-option value="TCG">TCG</ion-select-option>
+                <ion-select-option value="Shooting">Shooting</ion-select-option>
+              </ion-select>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+          <ion-col size="3" offset="1">
+            <ion-label>Event Site</ion-label>
+          </ion-col>
+          <ion-col size="7">
+            <ion-card>
+              <ion-select
+                placeholder="Event Site"
+                name="eventSite"
+                [ngModel]="'eventSite'"
+                #eventSite="ngModel"
+                (ionChange)="changeSite(eventSite.value)"
+                placeholder="Event Site">
+                <ion-select-option value="Online">Online</ion-select-option>
+                <ion-select-option value="Onsite">OnSite</ion-select-option>
+              </ion-select>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+          <ion-col size="3" offset="1">
+            <ion-label>Event Location</ion-label>
+          </ion-col>
+          <ion-col size="6">
+            <ion-button (click)="onPickLocation()">
+              <ion-icon name="map" slot="start"></ion-icon>
+              <ion-label>Pick Location</ion-label>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row algin-items-center>
+          <ion-label *ngIf="address" style="margin: 3%; border: solid 1px black; padding: 4px;">Address: {{address}}</ion-label>
+        </ion-row>
+        <ion-row align-items-center>
+          <ion-col size="3" offset="1">
+            <ion-label>Event Poster</ion-label>
+          </ion-col>
+          <ion-col size="1" style="margin-left: 5%;">
+            <ion-icon name="attach" style="font-size: 30px;"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <div text-center margin>
+        <ion-button
+          expand="block"
+          color="primary"
+          (click)="onAddEvent(f)">
+            Add Event
+        </ion-button>
+      </div>
+    </form>
+  </ion-content>  

@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { Storage } from '@ionic/storage';
 import { LoginService } from './../login/login.service';
+import axios from 'axios';
 
 const TOKEN_LOGIN = 'login-key';
+const TOKEN_USERNAME = 'username-key';
 
 @Component({
   selector: 'app-profile',
@@ -19,35 +21,58 @@ export class ProfilePage implements OnInit {
   
   constructor(private loginSrvc: LoginService,
     private router: Router,
-    private storage: Storage) { 
+    private storage: Storage) {
+    this.getProfile();
+  }
+  
+  ionViewWillEnter() {
     this.getProfile();
   }
 
   getProfile(){
-    this.storage.get(TOKEN_LOGIN).then(userObject => {
-      var tempUserObject = JSON.parse(userObject);
-      console.log("profile-storage : ", tempUserObject);
-
-      this.username = tempUserObject.username;
-      this.phoneNumber = tempUserObject.phoneNumber;
-      
-      if(tempUserObject.profileImage === ""){
-        this.profileImage = environment.defaultImageProfile;
-      }
-      else{
-        this.profileImage = "data:image/jpeg;base64,"+tempUserObject.profileImage;
-      }
-      if(tempUserObject.gameList === null){
-        this.gameList = ["No game added yet"];
-      }
-      else{
-        this.gameList = tempUserObject.gameList;
-      }
-
-      console.log("game-list : ", this.gameList[0]);
+    this.phoneNumber = "";
+    if(!this.loginSrvc.userIsLoggedIn) {
+      this.router.navigateByUrl('/login');
+    }
+    this.storage.get(TOKEN_USERNAME).then(username => {
+      var tempResponse;
+      console.log(username);
+      axios({
+        method: 'get',
+        url: environment.endPointConstant.getUserData + username,
+        headers: { "Content-type": "application/json" }
+      })
+      .then(response => {
+        console.log(response);
+        tempResponse = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      })
+      return new Promise(() => {
+        setTimeout(() => {
+          this.username = username;
+          this.phoneNumber = tempResponse.phoneNumber;
+          
+          if(tempResponse.profileImage === ""){
+            this.profileImage = environment.defaultImageProfile;
+          }
+          else{
+            this.profileImage = tempResponse.profileImage;
+          }
+          if(tempResponse.gameList === null){
+            this.gameList = ["No game added yet"];
+          }
+          else{
+            this.gameList = tempResponse.gameList;
+          }
+          this.storage.set(TOKEN_LOGIN, JSON.stringify(tempResponse)).then((response) => {});
+        }, 2000);
+      });
     });
   }
 
   ngOnInit() {
+
   }
 }

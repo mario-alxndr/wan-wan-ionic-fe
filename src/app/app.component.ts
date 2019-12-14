@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Router } from '@angular/router';
 import { LoginService } from './login/login.service';
 
 @Component({
@@ -15,8 +16,8 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private loginSrvc: LoginService,
-    private router: Router
+    private router: Router,
+    private loginSrvc: LoginService
   ) {
     this.initializeApp();
   }
@@ -29,11 +30,11 @@ export class AppComponent {
   }
 
   onOpenHome() {
-    this.router.navigateByUrl('home');
+    this.router.navigateByUrl('forum/forum-home');
   }
   
   onOpenEvent() {
-    this.router.navigateByUrl('event');
+    this.router.navigateByUrl('event/event-home');
   }
 
   onOpenProfile() {

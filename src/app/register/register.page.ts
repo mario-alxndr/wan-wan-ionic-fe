@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import axios from 'axios';
+import { LoginService } from '../login/login.service';
+
+const TOKEN_USERNAME = 'username-key';
 
 @Component({
   selector: 'app-register',
@@ -13,11 +17,17 @@ import axios from 'axios';
 export class RegisterPage implements OnInit {
   constructor(
     public alertController: AlertController,
-    public router: Router
+    public router: Router,
+    private loginSrvc: LoginService,
+    private storage: Storage,
   ) { }
 
   ngOnInit() {
-    
+    this.storage.get(TOKEN_USERNAME).then(username => {
+      if(username){
+        this.router.navigateByUrl('/forum/forum-home');
+      }
+    });
   }
 
   validateEmail(email) {

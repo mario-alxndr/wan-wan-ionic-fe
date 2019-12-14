@@ -22,7 +22,6 @@ const TOKEN_ID = 'userid-key';
   templateUrl: './event-detail.page.html',
   styleUrls: ['./event-detail.page.scss'],
 })
-
 export class EventDetailPage implements OnInit {
   event: Event = new Event();
   private currLatitude;
@@ -97,16 +96,6 @@ export class EventDetailPage implements OnInit {
                       console.log(response);
                       this.locationAddress = response.data.results[0].formatted_address;
                     });
-                    // this.http.get<any>(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.event.latitude},${this.event.longitude}&key=${environment.mapsAPIKey}`).pipe(
-                    //   map(geoData => {
-                    //     console.log("coyyyy", geoData.results);
-                    //     if(!geoData || !geoData.results || !geoData.results.length) {
-                    //       return null;
-                    //     }
-                    //     return geoData.results[0].formatted_address;
-                    //   })
-                    // )
-                    //console.log(this.event);
                   }
                 }, 2000);
               });
@@ -137,7 +126,7 @@ export class EventDetailPage implements OnInit {
         {
           text: 'OK',
           handler: () => {
-            this.router.navigateByUrl('home/main');
+            this.router.navigateByUrl('forum/forum-main');
           }
         }
       ]
@@ -158,6 +147,7 @@ export class EventDetailPage implements OnInit {
   }
 
   onSaveOrRemoveEvent() {
+    console.log(this.userId);
     this.storage.get(TOKEN_USERNAME).then(username => {
       var endPointExt = "add";
       if(this.bookmark === "true") {
@@ -185,5 +175,4 @@ export class EventDetailPage implements OnInit {
   ngOnInit() {
 
   }
-
 }
