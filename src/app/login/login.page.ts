@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { environment } from '../../environments/environment';
 import { LoginService } from './login.service';
 import axios from 'axios';
+
+const TOKEN_USERNAME = 'username-key';
 
 @Component({
   selector: 'app-login',
@@ -17,12 +20,16 @@ export class LoginPage implements OnInit {
     private router: Router,
     public alertController: AlertController,
     private loginSrvc: LoginService,
+    private storage: Storage,
   ) { }
 
   ngOnInit() {
-    if(this.loginSrvc.userIsLoggedIn) {
-      this.router.navigateByUrl('/forum');
-    }
+    // console.log(this.loginSrvc.userIsLoggedIn);
+    this.storage.get(TOKEN_USERNAME).then(username => {
+      if(username){
+        this.router.navigateByUrl('/forum/forum-home');
+      }
+    })
   }
 
   validateEmail(email) {
@@ -42,7 +49,7 @@ export class LoginPage implements OnInit {
 
   onLogin(form) {
     console.log(new Date);
-    var stringNotification = "";
+    var stringNotification = "Please try login again.";
     var counter = 0;
     var loginSuccess = false;
     var tempUsername
@@ -85,7 +92,6 @@ export class LoginPage implements OnInit {
         else if(response.data.Response.responseCode === "Success Login") {
           loginSuccess = true;
           tempUsername = response.data.username;
-          console.log(tempUsername);
         }
       })
       .catch(function (error) {
@@ -110,7 +116,7 @@ export class LoginPage implements OnInit {
       headers: { "Content-Type": "application/json" }
     })
     .then(res => {
-      console.log("user data", res);
+      console.log("get user data response ",res);
       this.loginSrvc.logIn(res.data);
     })
   }

@@ -25,7 +25,7 @@ const routes: Routes = [
         loadChildren: () => import('./forum-add/forum-add.module').then( m => m.ForumAddPageModule)
       },
       {
-        path: 'forum-detail',
+        path: 'forum-detail/:threadId',
         loadChildren: () => import('./forum-detail/forum-detail.module').then( m => m.ForumDetailPageModule)
       }
     ]

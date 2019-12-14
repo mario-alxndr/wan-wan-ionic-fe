@@ -30,11 +30,11 @@ export class AppComponent {
   }
 
   onOpenHome() {
-    this.router.navigateByUrl('forum');
+    this.router.navigateByUrl('forum/forum-home');
   }
   
   onOpenEvent() {
-    this.router.navigateByUrl('event');
+    this.router.navigateByUrl('event/event-home');
   }
 
   onOpenProfile() {

@@ -1,0 +1,37 @@
+.img-avt{
+  
+}
+
+.thread-title {
+  font-size: 1.2em;
+}
+
+.commentCard {
+  max-height:  175px;
+
+  .headerCommentCard{
+    height: 70px;
+  }
+}
+
+.commentImage {
+  border-radius: 50%;
+  height: 40px;
+  weight: 40px;
+}
+
+.commentTitle {
+  font-size: 0.9em;
+  margin-left: 4px;
+}
+
+.commentTime {
+  font-size: 0.7em;
+}
+
+.descCommentBorder {
+  border-style: solid;
+  font-size: 0.7em;
+  margin: 20px;
+  padding: 4px;
+}

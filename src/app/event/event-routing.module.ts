@@ -25,7 +25,7 @@ const routes: Routes = [
         loadChildren: () => import('./event-mine/event-mine.module').then( m => m.EventMinePageModule)
       },
       {
-        path: 'event-detail',
+        path: 'event-detail/:eventId',
         loadChildren: () => import('./event-detail/event-detail.module').then( m => m.EventDetailPageModule)
       }
     ]
