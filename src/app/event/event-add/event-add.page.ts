@@ -31,6 +31,7 @@ export class EventAddPage implements OnInit {
   private address = "";
   private pickedLocation = false;
   private fileLocation = "";
+  private kbytes;
 
   constructor(
     private storage: Storage,
@@ -246,13 +247,33 @@ export class EventAddPage implements OnInit {
     this.fileChooser.open().then(uri => {
       this.filePath.resolveNativePath(uri).then((nativePath) => {
         this.base64.encodeFile(nativePath).then((base64string) => {
-          this.fileLocation = base64string;
+          if (this.calculateImageSize(base64string) > 1500) {
+            alert("Please upload an image below 1500 MB.");
+          }
+          else {
+            this.fileLocation = base64string;
+          }
         })
       })
     })
     .catch(e => {
       console.log(e);
     })
+  }
+
+  calculateImageSize(base64String) {
+    let padding, inBytes, base64StringLength;
+    if(base64String.endsWith("==")) padding = 2;
+    else if (base64String.endsWith("=")) padding = 1;
+    else padding = 0;
+
+    base64StringLength = base64String.length;
+    alert("STRING LENGTH" + base64StringLength);
+    inBytes =(base64StringLength / 4 ) * 3 - padding;
+    alert("IN BYTES" + inBytes);
+    this.kbytes = inBytes / 1000;
+    alert("IN KBytes" + this.kbytes);
+    return this.kbytes;
   }
 
   changeType(eventType) {

@@ -35,6 +35,10 @@ export class ForumDetailPage implements OnInit {
       private route: ActivatedRoute,
       private storage: Storage
   ) {
+    
+  }
+
+  ionViewWillEnter() {
     this.getThreadDetail(this.selectedPage);
   }
 
@@ -70,8 +74,8 @@ export class ForumDetailPage implements OnInit {
       return new Promise(() => {
         setTimeout(() => {
           if(tempResponse == undefined){
-            this.getThreadDetail(selectedPage)
-          } 
+            location.reload();
+          }
           else {
             this.thread = tempResponse.thread;
             this.thread.timestamp = moment(moment.utc(this.thread.timestamp).toDate()).tz("Asia/Jakarta").format("MMM Do YY");
@@ -86,7 +90,7 @@ export class ForumDetailPage implements OnInit {
             console.log("coey", this.maxPageArr);
             this.commentCount = tempResponse.thread.commentCount;
           }
-        }, 2000);
+        }, 5000);
       });
     }
   }

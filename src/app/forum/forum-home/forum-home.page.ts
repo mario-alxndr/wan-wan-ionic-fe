@@ -29,7 +29,7 @@ export class ForumHomePage implements OnInit {
     private router: Router,
     private storage: Storage
   ) {
-    this.getThreads(this.selectedPage);
+    
   }
 
   ionViewWillEnter() {

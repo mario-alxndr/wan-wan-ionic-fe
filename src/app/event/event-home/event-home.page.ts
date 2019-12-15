@@ -35,12 +35,10 @@ export class EventHomePage implements OnInit {
     private router: Router,
     private geolocation: Geolocation,
     public alertController: AlertController
-  ) {    
-    this.getLocationAndEvents(this.selectedPage);
-  }
+  ) { }
 
   ionViewWillEnter() {
-    this.getLocationAndEvents(1);
+    this.getLocationAndEvents(this.selectedPage);
   }
 
   public getSearchData(searchFilter){
@@ -139,14 +137,14 @@ export class EventHomePage implements OnInit {
               return new Promise(() => {
                 setTimeout(() => {
                   if(tempResponse == undefined) {
-                    this.getLocationAndEvents(selectedPage);
+                    location.reload();
                   }
                   else {
                     this.events = tempResponse.eventList;
                     this.maxPage = tempResponse.maxPage;
                     this.maxPageArr = this.toBeArray(tempResponse.maxPage);
                   }
-                }, 2000);
+                }, 7000);
               });
             })
           }

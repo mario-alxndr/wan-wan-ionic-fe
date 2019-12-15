@@ -24,7 +24,7 @@ export class ForumCategoryPage implements OnInit {
     private router: Router,
     private loginSrvc: LoginService
   ) { 
-    this.getCategoryThread(this.selectedPage, this.category);
+  
   }
 
   ionViewWillEnter() {

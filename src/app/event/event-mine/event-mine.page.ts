@@ -25,7 +25,6 @@ export class EventMinePage implements OnInit {
     private storage: Storage,
     private router: Router
   ) {
-    this.getMyEventData();
   }
 
   ionViewWillEnter() {
@@ -42,9 +41,6 @@ export class EventMinePage implements OnInit {
     this.storage.get(TOKEN_POSITION).then(response => {
       this.currLatitude = response._latitude;
       this.currLongitude = response._longitude;
-      
-      console.log(this.currLatitude, this.currLongitude);
-
       this.storage.get(TOKEN_USERNAME).then(username => {
         axios({
           method: 'get',
