@@ -10,3 +10,19 @@
 8. Please add in `tsconfig.json` value `"downlevelIteration": true`
 9. Please run `ionic cordova plugin add cordova-plugin-filechooser` and `npm install @ionic-native/file-chooser` for file chooser dependency.
 10. Please run `ionic cordova plugin add cordova-plugin-filepath` and `npm install @ionic-native/file-path` for file path dependency.
+
+npm install
+npm install axios
+ionic cordova plugin add cordova-sqlite-storage
+npm install --save @ionic/storage
+npm install @agm/core
+ionic cordova plugin add cordova-plugin-geolocation
+npm install @ionic-native/geolocation
+npm install moment --save
+npm install moment-timezone --save
+ionic cordova plugin add com-badrit-base64
+npm install @ionic-native/base64
+ionic cordova plugin add cordova-plugin-filechooser
+npm install @ionic-native/file-chooser
+ionic cordova plugin add cordova-plugin-filepath
+npm install @ionic-native/file-path

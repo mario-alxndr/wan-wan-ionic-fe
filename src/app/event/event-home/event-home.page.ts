@@ -12,6 +12,7 @@ import { runInThisContext } from 'vm';
 
 const TOKEN_LOGIN = 'login-key';
 const TOKEN_POSITION = 'user-location';
+const TOKEN_ID = 'userid-key';
 
 @Component({
   selector: 'app-event-home',
@@ -38,9 +39,9 @@ export class EventHomePage implements OnInit {
     this.getLocationAndEvents(this.selectedPage);
   }
 
-  // ionViewWillEnter() {
-  //   this.getLocationAndEvents(1);
-  // }
+  ionViewWillEnter() {
+    this.getLocationAndEvents(1);
+  }
 
   public getSearchData(searchFilter){
     var tempResponse = undefined;
@@ -117,35 +118,37 @@ export class EventHomePage implements OnInit {
             this.presentAlertGeolocation("Error when receive current location.");
           }
           else {
-            axios({
-              method: 'get',
-              url: environment.endPointConstant.eventPageEndPoint + "?page=" + selectedPage + "&latitude=" + this.currLatitude + '&longitude=' + this.currLongitude,
-              headers: {
-                "Content-Type": "application/json"
-              }
-            })
-            .then(response => {
-              if(response.data) {
-                console.log(response);
-                tempResponse = response.data;
-              }
-            })
-            .catch(error => {
-              console.log(error);
-            })
-  
-            return new Promise(() => {
-              setTimeout(() => {
-                if(tempResponse == undefined) {
-                  this.getLocationAndEvents(selectedPage);
+            this.storage.get(TOKEN_ID).then(userId => {
+              axios({
+                method: 'get',
+                url: environment.endPointConstant.eventPageEndPoint + "?page=" + selectedPage + "&latitude=" + this.currLatitude + '&longitude=' + this.currLongitude + '&userId=' + userId,
+                headers: {
+                  "Content-Type": "application/json"
                 }
-                else {
-                  this.events = tempResponse.eventList;
-                  this.maxPage = tempResponse.maxPage;
-                  this.maxPageArr = this.toBeArray(tempResponse.maxPage);
+              })
+              .then(response => {
+                if(response.data) {
+                  console.log(response);
+                  tempResponse = response.data;
                 }
-              }, 2000);
-            });
+              })
+              .catch(error => {
+                console.log(error);
+              })
+    
+              return new Promise(() => {
+                setTimeout(() => {
+                  if(tempResponse == undefined) {
+                    this.getLocationAndEvents(selectedPage);
+                  }
+                  else {
+                    this.events = tempResponse.eventList;
+                    this.maxPage = tempResponse.maxPage;
+                    this.maxPageArr = this.toBeArray(tempResponse.maxPage);
+                  }
+                }, 2000);
+              });
+            })
           }
         })
         .catch((error) => {

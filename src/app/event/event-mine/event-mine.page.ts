@@ -28,9 +28,9 @@ export class EventMinePage implements OnInit {
     this.getMyEventData();
   }
 
-  // ionViewWillEnter() {
-  //   this.getMyEventData();
-  // }
+  ionViewWillEnter() {
+    this.getMyEventData();
+  }
 
   getMyEventData() {
     var tempResponse = undefined;

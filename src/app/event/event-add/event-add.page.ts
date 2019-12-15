@@ -30,7 +30,7 @@ export class EventAddPage implements OnInit {
   private longitude = 200;
   private address = "";
   private pickedLocation = false;
-  private fileLocation = "asdasd";
+  private fileLocation = "";
 
   constructor(
     private storage: Storage,
@@ -70,9 +70,9 @@ export class EventAddPage implements OnInit {
       message: stringNotification,
       buttons: [
         {
-          text: 'Login',
+          text: 'OK',
           handler: () => {
-            this.router.navigateByUrl('/login');
+            this.router.navigateByUrl('event/event-home');
           }
         }
       ]
@@ -196,16 +196,17 @@ export class EventAddPage implements OnInit {
     }
     
     else {
-      console.log("objek form", form.value);
-      console.log("username", this.username);
-      console.log("latitude", this.latitude);
-      console.log("longitude", this.longitude);
-      console.log("poster", this.fileLocation);
+      // console.log("objek form", form.value);
+      // console.log("username", this.username);
+      // console.log("latitude", this.latitude);
+      // console.log("longitude", this.longitude);
+      // console.log("poster", this.fileLocation);
       
       eventGames = [form.value.eventGames];
       eventCategory = [form.value.eventTag];
-      console.log("coyyy", eventGames[0]);
-      console.log("cukk", eventCategory[0]);
+      success = true;
+      // console.log("coyyy", eventGames[0]);
+      // console.log("cukk", eventCategory[0]);
 
       axios({
         method: 'put',
