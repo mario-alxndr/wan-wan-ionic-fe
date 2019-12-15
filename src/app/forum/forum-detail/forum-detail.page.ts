@@ -90,7 +90,7 @@ export class ForumDetailPage implements OnInit {
             console.log("coey", this.maxPageArr);
             this.commentCount = tempResponse.thread.commentCount;
           }
-        }, 5000);
+        }, 7000);
       });
     }
   }

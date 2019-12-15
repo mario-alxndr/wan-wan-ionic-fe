@@ -32,6 +32,7 @@ export class EventAddPage implements OnInit {
   private pickedLocation = false;
   private fileLocation = "";
   private kbytes;
+  private showButtonLocation = false;
 
   constructor(
     private storage: Storage,
@@ -206,8 +207,6 @@ export class EventAddPage implements OnInit {
       eventGames = [form.value.eventGames];
       eventCategory = [form.value.eventTag];
       success = true;
-      // console.log("coyyy", eventGames[0]);
-      // console.log("cukk", eventCategory[0]);
 
       axios({
         method: 'put',
@@ -247,8 +246,8 @@ export class EventAddPage implements OnInit {
     this.fileChooser.open().then(uri => {
       this.filePath.resolveNativePath(uri).then((nativePath) => {
         this.base64.encodeFile(nativePath).then((base64string) => {
-          if (this.calculateImageSize(base64string) > 1500) {
-            alert("Please upload an image below 1500 MB.");
+          if (this.calculateImageSize(base64string) > 3000) {
+            alert("Please upload an image below 3000 MB.");
           }
           else {
             this.fileLocation = base64string;
@@ -268,11 +267,8 @@ export class EventAddPage implements OnInit {
     else padding = 0;
 
     base64StringLength = base64String.length;
-    alert("STRING LENGTH" + base64StringLength);
     inBytes =(base64StringLength / 4 ) * 3 - padding;
-    alert("IN BYTES" + inBytes);
     this.kbytes = inBytes / 1000;
-    alert("IN KBytes" + this.kbytes);
     return this.kbytes;
   }
 
@@ -287,6 +283,11 @@ export class EventAddPage implements OnInit {
   }
 
   changeSite(eventSite) {
+    if(eventSite == "Onsite"){
+      this.showButtonLocation = true;
+    } else {
+      this.showButtonLocation = false;
+    }
     this.eventSite = eventSite;
     console.log(eventSite);
   }

@@ -82,7 +82,7 @@ export class EventDetailPage implements OnInit {
               return new Promise(() => {
                 setTimeout(() => {
                   if(tempResponse == undefined) {
-                    this.getLocDetailEvent();
+                    location.reload();
                   }
                   else {
                     this.event = tempResponse.data.event;
