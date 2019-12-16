@@ -1,10 +1,20 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Login</ion-title>
+    <ion-title text-center>Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
+  <ion-grid>
+    <ion-row style="margin-top: 40px; margin-bottom: 40px;">
+      <ion-col text-right>
+        <ion-avatar style="margin: auto; width: 100px; height: 100px;">
+          <ion-img class="img-avt" src="{{ logo }}"></ion-img>
+        </ion-avatar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
   <form #f="ngForm" (ngSubmit)="onSubmit()">
     <ion-list>
       <ion-item>

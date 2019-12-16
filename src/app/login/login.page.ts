@@ -16,7 +16,8 @@ const TOKEN_USERNAME = 'username-key';
 })
 export class LoginPage implements OnInit {
   isFormValid = false; 
-  
+  logo = "assets/login.png";
+
   constructor(
     private router: Router,
     public alertController: AlertController,
@@ -59,15 +60,13 @@ export class LoginPage implements OnInit {
 
 
     const loading = await this.loadingController.create({
-      duration : 2000
+      duration : 10000000
     });
     await loading.present(); 
 
-    
-
     if(!form.value.email || !form.value.password) {
       loading.dismiss();
-      stringNotification += "Please enter your ";
+      stringNotification += " Please enter your ";
       if(!form.value.email){
         stringNotification += "email";
         counter++;
@@ -79,9 +78,12 @@ export class LoginPage implements OnInit {
         stringNotification += "password";
         counter++;
       }
+      loginPage.presentAlert(stringNotification);
     }
     else if(!this.validateEmail(form.value.email)) {
+      loading.dismiss();
       stringNotification = "Please input valid email!";
+      loginPage.presentAlert(stringNotification);
     }
     else {
       axios({
@@ -99,7 +101,6 @@ export class LoginPage implements OnInit {
       .then(function (response) {
         console.log("login response", response);
         if(response.data.Response.responseCode == "Login Failed"){
-          loading.dismiss();
           stringNotification = response.data.Response.message;
         }
         else if(response.data.Response.responseCode === "Success Login") {
@@ -110,6 +111,7 @@ export class LoginPage implements OnInit {
           loginPage.setUserToStorage(tempUsername);
           loading.dismiss();
         } else {
+          loading.dismiss();
           loginPage.presentAlert(stringNotification);
         }
       })
