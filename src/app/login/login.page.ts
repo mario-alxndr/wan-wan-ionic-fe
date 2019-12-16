@@ -5,7 +5,6 @@ import { AlertController, LoadingController } from '@ionic/angular';
 import { environment } from '../../environments/environment';
 import { LoginService } from './login.service';
 import axios from 'axios';
-import { loadingController } from '@ionic/core';
 
 const TOKEN_USERNAME = 'username-key';
 
@@ -18,12 +17,14 @@ export class LoginPage implements OnInit {
   isFormValid = false; 
   logo = "assets/login.png";
 
+  stringLoading = "Please wait. We are checking your login informations."
+  
   constructor(
     private router: Router,
     public alertController: AlertController,
     private loginSrvc: LoginService,
     private storage: Storage,
-    public loadingController: LoadingController,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -58,14 +59,7 @@ export class LoginPage implements OnInit {
     var tempUsername
     var loginPage = this;
 
-
-    const loading = await this.loadingController.create({
-      duration : 10000000
-    });
-    await loading.present(); 
-
     if(!form.value.email || !form.value.password) {
-      loading.dismiss();
       stringNotification += " Please enter your ";
       if(!form.value.email){
         stringNotification += "email";
@@ -81,11 +75,11 @@ export class LoginPage implements OnInit {
       loginPage.presentAlert(stringNotification);
     }
     else if(!this.validateEmail(form.value.email)) {
-      loading.dismiss();
       stringNotification = "Please input valid email!";
       loginPage.presentAlert(stringNotification);
     }
     else {
+      loginPage.presentLoading(this.stringLoading);
       axios({
         method: 'post',
         url: environment.endPointConstant.loginEndPoint,
@@ -109,9 +103,8 @@ export class LoginPage implements OnInit {
         }
         if(loginSuccess){
           loginPage.setUserToStorage(tempUsername);
-          loading.dismiss();
         } else {
-          loading.dismiss();
+          loginPage.loadingCtrl.dismiss();
           loginPage.presentAlert(stringNotification);
         }
       })
@@ -122,12 +115,14 @@ export class LoginPage implements OnInit {
   }
 
   setUserToStorage(username) {
+    var loginPage = this;
     axios({
       method: 'get',
       url: environment.endPointConstant.getUserData + username,
       headers: { "Content-Type": "application/json" }
     })
     .then(res => {
+      loginPage.loadingCtrl.dismiss();
       console.log("get user data response ",res);
       this.loginSrvc.logIn(res.data);
     })
@@ -136,4 +131,16 @@ export class LoginPage implements OnInit {
   onRegister() {
     this.router.navigateByUrl('/register');
   } 
+
+  presentLoading(stringLoading){
+    console.log("mulai present")
+    this.loadingCtrl.create({
+      keyboardClose: true,
+      message: stringLoading
+    })
+    .then(loadingEl => {
+      loadingEl.present();
+    })
+    console.log("selesai present")
+  }
 }

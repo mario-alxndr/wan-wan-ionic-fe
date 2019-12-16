@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { LoginService } from '../../login/login.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
 import axios from 'axios';
@@ -33,6 +33,7 @@ export class EventAddPage implements OnInit {
   private fileLocation = "";
   private kbytes;
   private showButtonLocation = false;
+  stringLoading = "Please wait. We are adding your new event."
 
   constructor(
     private storage: Storage,
@@ -44,6 +45,7 @@ export class EventAddPage implements OnInit {
     private base64: Base64,
     private fileChooser: FileChooser,
     private filePath: FilePath,
+    private loadingCtrl: LoadingController,
   ) { 
     
   }
@@ -200,6 +202,7 @@ export class EventAddPage implements OnInit {
       eventCategory = [form.value.eventTag];
       success = true;
 
+      this.presentLoading(this.loadingCtrl);
       axios({
         method: 'put',
         url: environment.endPointConstant.createEvent + '/' + this.username,
@@ -224,6 +227,7 @@ export class EventAddPage implements OnInit {
       })
       .then(function (response) {
         console.log(response);
+        eventAddPage.loadingCtrl.dismiss();
         eventAddPage.presentAlert(success, stringNotification);
       })
     }
@@ -277,5 +281,17 @@ export class EventAddPage implements OnInit {
     }
     this.eventSite = eventSite;
     console.log(eventSite);
+  }
+
+  presentLoading(stringLoading){
+    console.log("mulai present")
+    this.loadingCtrl.create({
+      keyboardClose: true,
+      message: stringLoading
+    })
+    .then(loadingEl => {
+      loadingEl.present();
+    })
+    console.log("selesai present")
   }
 }
