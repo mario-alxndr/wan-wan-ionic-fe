@@ -30,6 +30,8 @@ export class ProfilePage implements OnInit {
   }
 
   getProfile(){
+    var profilePage = this;
+
     this.phoneNumber = "";
     if(!this.loginSrvc.userIsLoggedIn) {
       this.router.navigateByUrl('/login');
@@ -45,30 +47,26 @@ export class ProfilePage implements OnInit {
       .then(response => {
         console.log(response);
         tempResponse = response.data;
+        profilePage.username = username;
+        profilePage.phoneNumber = tempResponse.phoneNumber;
+          
+          if(tempResponse.profileImage === ""){
+            profilePage.profileImage = environment.defaultImageProfile;
+          }
+          else{
+            profilePage.profileImage = tempResponse.profileImage;
+          }
+          if(tempResponse.gameList === null){
+            profilePage.gameList = ["No game added yet"];
+          }
+          else{
+            profilePage.gameList = tempResponse.gameList;
+          }
+          profilePage.storage.set(TOKEN_LOGIN, JSON.stringify(tempResponse)).then((response) => {});
       })
       .catch(error => {
         console.log(error);
       })
-      return new Promise(() => {
-        setTimeout(() => {
-          this.username = username;
-          this.phoneNumber = tempResponse.phoneNumber;
-          
-          if(tempResponse.profileImage === ""){
-            this.profileImage = environment.defaultImageProfile;
-          }
-          else{
-            this.profileImage = tempResponse.profileImage;
-          }
-          if(tempResponse.gameList === null){
-            this.gameList = ["No game added yet"];
-          }
-          else{
-            this.gameList = tempResponse.gameList;
-          }
-          this.storage.set(TOKEN_LOGIN, JSON.stringify(tempResponse)).then((response) => {});
-        }, 2000);
-      });
     });
   }
 

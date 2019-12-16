@@ -49,16 +49,13 @@ export class EventAddPage implements OnInit {
   }
 
   ngOnInit() {
+    var eventAddPage = this;
     this.storage.get(TOKEN_USERNAME).then(userObject => {
       this.username = userObject
     });
-    return new Promise(() => {
-      setTimeout(() => {
-        if(!this.loginSrvc.userIsLoggedIn) {
-          this.router.navigateByUrl('/login');
-        }
-      }, 2000);
-    })
+    if(!eventAddPage.loginSrvc.userIsLoggedIn) {
+      eventAddPage.router.navigateByUrl('/login');
+    }
   }
 
   async presentAlert(success, stringNotification) {
@@ -118,6 +115,7 @@ export class EventAddPage implements OnInit {
     var eventCategory: string[];
     var success = false;
     var counter = 0;
+    var eventAddPage = this;
 
     if(!form.value.eventName || 
        !form.value.eventType || 
@@ -198,12 +196,6 @@ export class EventAddPage implements OnInit {
     }
     
     else {
-      // console.log("objek form", form.value);
-      // console.log("username", this.username);
-      // console.log("latitude", this.latitude);
-      // console.log("longitude", this.longitude);
-      // console.log("poster", this.fileLocation);
-      
       eventGames = [form.value.eventGames];
       eventCategory = [form.value.eventTag];
       success = true;
@@ -232,14 +224,9 @@ export class EventAddPage implements OnInit {
       })
       .then(function (response) {
         console.log(response);
+        eventAddPage.presentAlert(success, stringNotification);
       })
     }
-    
-    return new Promise(() => {
-      setTimeout(() => {
-        this.presentAlert(success, stringNotification);
-      }, 2500);
-    });
   }
 
   onChooseFile() {

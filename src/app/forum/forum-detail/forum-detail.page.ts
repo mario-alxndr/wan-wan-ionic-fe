@@ -50,6 +50,8 @@ export class ForumDetailPage implements OnInit {
       var tempResponse = undefined;
       var tempMaxPage;
       var threadId;
+      var forumDetailPage = this;
+
       this.route.paramMap.subscribe(paramMap => {
         threadId = paramMap.get('threadId');
         axios({
@@ -65,32 +67,27 @@ export class ForumDetailPage implements OnInit {
             tempResponse = response.data;
             tempMaxPage = response.data.maxPage;
           }
-        })
-        .catch(function (error){
-            console.log(error);
-        })
-      });
-
-      return new Promise(() => {
-        setTimeout(() => {
           if(tempResponse == undefined){
             location.reload();
           }
           else {
-            this.thread = tempResponse.thread;
-            this.thread.timestamp = moment(moment.utc(this.thread.timestamp).toDate()).tz("Asia/Jakarta").format("MMM Do YY");
-            this.comments = tempResponse.commentList;
+            forumDetailPage.thread = tempResponse.thread;
+            forumDetailPage.thread.timestamp = moment(moment.utc(forumDetailPage.thread.timestamp).toDate()).tz("Asia/Jakarta").format("MMM Do YY");
+            forumDetailPage.comments = tempResponse.commentList;
             for(let i=0; i<tempResponse.commentList.length; i++) {
-              this.comments[i].timestamp = moment(moment.utc(this.comments[i].timestamp).toDate()).tz("Asia/Jakarta").format("MMM Do YY");
+              forumDetailPage.comments[i].timestamp = moment(moment.utc(forumDetailPage.comments[i].timestamp).toDate()).tz("Asia/Jakarta").format("MMM Do YY");
 
               //this.comments[i].timestamp = moment(this.comments[i].timestamp).startOf('day').fromNow();
             }
-            this.maxPage = tempMaxPage;
-            this.maxPageArr = this.toBeArray(tempMaxPage);
-            console.log("coey", this.maxPageArr);
-            this.commentCount = tempResponse.thread.commentCount;
+            forumDetailPage.maxPage = tempMaxPage;
+            forumDetailPage.maxPageArr = forumDetailPage.toBeArray(tempMaxPage);
+            console.log("coey", forumDetailPage.maxPageArr);
+            forumDetailPage.commentCount = tempResponse.thread.commentCount;
           }
-        }, 7000);
+        })
+        .catch(function (error){
+            console.log(error);
+        })
       });
     }
   }
