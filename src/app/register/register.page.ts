@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
@@ -15,11 +15,14 @@ const TOKEN_USERNAME = 'username-key';
 })
 
 export class RegisterPage implements OnInit {
+  stringLoading = "Please wait. We are registering your account."
+
   constructor(
     public alertController: AlertController,
     public router: Router,
     private loginSrvc: LoginService,
     private storage: Storage,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -118,9 +121,10 @@ export class RegisterPage implements OnInit {
       stringNotification = "Please input valid phone number!";
     }
     else if(!this.validatePassword(form.value.password)) {
-      stringNotification = "Please input valid password!";
+      stringNotification = "Please input valid password! Minimum 8 characters with at least 1 alphabet and 1 number.";
     }
     else {
+      registerPage.presentLoading(this.stringLoading);
       axios({
         method: 'post',
         url: environment.endPointConstant.registerEndPoint,
@@ -136,6 +140,7 @@ export class RegisterPage implements OnInit {
         }
       })
       .then(function (response) {
+        registerPage.loadingCtrl.dismiss();
         if(response.data.Response.responseCode == "FAILED"){
           stringNotification = response.data.Response.message;
         }
@@ -149,5 +154,17 @@ export class RegisterPage implements OnInit {
         console.log(error);
       });
     }
+  }
+
+  presentLoading(stringLoading){
+    console.log("mulai present")
+    this.loadingCtrl.create({
+      keyboardClose: true,
+      message: stringLoading
+    })
+    .then(loadingEl => {
+      loadingEl.present();
+    })
+    console.log("selesai present")
   }
 }

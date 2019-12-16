@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/login/login.service';
 import { Storage } from '@ionic/storage';
@@ -32,6 +32,7 @@ export class ProfileEditPage implements OnInit {
   gameList3 : String;
   fileLocation = "";
   private kbytes;
+  stringLoading = "";
 
   constructor(private loginSrvc: LoginService,
     private router: Router,
@@ -40,6 +41,7 @@ export class ProfileEditPage implements OnInit {
     private alertController: AlertController,
     private fileChooser: FileChooser,
     private filePath: FilePath,
+    private loadingCtrl: LoadingController,
     ) {
       this.loadData();
      }
@@ -79,11 +81,14 @@ export class ProfileEditPage implements OnInit {
         this.gameList3 = tempUserObject.gameList[2];
       }
     });
+    this.loadingCtrl.dismiss();
   }
 
   onSubmitGameList(form:NgForm){
     var stringNotification= "";
     var success = false;
+    var profileEditPage = this;
+
     if(form) {
       console.log("edit-profile-form-game", form);
       this.gameInput = [form.value.game1, form.value.game2, form.value.game3];
@@ -114,6 +119,8 @@ export class ProfileEditPage implements OnInit {
         }
       }
       console.log("Game List: ", this.gameList, this.gameInput);
+      this.stringLoading = "Updating your game list ..."
+      this.presentLoading(this.stringLoading);
       this.storage.get(TOKEN_USERNAME).then(userObject => {
         axios({
           method: 'put',
@@ -121,15 +128,16 @@ export class ProfileEditPage implements OnInit {
           headers: { "Content-Type": "application/json" },
           data: 
           {
-            'gameList' : this.gameInput
+            'gameList' : profileEditPage.gameInput
           }
         })
         .then(res => {
           console.log("edit-profile-response: ", res);
           if(res.data.response.responseCode === "Update Success"){
             stringNotification = res.data.response.message;
-            this.setToStorage();
-            this.presentAlert(stringNotification);
+            profileEditPage.setToStorage();
+            profileEditPage.loadingCtrl.dismiss();
+            profileEditPage.presentAlert(stringNotification);
           }
         })
         .catch(error => {
@@ -143,7 +151,11 @@ export class ProfileEditPage implements OnInit {
     var stringNotification= "";
     var success = false;
     var b64 : string;
+    var profileEditPage = this;
+
     if(this.fileLocation != "") {
+      this.stringLoading = "Updating your profile image ..."
+      this.presentLoading(this.stringLoading);
       axios({
         method: 'put',
         url: environment.endPointConstant.addUpdateProfileImage + this.username,
@@ -158,8 +170,9 @@ export class ProfileEditPage implements OnInit {
         if(res.data.response.responseCode === "SUCCESS"){
           stringNotification = res.data.response.message;
         }
-        this.setToStorage();
-        this.presentAlert(stringNotification);
+        profileEditPage.setToStorage();
+        profileEditPage.loadingCtrl.dismiss();
+        profileEditPage.presentAlert(stringNotification);
       })
       .catch(error => {
         console.log("axios error " + error);
@@ -173,6 +186,7 @@ export class ProfileEditPage implements OnInit {
   onSubmitPhoneNumber(form: NgForm) {
     var stringNotification = "";
     var success = false;
+    var profileEditPage = this;
 
     if(form){
       if(form.value.phone_number.toString().length < 8 || form.value.phone_number.toString().length > 15){
@@ -182,6 +196,8 @@ export class ProfileEditPage implements OnInit {
       else{
         this.storage.get(TOKEN_LOGIN).then(userObject => {
           var tempUserObject = JSON.parse(userObject);
+          this.stringLoading = "Updating your phone number ..."
+          this.presentLoading(this.stringLoading);
           axios({
             method: 'put',
             url: environment.endPointConstant.addUpdatePhoneNumber + tempUserObject.username,
@@ -194,8 +210,9 @@ export class ProfileEditPage implements OnInit {
           .then(res => {
             console.log("edit-profile-response: ", res);
             stringNotification = res.data.response.message;
-            this.setToStorage();
-            this.presentAlert(stringNotification);
+            profileEditPage.setToStorage();
+            profileEditPage.loadingCtrl.dismiss();
+            profileEditPage.presentAlert(stringNotification);
           })
           .catch(error => {
             console.log("edit-profile-error", error);
@@ -260,5 +277,17 @@ export class ProfileEditPage implements OnInit {
     });
 
     await alertFailed.present();
+  }
+
+  presentLoading(stringLoading){
+    console.log("mulai present")
+    this.loadingCtrl.create({
+      keyboardClose: true,
+      message: stringLoading
+    })
+    .then(loadingEl => {
+      loadingEl.present();
+    })
+    console.log("selesai present")
   }
 }

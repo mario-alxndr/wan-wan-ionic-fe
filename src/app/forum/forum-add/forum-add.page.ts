@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import axios from 'axios';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { LoginService } from '../../login/login.service';
 import { User } from '../../login/user.model';
 import { environment } from 'src/environments/environment';
@@ -18,11 +18,14 @@ const TOKEN_USERNAME = 'username-key';
 })
 export class ForumAddPage implements OnInit {
   user: User = new User();
+  stringLoading = "Please wait. We are adding your new forum."
+
   constructor(
     private storage: Storage,
     private loginSrvc: LoginService,
     public alertController: AlertController,
-    private router: Router
+    private router: Router,
+    private loadingCtrl: LoadingController
   ) {
     
   }
@@ -84,6 +87,8 @@ export class ForumAddPage implements OnInit {
   }
 
   addComment(form) {
+    var forumAddPage = this;
+    this.presentLoading(this.stringLoading);
     this.storage.get(TOKEN_USERNAME).then(username => {
       axios({
         method: 'put',
@@ -102,7 +107,8 @@ export class ForumAddPage implements OnInit {
       .then(response => {
         console.log(response);
         form.clear;
-        this.presentAddThreadDone();
+        forumAddPage.loadingCtrl.dismiss();
+        forumAddPage.presentAddThreadDone();
       })
       .catch(function (error) {
         console.log(error);
@@ -166,5 +172,17 @@ export class ForumAddPage implements OnInit {
     })
     
     await alertConfirmation.present();
+  }
+
+  presentLoading(stringLoading){
+    console.log("mulai present")
+    this.loadingCtrl.create({
+      keyboardClose: true,
+      message: stringLoading
+    })
+    .then(loadingEl => {
+      loadingEl.present();
+    })
+    console.log("selesai present")
   }
 }

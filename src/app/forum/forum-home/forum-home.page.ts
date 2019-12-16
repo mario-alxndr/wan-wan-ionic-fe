@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import * as moment from 'moment';
 import { Storage } from '@ionic/storage';
 import { Thread } from '../thread.model';
+import { LoadingController } from '@ionic/angular';
 
 const TOKEN_LOGIN = 'login-key';
 const TOKEN_USERNAME = 'username-key';
@@ -21,13 +22,15 @@ export class ForumHomePage implements OnInit {
   maxPageArr: Number[];
   maxPage: Number;
   searchEmpty: boolean;
+  stringLoading = "Please wait. We are loading the Forum Page contents."
 
   private selectedPage = 1;
 
   constructor(
     private loginSrvc: LoginService,
     private router: Router,
-    private storage: Storage
+    private storage: Storage,
+    private loadingCtrl: LoadingController
   ) {
     
   }
@@ -41,7 +44,7 @@ export class ForumHomePage implements OnInit {
     var tempThreadList = undefined;
     var tempMaxPage;
     var forumHomePage = this;
-
+    
     if(!this.loginSrvc.userIsLoggedIn) {
       this.router.navigateByUrl('/login');
     }
@@ -49,6 +52,8 @@ export class ForumHomePage implements OnInit {
       this.getThreads(1);
     }
     else{
+      this.stringLoading = "We are searching the forums."
+      forumHomePage.presentLoading(this.stringLoading);
       this.storage.get(TOKEN_LOGIN).then(userObject => {
         var tempUserObject = JSON.parse(userObject);
         axios({
@@ -77,6 +82,7 @@ export class ForumHomePage implements OnInit {
             forumHomePage.maxPage = tempMaxPage;
             forumHomePage.maxPageArr = forumHomePage.toBeArray(tempMaxPage);
           }
+          this.loadingCtrl.dismiss();
         })
         .catch(function (error) {
           console.log(error);
@@ -94,6 +100,8 @@ export class ForumHomePage implements OnInit {
       this.router.navigateByUrl('/login');
     }
     else {
+      this.stringLoading = "Please wait. We are loading the Forum Page contents."
+      forumHomePage.presentLoading(this.stringLoading);
       axios({
         method: 'get',
         url: environment.endPointConstant.threadPageEndPoint + '?page=' + selectedPage,
@@ -116,6 +124,7 @@ export class ForumHomePage implements OnInit {
         if(forumHomePage.threadList === undefined) {
           forumHomePage.getThreads(selectedPage);
         }
+        this.loadingCtrl.dismiss();
       })
       .catch(function (error) {
         console.log(error);
@@ -135,5 +144,17 @@ export class ForumHomePage implements OnInit {
 
   ngOnInit() {
     
+  }
+
+  presentLoading(stringLoading){
+    console.log("mulai present")
+    this.loadingCtrl.create({
+      keyboardClose: true,
+      message: stringLoading
+    })
+    .then(loadingEl => {
+      loadingEl.present();
+    })
+    console.log("selesai present")
   }
 }
