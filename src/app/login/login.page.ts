@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { environment } from '../../environments/environment';
 import { LoginService } from './login.service';
 import axios from 'axios';
+import { loadingController } from '@ionic/core';
 
 const TOKEN_USERNAME = 'username-key';
 
@@ -21,6 +22,7 @@ export class LoginPage implements OnInit {
     public alertController: AlertController,
     private loginSrvc: LoginService,
     private storage: Storage,
+    public loadingController: LoadingController,
   ) { }
 
   ngOnInit() {
@@ -47,7 +49,7 @@ export class LoginPage implements OnInit {
     await alertFailed.present();
   }
 
-  onLogin(form) {
+  async onLogin(form) {
     console.log(new Date);
     var stringNotification = "Please try login again.";
     var counter = 0;
@@ -55,7 +57,16 @@ export class LoginPage implements OnInit {
     var tempUsername
     var loginPage = this;
 
+
+    const loading = await this.loadingController.create({
+      duration : 2000
+    });
+    await loading.present(); 
+
+    
+
     if(!form.value.email || !form.value.password) {
+      loading.dismiss();
       stringNotification += "Please enter your ";
       if(!form.value.email){
         stringNotification += "email";
@@ -88,6 +99,7 @@ export class LoginPage implements OnInit {
       .then(function (response) {
         console.log("login response", response);
         if(response.data.Response.responseCode == "Login Failed"){
+          loading.dismiss();
           stringNotification = response.data.Response.message;
         }
         else if(response.data.Response.responseCode === "Success Login") {
@@ -96,6 +108,7 @@ export class LoginPage implements OnInit {
         }
         if(loginSuccess){
           loginPage.setUserToStorage(tempUsername);
+          loading.dismiss();
         } else {
           loginPage.presentAlert(stringNotification);
         }
