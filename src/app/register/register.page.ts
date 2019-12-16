@@ -71,6 +71,7 @@ export class RegisterPage implements OnInit {
     var stringNotification = "";
     var success = false;
     var counter = 0;
+    var registerPage = this;
 
     if(!form.value.email || !form.value.password || !form.value.retypepassword || !form.value.username || !form.value.phonenumber) {
       stringNotification += "Please enter your ";
@@ -142,15 +143,11 @@ export class RegisterPage implements OnInit {
           success = true;
           stringNotification = "Register Success! Please do Login";
         }
+        registerPage.presentAlert(success, stringNotification);
       })
       .catch(function (error) {
         console.log(error);
       });
     }
-    return new Promise(() => {
-      setTimeout(() => {
-        this.presentAlert(success, stringNotification);
-      }, 1250);
-    });
   }
 }

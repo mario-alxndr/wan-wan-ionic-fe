@@ -46,6 +46,7 @@ export class EventDetailPage implements OnInit {
 
   getLocDetailEvent() {
     var tempResponse = undefined;
+    var eventDetailPage = this;
 
     if(!this.loginSrvc.userIsLoggedIn) {
       this.router.navigateByUrl('/login');
@@ -72,33 +73,27 @@ export class EventDetailPage implements OnInit {
                 }
               })
               .then(response => {
-                console.log(response);
                 tempResponse = response;
+                if(tempResponse == undefined) {
+                  location.reload();
+                }
+                else {
+                  eventDetailPage.event = tempResponse.data.event;
+                  eventDetailPage.bookmark = tempResponse.data.event.bookmarkStatus; 
+                  console.log("bookmark", eventDetailPage.bookmark);
+                  eventDetailPage.event.dateStart = moment(eventDetailPage.event.dateStart).format("MMM Do YY");
+                  eventDetailPage.event.dateEnd = moment(eventDetailPage.event.dateEnd).format("MMM Do YY");
+                  eventDetailPage.event.timestamp = moment(eventDetailPage.event.timestamp).startOf('day').fromNow();
+                  eventDetailPage.locationAddress = eventDetailPage.getAddress(eventDetailPage.event.latitude, eventDetailPage.event.longitude);
+                  axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${eventDetailPage.event.latitude},${eventDetailPage.event.longitude}&key=${environment.mapsAPIKey}`).then((response) => {
+                    console.log(response);
+                    eventDetailPage.locationAddress = response.data.results[0].formatted_address;
+                  });
+                }
               })
               .catch(error => {
                 console.log(error);
               })
-  
-              return new Promise(() => {
-                setTimeout(() => {
-                  if(tempResponse == undefined) {
-                    location.reload();
-                  }
-                  else {
-                    this.event = tempResponse.data.event;
-                    this.bookmark = tempResponse.data.event.bookmarkStatus; 
-                    console.log("bookmark", this.bookmark);
-                    this.event.dateStart = moment(this.event.dateStart).format("MMM Do YY");
-                    this.event.dateEnd = moment(this.event.dateEnd).format("MMM Do YY");
-                    this.event.timestamp = moment(this.event.timestamp).startOf('day').fromNow();
-                    this.locationAddress = this.getAddress(this.event.latitude, this.event.longitude);
-                    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.event.latitude},${this.event.longitude}&key=${environment.mapsAPIKey}`).then((response) => {
-                      console.log(response);
-                      this.locationAddress = response.data.results[0].formatted_address;
-                    });
-                  }
-                }, 2000);
-              });
             }
           })
         })

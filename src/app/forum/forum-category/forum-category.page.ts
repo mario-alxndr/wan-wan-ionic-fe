@@ -34,6 +34,8 @@ export class ForumCategoryPage implements OnInit {
   getCategoryThread(selectedPage, selectedCategory) {
     var tempThreadList = undefined;
     var tempMaxPage;
+    var forumCategoryPage = this;
+
     if(!this.loginSrvc.userIsLoggedIn) {
       this.router.navigateByUrl('/login');
     }
@@ -50,26 +52,22 @@ export class ForumCategoryPage implements OnInit {
         tempThreadList = response.data.thread;
         tempMaxPage = response.data.maxPage;
       }
+      forumCategoryPage.threadList = tempThreadList;
+      if(forumCategoryPage.threadList === undefined) {
+        forumCategoryPage.maxPage = 0;
+        forumCategoryPage.maxPageArr = [1];
+        //this.getCategoryThread(selectedPage, selectedCategory);
+      }
+      else {
+        for(let i=0; i< tempThreadList.length; i++) { 
+          forumCategoryPage.threadList[i].timestamp =  moment(forumCategoryPage.threadList[i].timestamp).startOf('day').fromNow();
+        }
+        forumCategoryPage.maxPage = tempMaxPage
+        forumCategoryPage.maxPageArr = forumCategoryPage.toBeArray(tempMaxPage);
+      }
     })
     .catch(function (error) {
       console.log(error);
-    })
-    return new Promise(() => {
-      setTimeout(() => {
-        this.threadList = tempThreadList;
-        if(this.threadList === undefined) {
-          this.maxPage = 0;
-          this.maxPageArr = [1];
-          //this.getCategoryThread(selectedPage, selectedCategory);
-        }
-        else {
-          for(let i=0; i< tempThreadList.length; i++) { 
-            this.threadList[i].timestamp =  moment(this.threadList[i].timestamp).startOf('day').fromNow();
-          }
-          this.maxPage = tempMaxPage
-          this.maxPageArr = this.toBeArray(tempMaxPage);
-        }
-      }, 2000);
     })
   }
 

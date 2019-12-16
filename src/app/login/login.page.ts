@@ -53,6 +53,7 @@ export class LoginPage implements OnInit {
     var counter = 0;
     var loginSuccess = false;
     var tempUsername
+    var loginPage = this;
 
     if(!form.value.email || !form.value.password) {
       stringNotification += "Please enter your ";
@@ -93,20 +94,16 @@ export class LoginPage implements OnInit {
           loginSuccess = true;
           tempUsername = response.data.username;
         }
+        if(loginSuccess){
+          loginPage.setUserToStorage(tempUsername);
+        } else {
+          loginPage.presentAlert(stringNotification);
+        }
       })
       .catch(function (error) {
         console.log(error);
       });
     }
-    return new Promise(() => {
-      setTimeout(() => {
-        if(loginSuccess){
-          this.setUserToStorage(tempUsername);
-        } else {
-          this.presentAlert(stringNotification);
-        }
-      }, 3000);
-    });
   }
 
   setUserToStorage(username) {

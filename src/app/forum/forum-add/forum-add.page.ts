@@ -28,17 +28,14 @@ export class ForumAddPage implements OnInit {
   }
 
   ngOnInit() {
+    var forumAddPage = this;
     this.storage.get(TOKEN_LOGIN).then(userObject => { 
       var tempUserObject = JSON.parse(userObject);
       this.user = tempUserObject;
+      if(!forumAddPage.loginSrvc.userIsLoggedIn) {
+        forumAddPage.router.navigateByUrl('/login');
+      }
     });
-    return new Promise(() => {
-      setTimeout(() => {
-        if(!this.loginSrvc.userIsLoggedIn) {
-          this.router.navigateByUrl('/login');
-        }
-      }, 2000);
-    })
     
   }
 
@@ -46,6 +43,7 @@ export class ForumAddPage implements OnInit {
     var stringNotification = "";
     var success = false;
     var counter = 0;
+    var forumAddPage = this;
 
     if(!form.value.name || !form.value.category || !form.value.description) {
       stringNotification += "Please enter your ";
@@ -81,11 +79,7 @@ export class ForumAddPage implements OnInit {
       this.presentAlertError(stringNotification);
     }
     else {
-      return new Promise(() => {
-        setTimeout(() => {
-          this.presentAlertAddThread(form);
-        }, 2000);
-      });
+      forumAddPage.presentAlertAddThread(form);
     }
   }
 

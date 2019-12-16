@@ -40,6 +40,8 @@ export class ForumHomePage implements OnInit {
     this.searchEmpty = false;
     var tempThreadList = undefined;
     var tempMaxPage;
+    var forumHomePage = this;
+
     if(!this.loginSrvc.userIsLoggedIn) {
       this.router.navigateByUrl('/login');
     }
@@ -62,27 +64,23 @@ export class ForumHomePage implements OnInit {
             tempThreadList = response.data.thread;
             tempMaxPage = response.data.maxPage;
           }
+          forumHomePage.threadList = tempThreadList;
+          if(forumHomePage.threadList == undefined) {
+            forumHomePage.searchEmpty = true;
+            forumHomePage.maxPage = 0;
+            forumHomePage.maxPageArr = [1];
+          }
+          else {
+            for(let i=0; i< tempThreadList.length; i++) { 
+              forumHomePage.threadList[i].timestamp =  moment(forumHomePage.threadList[i].timestamp).startOf('day').fromNow();
+            }
+            forumHomePage.maxPage = tempMaxPage;
+            forumHomePage.maxPageArr = forumHomePage.toBeArray(tempMaxPage);
+          }
         })
         .catch(function (error) {
           console.log(error);
         })
-      });
-      return new Promise(() => {
-        setTimeout(() => {
-          this.threadList = tempThreadList;
-          if(this.threadList == undefined) {
-            this.searchEmpty = true;
-            this.maxPage = 0;
-            this.maxPageArr = [1];
-          }
-          else {
-            for(let i=0; i< tempThreadList.length; i++) { 
-              this.threadList[i].timestamp =  moment(this.threadList[i].timestamp).startOf('day').fromNow();
-            }
-            this.maxPage = tempMaxPage;
-            this.maxPageArr = this.toBeArray(tempMaxPage);
-          }
-        }, 5000);
       });
     }
   }  
@@ -90,6 +88,8 @@ export class ForumHomePage implements OnInit {
   getThreads(selectedPage) {
     var tempThreadList = undefined;
     var tempMaxPage;
+    var forumHomePage = this;
+
     if(!this.loginSrvc.userIsLoggedIn) {
       this.router.navigateByUrl('/login');
     }
@@ -106,25 +106,20 @@ export class ForumHomePage implements OnInit {
           tempThreadList = response.data.thread;
           tempMaxPage = response.data.maxPage;
         }
+        forumHomePage.threadList = tempThreadList;
+        console.log(forumHomePage.threadList);
+        for(let i=0; i< tempThreadList.length; i++) { 
+          forumHomePage.threadList[i].timestamp =  moment(forumHomePage.threadList[i].timestamp).startOf('day').fromNow();
+        }
+        forumHomePage.maxPage = tempMaxPage;
+        forumHomePage.maxPageArr = forumHomePage.toBeArray(tempMaxPage);
+        if(forumHomePage.threadList === undefined) {
+          forumHomePage.getThreads(selectedPage);
+        }
       })
       .catch(function (error) {
         console.log(error);
       })
-  
-      return new Promise(() => {
-        setTimeout(() => {
-          this.threadList = tempThreadList;
-          console.log(this.threadList);
-          for(let i=0; i< tempThreadList.length; i++) { 
-            this.threadList[i].timestamp =  moment(this.threadList[i].timestamp).startOf('day').fromNow();
-          }
-          this.maxPage = tempMaxPage;
-          this.maxPageArr = this.toBeArray(tempMaxPage);
-          if(this.threadList === undefined) {
-            this.getThreads(selectedPage);
-          }
-        }, 5000);
-      });
     }
   }
 

@@ -33,6 +33,7 @@ export class EventMinePage implements OnInit {
 
   getMyEventData() {
     var tempResponse = undefined;
+    var eventMinePage = this;
     this.searchEmpty = false;
 
     if(!this.loginSrvc.userIsLoggedIn) {
@@ -54,19 +55,15 @@ export class EventMinePage implements OnInit {
             console.log(response);
             tempResponse = response.data;
           }
+          eventMinePage.myEventList = tempResponse.EventList;
+          if(eventMinePage.myEventList === null) {
+            eventMinePage.searchEmpty = true;
+          }
         })
         .catch(error => {
           console.log(error);
         })
       });
-      return new Promise(() => {
-        setTimeout(() => {
-          this.myEventList = tempResponse.EventList;
-          if(this.myEventList === null) {
-            this.searchEmpty = true;
-          }
-        }, 5000);
-      })
     })
   }
 

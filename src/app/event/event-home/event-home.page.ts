@@ -44,6 +44,7 @@ export class EventHomePage implements OnInit {
   public getSearchData(searchFilter){
     var tempResponse = undefined;
     this.searchEmpty = false;
+    var eventHomePage = this;
 
     if(searchFilter === ""){
       this.getLocationAndEvents(1);
@@ -68,6 +69,17 @@ export class EventHomePage implements OnInit {
             })
             .then(response => {
               tempResponse = response.data;
+              if(tempResponse == "No Event with this name available") {
+                eventHomePage.searchEmpty = true;
+                eventHomePage.maxPage = 0;
+                eventHomePage.maxPageArr = [1];
+                eventHomePage.events = null;
+              }
+              else {
+                eventHomePage.events = tempResponse.eventList;
+                eventHomePage.maxPage = tempResponse.maxPage;
+                eventHomePage.maxPageArr = eventHomePage.toBeArray(tempResponse.maxPage);
+              }
             })
             .catch(function (error) {
               console.log(error);
@@ -79,26 +91,12 @@ export class EventHomePage implements OnInit {
         this.presentAlertGeolocation("Please Allow Location Access");
         console.log('error getting location', error);
       })
-      return new Promise(() => {
-        setTimeout(() => {
-          if(tempResponse == "No Event with this name available") {
-            this.searchEmpty = true;
-            this.maxPage = 0;
-            this.maxPageArr = [1];
-            this.events = null;
-          }
-          else {
-            this.events = tempResponse.eventList;
-            this.maxPage = tempResponse.maxPage;
-            this.maxPageArr = this.toBeArray(tempResponse.maxPage);
-          }
-        }, 5000);
-      });
     }
   }
 
   getLocationAndEvents(selectedPage) {
     var tempResponse = undefined;
+    var eventHomePage = this;
 
     if(!this.loginSrvc.userIsLoggedIn) {
       this.router.navigateByUrl('/login');
@@ -129,23 +127,18 @@ export class EventHomePage implements OnInit {
                   console.log(response);
                   tempResponse = response.data;
                 }
+                if(tempResponse == undefined) {
+                  location.reload();
+                }
+                else {
+                  eventHomePage.events = tempResponse.eventList;
+                  eventHomePage.maxPage = tempResponse.maxPage;
+                  eventHomePage.maxPageArr = eventHomePage.toBeArray(tempResponse.maxPage);
+                }
               })
               .catch(error => {
                 console.log(error);
               })
-    
-              return new Promise(() => {
-                setTimeout(() => {
-                  if(tempResponse == undefined) {
-                    location.reload();
-                  }
-                  else {
-                    this.events = tempResponse.eventList;
-                    this.maxPage = tempResponse.maxPage;
-                    this.maxPageArr = this.toBeArray(tempResponse.maxPage);
-                  }
-                }, 7000);
-              });
             })
           }
         })
