@@ -28,7 +28,7 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // console.log(this.loginSrvc.userIsLoggedIn);
+    console.log(this.loginSrvc.userIsLoggedIn);
     this.storage.get(TOKEN_USERNAME).then(username => {
       if(username){
         this.router.navigateByUrl('/forum/forum-home');
@@ -59,14 +59,7 @@ export class LoginPage implements OnInit {
     var tempUsername
     var loginPage = this;
 
-
-    /*const loading = await this.loadingController.create({
-      duration : 10000000
-    });*/
-    await loading.present(); 
-
     if(!form.value.email || !form.value.password) {
-      //loading.dismiss();
       stringNotification += " Please enter your ";
       if(!form.value.email){
         stringNotification += "email";
@@ -82,7 +75,6 @@ export class LoginPage implements OnInit {
       loginPage.presentAlert(stringNotification);
     }
     else if(!this.validateEmail(form.value.email)) {
-      //loading.dismiss();
       stringNotification = "Please input valid email!";
       loginPage.presentAlert(stringNotification);
     }
