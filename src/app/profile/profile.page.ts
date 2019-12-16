@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { Storage } from '@ionic/storage';
 import { LoginService } from './../login/login.service';
 import axios from 'axios';
+import { LoadingController } from '@ionic/angular';
 
 const TOKEN_LOGIN = 'login-key';
 const TOKEN_USERNAME = 'username-key';
@@ -18,10 +19,13 @@ export class ProfilePage implements OnInit {
   phoneNumber : String;
   gameList;
   profileImage;
+  stringLoading = "Please wait. We are loading your profile."
   
   constructor(private loginSrvc: LoginService,
     private router: Router,
-    private storage: Storage) {
+    private storage: Storage,
+    private loadingCtrl: LoadingController
+    ) {
     this.getProfile();
   }
   
@@ -39,6 +43,7 @@ export class ProfilePage implements OnInit {
     this.storage.get(TOKEN_USERNAME).then(username => {
       var tempResponse;
       console.log(username);
+      this.presentLoading(this.stringLoading);
       axios({
         method: 'get',
         url: environment.endPointConstant.getUserData + username,
@@ -63,6 +68,7 @@ export class ProfilePage implements OnInit {
             profilePage.gameList = tempResponse.gameList;
           }
           profilePage.storage.set(TOKEN_LOGIN, JSON.stringify(tempResponse)).then((response) => {});
+        profilePage.loadingCtrl.dismiss();
       })
       .catch(error => {
         console.log(error);
@@ -70,7 +76,17 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit() { }
 
+  presentLoading(stringLoading){
+    console.log("mulai present")
+    this.loadingCtrl.create({
+      keyboardClose: true,
+      message: stringLoading
+    })
+    .then(loadingEl => {
+      loadingEl.present();
+    })
+    console.log("selesai present")
   }
 }

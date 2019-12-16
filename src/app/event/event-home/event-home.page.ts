@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from './../../login/login.service';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { environment } from '../../../environments/environment';
 import { Position } from '../position.model';
@@ -28,13 +28,15 @@ export class EventHomePage implements OnInit {
   maxPageArr: Number[];
   maxPage: Number;
   searchEmpty: boolean;
+  stringLoading = "Please wait. We are loading the Event Home contents."
 
   constructor(
     private loginSrvc: LoginService,
     private storage: Storage,
     private router: Router,
     private geolocation: Geolocation,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private loadingCtrl: LoadingController,
   ) { }
 
   ionViewWillEnter() {
@@ -60,6 +62,8 @@ export class EventHomePage implements OnInit {
         else {
           this.storage.get(TOKEN_LOGIN).then(userObject => {
             var tempUserObject = JSON.parse(userObject);
+            this.stringLoading = "We are searching the events."
+            this.presentLoading(this.stringLoading)
             axios({
               method: 'get',
               url: environment.endPointConstant.searchEvent + '/' + tempUserObject.username + '/' + searchFilter.toString() + '/' + this.selectedPage + '/' + this.currLatitude + '/' + this.currLongitude,
@@ -80,6 +84,7 @@ export class EventHomePage implements OnInit {
                 eventHomePage.maxPage = tempResponse.maxPage;
                 eventHomePage.maxPageArr = eventHomePage.toBeArray(tempResponse.maxPage);
               }
+              eventHomePage.loadingCtrl.dismiss();
             })
             .catch(function (error) {
               console.log(error);
@@ -114,6 +119,7 @@ export class EventHomePage implements OnInit {
             this.presentAlertGeolocation("Error when receive current location.");
           }
           else {
+            this.presentLoading(this.stringLoading)
             this.storage.get(TOKEN_ID).then(userId => {
               axios({
                 method: 'get',
@@ -135,6 +141,7 @@ export class EventHomePage implements OnInit {
                   eventHomePage.maxPage = tempResponse.maxPage;
                   eventHomePage.maxPageArr = eventHomePage.toBeArray(tempResponse.maxPage);
                 }
+                eventHomePage.loadingCtrl.dismiss();
               })
               .catch(error => {
                 console.log(error);
@@ -179,5 +186,17 @@ export class EventHomePage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  presentLoading(stringLoading){
+    console.log("mulai present")
+    this.loadingCtrl.create({
+      keyboardClose: true,
+      message: stringLoading
+    })
+    .then(loadingEl => {
+      loadingEl.present();
+    })
+    console.log("selesai present")
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { environment } from '../../environments/environment';
 import { LoginService } from './login.service';
 import axios from 'axios';
@@ -15,12 +15,14 @@ const TOKEN_USERNAME = 'username-key';
 })
 export class LoginPage implements OnInit {
   isFormValid = false; 
+  stringLoading = "Please wait. We are checking your login informations."
   
   constructor(
     private router: Router,
     public alertController: AlertController,
     private loginSrvc: LoginService,
     private storage: Storage,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -73,6 +75,7 @@ export class LoginPage implements OnInit {
       stringNotification = "Please input valid email!";
     }
     else {
+      loginPage.presentLoading(this.stringLoading);
       axios({
         method: 'post',
         url: environment.endPointConstant.loginEndPoint,
@@ -97,6 +100,7 @@ export class LoginPage implements OnInit {
         if(loginSuccess){
           loginPage.setUserToStorage(tempUsername);
         } else {
+          loginPage.loadingCtrl.dismiss();
           loginPage.presentAlert(stringNotification);
         }
       })
@@ -107,12 +111,14 @@ export class LoginPage implements OnInit {
   }
 
   setUserToStorage(username) {
+    var loginPage = this;
     axios({
       method: 'get',
       url: environment.endPointConstant.getUserData + username,
       headers: { "Content-Type": "application/json" }
     })
     .then(res => {
+      loginPage.loadingCtrl.dismiss();
       console.log("get user data response ",res);
       this.loginSrvc.logIn(res.data);
     })
@@ -121,4 +127,16 @@ export class LoginPage implements OnInit {
   onRegister() {
     this.router.navigateByUrl('/register');
   } 
+
+  presentLoading(stringLoading){
+    console.log("mulai present")
+    this.loadingCtrl.create({
+      keyboardClose: true,
+      message: stringLoading
+    })
+    .then(loadingEl => {
+      loadingEl.present();
+    })
+    console.log("selesai present")
+  }
 }

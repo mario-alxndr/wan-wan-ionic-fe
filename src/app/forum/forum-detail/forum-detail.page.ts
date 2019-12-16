@@ -2,7 +2,7 @@ import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { Thread } from '../thread.model';
 import { Comment } from '../comment.model';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { LoginService } from './../../login/login.service';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
@@ -25,6 +25,7 @@ export class ForumDetailPage implements OnInit {
   maxPage: Number;
   newComment;
   commentCount;
+  stringLoading = "Please wait. We are loading the Forum informations."
 
   private selectedPage = 1;
 
@@ -33,7 +34,8 @@ export class ForumDetailPage implements OnInit {
       private loginSrvc: LoginService,
       private router: Router,
       private route: ActivatedRoute,
-      private storage: Storage
+      private storage: Storage,
+      private loadingCtrl: LoadingController
   ) {
     
   }
@@ -54,6 +56,8 @@ export class ForumDetailPage implements OnInit {
 
       this.route.paramMap.subscribe(paramMap => {
         threadId = paramMap.get('threadId');
+        this.stringLoading = "Please wait. We are loading the Forum informations."
+        forumDetailPage.presentLoading(this.stringLoading);
         axios({
           method: 'get',
           url: environment.endPointConstant.threadDetailEndPoint + '?threadId=' + threadId  + '&page=' + selectedPage,
@@ -76,14 +80,13 @@ export class ForumDetailPage implements OnInit {
             forumDetailPage.comments = tempResponse.commentList;
             for(let i=0; i<tempResponse.commentList.length; i++) {
               forumDetailPage.comments[i].timestamp = moment(moment.utc(forumDetailPage.comments[i].timestamp).toDate()).tz("Asia/Jakarta").format("MMM Do YY");
-
-              //this.comments[i].timestamp = moment(this.comments[i].timestamp).startOf('day').fromNow();
             }
             forumDetailPage.maxPage = tempMaxPage;
             forumDetailPage.maxPageArr = forumDetailPage.toBeArray(tempMaxPage);
             console.log("coey", forumDetailPage.maxPageArr);
             forumDetailPage.commentCount = tempResponse.thread.commentCount;
           }
+          forumDetailPage.loadingCtrl.dismiss();
         })
         .catch(function (error){
             console.log(error);
@@ -149,8 +152,11 @@ export class ForumDetailPage implements OnInit {
     this.storage.get(TOKEN_LOGIN).then(userObject => {
       var tempUserObject = JSON.parse(userObject);
       var tempUsername = tempUserObject.username;
+      var forumDetailPage = this;
 
       console.log(this.thread.id);
+      this.stringLoading = "Adding your comment.."
+      this.presentLoading(this.stringLoading);
       axios({
         method: 'put',
         url: environment.endPointConstant.createComment + tempUsername,
@@ -165,9 +171,8 @@ export class ForumDetailPage implements OnInit {
       })
       .then(res => {
         console.log(res);
-        setTimeout(() => {
-          this.getThreadDetail(this.selectedPage);
-        }, 150);
+        forumDetailPage.loadingCtrl.dismiss();
+        forumDetailPage.getThreadDetail(forumDetailPage.selectedPage);
       })
       .catch(error => {
         console.log(error);
@@ -181,7 +186,17 @@ export class ForumDetailPage implements OnInit {
     this.getThreadDetail(selectedPage);
   }
 
-  ngOnInit() {
-    
+  ngOnInit() {  }
+
+  presentLoading(stringLoading){
+    console.log("mulai present")
+    this.loadingCtrl.create({
+      keyboardClose: true,
+      message: stringLoading
+    })
+    .then(loadingEl => {
+      loadingEl.present();
+    })
+    console.log("selesai present")
   }
 }

@@ -5,6 +5,7 @@ import { Thread } from '../thread.model';
 import axios from 'axios';
 import * as moment from 'moment';
 import { LoginService } from '../../login/login.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-forum-category',
@@ -16,13 +17,15 @@ export class ForumCategoryPage implements OnInit {
   threadList: Promise<Thread[]>;
   maxPageArr: Number[];
   maxPage: Number;
+  stringLoading = "Please wait. We are loading the Category Page contents."
 
   private selectedPage = 1;
   private category = "Moba";
 
   constructor(
     private router: Router,
-    private loginSrvc: LoginService
+    private loginSrvc: LoginService,
+    private loadingCtrl: LoadingController
   ) { 
   
   }
@@ -39,6 +42,7 @@ export class ForumCategoryPage implements OnInit {
     if(!this.loginSrvc.userIsLoggedIn) {
       this.router.navigateByUrl('/login');
     }
+    this.presentLoading(this.stringLoading);
     axios({
       method: 'get',
       url: environment.endPointConstant.threadCategoryEndPoint + "?category=" + selectedCategory + "&page=" + selectedPage,
@@ -65,6 +69,7 @@ export class ForumCategoryPage implements OnInit {
         forumCategoryPage.maxPage = tempMaxPage
         forumCategoryPage.maxPageArr = forumCategoryPage.toBeArray(tempMaxPage);
       }
+      forumCategoryPage.loadingCtrl.dismiss();
     })
     .catch(function (error) {
       console.log(error);
@@ -86,7 +91,17 @@ export class ForumCategoryPage implements OnInit {
     this.getCategoryThread(1, selectedCategory);
   }
 
-  ngOnInit() {
-    
+  ngOnInit() { }
+
+  presentLoading(stringLoading){
+    console.log("mulai present")
+    this.loadingCtrl.create({
+      keyboardClose: true,
+      message: stringLoading
+    })
+    .then(loadingEl => {
+      loadingEl.present();
+    })
+    console.log("selesai present")
   }
 }
