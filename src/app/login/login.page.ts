@@ -5,7 +5,6 @@ import { AlertController, LoadingController } from '@ionic/angular';
 import { environment } from '../../environments/environment';
 import { LoginService } from './login.service';
 import axios from 'axios';
-import { loadingController } from '@ionic/core';
 
 const TOKEN_USERNAME = 'username-key';
 
@@ -103,7 +102,6 @@ export class LoginPage implements OnInit {
         }
         if(loginSuccess){
           loginPage.setUserToStorage(tempUsername);
-         // loading.dismiss();
         } else {
           loginPage.loadingCtrl.dismiss();
           loginPage.presentAlert(stringNotification);
