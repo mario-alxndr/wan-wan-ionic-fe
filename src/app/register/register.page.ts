@@ -118,7 +118,7 @@ export class RegisterPage implements OnInit {
       stringNotification = "Please input valid phone number!";
     }
     else if(!this.validatePassword(form.value.password)) {
-      stringNotification = "Please input valid password!";
+      stringNotification = "Please input valid password! Minimum 8 characters with at least 1 alphabet and 1 number.";
     }
     else {
       axios({
