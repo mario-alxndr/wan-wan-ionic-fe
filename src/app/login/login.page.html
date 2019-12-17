@@ -19,8 +19,8 @@
   </ion-grid>
   
   <form #f="ngForm" (ngSubmit)="onSubmit()">
-    <ion-list >
-      <ion-item  style = "opacity: 0.5;">
+    <ion-list style="opacity: 80%; padding-bottom: 0px;">
+      <ion-item>
         <ion-label
           position="floating">
           E-mail: 
@@ -35,13 +35,13 @@
           type="email"          
         ></ion-input>
       </ion-item>
-      <ion-item style = "opacity: 0.5;"
+      <ion-item
         *ngIf="!emailCtrl.valid && emailCtrl.touched"
         lines="none"
       >
         <ion-label class="red">Should be a valid email address</ion-label>
       </ion-item>
-      <ion-item style = "opacity: 0.5;">
+      <ion-item>
         <ion-label position="floating">Password: </ion-label>
           <ion-input
             inputmode="password"
