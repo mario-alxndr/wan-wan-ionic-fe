@@ -10,11 +10,14 @@
 <ion-content>
   <ion-grid padding style="">
     <ion-row *ngIf="searchEmpty">
+      <ion-col size="12" text-center>
+        <ion-img style="height: 100px; width: 100px; margin: auto;" class="img-avt" src="{{empty}}"></ion-img>
+      </ion-col>
       <ion-col text-center>
         Bookmark Event is Empty
       </ion-col>
     </ion-row>
-    <ion-row *ngFor="let event of myEventList">
+    <ion-row *ngFor="let event of myEventList" style="background-color: white;">
       <ion-col size="12">
         <ion-card [routerLink]="['/','event','event-detail',event.id]">
           <ion-item>
@@ -43,14 +46,14 @@
               </ion-row>
             </ion-col>
           </ion-item>
-          <ion-row>
+          <ion-row style="background-color: white;">
             <ion-col>
               <p style="margin: 3%; border: solid 1px black; padding: 4px;">
                 {{event.description}}
               </p>
             </ion-col>
           </ion-row>
-          <ion-row align-items-center style="margin-bottom: 3%;">
+          <ion-row align-items-center style="background-color: white; margin-bottom: 3%;">
             <ion-col size="7" offset="1">
               Games: <ion-label *ngFor="let game of event.games">{{game}} </ion-label>
             </ion-col>

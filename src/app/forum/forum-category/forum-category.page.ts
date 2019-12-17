@@ -64,6 +64,9 @@ export class ForumCategoryPage implements OnInit {
       }
       else {
         for(let i=0; i< tempThreadList.length; i++) { 
+          if(forumCategoryPage.threadList[i].makerImage === ""){
+            forumCategoryPage.threadList[i].makerImage = environment.defaultImageProfile;
+          }
           forumCategoryPage.threadList[i].timestamp =  moment(forumCategoryPage.threadList[i].timestamp).startOf('day').fromNow();
         }
         forumCategoryPage.maxPage = tempMaxPage
