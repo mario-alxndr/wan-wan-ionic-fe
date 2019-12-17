@@ -8,9 +8,7 @@
   <ion-grid>
     <ion-row style="margin-top: 40px;">
       <ion-col text-center>
-        <ion-avatar style="margin: auto; width: 100px; height: 70px;">
-          <ion-img class="img-avt" src="{{ logo }}"></ion-img>
-        </ion-avatar>
+        <ion-img class="img-avt center" style="margin:auto; width: 120px; height: 100px;" src="{{ logo }}"></ion-img>
       </ion-col>
     </ion-row>
     <ion-row style="margin-bottom: 40px;">
@@ -21,8 +19,8 @@
   </ion-grid>
   
   <form #f="ngForm" (ngSubmit)="onSubmit()">
-    <ion-list style = "background-color: #00000000;">
-      <ion-item style = "opacity: 0.5;">
+    <ion-list >
+      <ion-item  style = "opacity: 0.5;">
         <ion-label
           position="floating">
           E-mail: 

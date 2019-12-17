@@ -35,7 +35,8 @@ export const environment = {
     user_longitude: "USER_LONGITUDE"
   },
   mapsAPIKey: 'AIzaSyB5km7rlUUS8THKK0OO5V9VIhCs61giBLU',
-  defaultImageProfile: "assets/2157564-poring.jpg"
+  defaultImageProfile: "assets/2157564-poring.jpg",
+  defaultEmptyImage: "assets/empty.png",
 };
 
 /*

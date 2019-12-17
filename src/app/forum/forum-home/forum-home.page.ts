@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { Storage } from '@ionic/storage';
 import { Thread } from '../thread.model';
 import { LoadingController } from '@ionic/angular';
+import { CoreEnvironment } from '@angular/compiler/src/compiler_facade_interface';
 
 const TOKEN_LOGIN = 'login-key';
 const TOKEN_USERNAME = 'username-key';
@@ -23,7 +24,8 @@ export class ForumHomePage implements OnInit {
   maxPage: Number;
   searchEmpty: boolean;
   stringLoading = "Please wait. We are loading the Forum Page contents."
-
+  empty;
+  
   private selectedPage = 1;
 
   constructor(
@@ -32,7 +34,7 @@ export class ForumHomePage implements OnInit {
     private storage: Storage,
     private loadingCtrl: LoadingController
   ) {
-    
+    this.empty = environment.defaultEmptyImage;
   }
 
   ionViewWillEnter() {

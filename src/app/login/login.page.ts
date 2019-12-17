@@ -15,7 +15,7 @@ const TOKEN_USERNAME = 'username-key';
 })
 export class LoginPage implements OnInit {
   isFormValid = false; 
-  logo = "assets/login.png";
+  logo = "assets/login-crop.png";
   stringLoading = "Please wait. We are checking your login informations."
   
   constructor(
