@@ -77,8 +77,14 @@ export class ForumDetailPage implements OnInit {
           else {
             forumDetailPage.thread = tempResponse.thread;
             forumDetailPage.thread.timestamp = moment(moment.utc(forumDetailPage.thread.timestamp).toDate()).tz("Asia/Jakarta").format("MMM Do YY");
+            if(forumDetailPage.thread.makerImage === ""){
+              forumDetailPage.thread.makerImage = environment.defaultImageProfile;
+            }
             forumDetailPage.comments = tempResponse.commentList;
             for(let i=0; i<tempResponse.commentList.length; i++) {
+              if(forumDetailPage.comments[i].profileImage === ""){
+                forumDetailPage.comments[i].profileImage = environment.defaultImageProfile;
+              }
               forumDetailPage.comments[i].timestamp = moment(moment.utc(forumDetailPage.comments[i].timestamp).toDate()).tz("Asia/Jakarta").format("MMM Do YY");
             }
             forumDetailPage.maxPage = tempMaxPage;
