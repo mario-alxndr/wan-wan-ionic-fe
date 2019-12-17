@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>Add Thread</ion-title>
+        <ion-title text-center style="margin: auto; padding-left: 60px;">Add Thread</ion-title>
         <ion-buttons slot="end">
             <ion-menu-button menu="m1"></ion-menu-button>
         </ion-buttons>
@@ -10,7 +10,7 @@
 <ion-content>
     <ion-grid>
         <ion-col size="12" text-center>
-            <ion-card>
+            <ion-card style="background-color: white; opacity: 80%;">
                 <div align="center" style="margin-top: 5px;">
                     <ion-card-title>
                         <ion-avatar>
@@ -26,7 +26,7 @@
             </ion-card>
         </ion-col>
         <form #f="ngForm" (ngSubmit)="onSubmit()">
-            <ion-item-group>
+            <ion-item-group style="opacity: 80%">
                 <ion-item>
                     <ion-label position="stacked">
                         Thread's Name
