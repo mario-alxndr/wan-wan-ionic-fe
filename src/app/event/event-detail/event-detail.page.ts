@@ -83,7 +83,7 @@ export class EventDetailPage implements OnInit {
                   console.log("bookmark", eventDetailPage.bookmark);
                   eventDetailPage.event.dateStart = moment(eventDetailPage.event.dateStart).format("MMM Do YY");
                   eventDetailPage.event.dateEnd = moment(eventDetailPage.event.dateEnd).format("MMM Do YY");
-                  eventDetailPage.event.timestamp = moment(eventDetailPage.event.timestamp).startOf('day').fromNow();
+                  eventDetailPage.event.timestamp = moment(eventDetailPage.event.timestamp).format("MMM Do YY")
                   eventDetailPage.locationAddress = eventDetailPage.getAddress(eventDetailPage.event.latitude, eventDetailPage.event.longitude);
                   axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${eventDetailPage.event.latitude},${eventDetailPage.event.longitude}&key=${environment.mapsAPIKey}`).then((response) => {
                     console.log(response);

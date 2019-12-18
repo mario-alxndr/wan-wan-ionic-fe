@@ -1,3 +1,7 @@
+.img-avt{
+   border-radius: 50%;
+}
+
 .thread-title {
     font-size: 0.8em;
 }
@@ -5,4 +9,29 @@
 ion-content{
     --background: url(../../../assets/background/4.jpg) 0 0/100% 100% no-repeat;
     --background-size: cover;  
+}
+
+.thread-name {
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.forum-makerImage {
+    margin-top: 5px;
+}
+
+.thread-title {
+    font-size: 0.8em;
+}
+
+.thread-date {
+    font-size: 0.7em;
+}
+
+.list-md {
+    background: transparent;
+}
+
+.forum-card {
+    background-color: white;
 }

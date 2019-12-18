@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { LoginService } from './../../login/login.service';
 import axios from 'axios';
 import { BehaviorSubject } from 'rxjs';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 import { Storage } from '@ionic/storage';
 import { Thread } from '../thread.model';
 import { LoadingController } from '@ionic/angular';
@@ -126,7 +126,7 @@ export class ForumHomePage implements OnInit {
           if(forumHomePage.threadList[i].makerImage === ""){
             forumHomePage.threadList[i].makerImage = environment.defaultImageProfile;
           }
-          forumHomePage.threadList[i].timestamp =  moment(forumHomePage.threadList[i].timestamp).startOf('day').fromNow();
+          forumHomePage.threadList[i].timestamp = moment(moment.utc(forumHomePage.threadList[i].timestamp).toDate()).tz("Asia/Jakarta").format("MMM Do YY");
         }
         forumHomePage.maxPage = tempMaxPage;
         forumHomePage.maxPageArr = forumHomePage.toBeArray(tempMaxPage);

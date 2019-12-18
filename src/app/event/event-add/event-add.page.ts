@@ -12,16 +12,13 @@ import { HttpClient } from '@angular/common/http';
 import { Base64 } from '@ionic-native/base64/ngx';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
-
 const TOKEN_USERNAME = 'username-key';
-
 @Component({
   selector: 'app-event-add',
   templateUrl: './event-add.page.html',
   styleUrls: ['./event-add.page.scss'],
 })
 export class EventAddPage implements OnInit {
-
   private username;
   private eventType;
   private eventTag;
@@ -34,7 +31,6 @@ export class EventAddPage implements OnInit {
   private kbytes;
   private showButtonLocation = false;
   stringLoading = "Please wait. We are adding your new event."
-
   constructor(
     private storage: Storage,
     private loginSrvc: LoginService,
@@ -47,9 +43,7 @@ export class EventAddPage implements OnInit {
     private filePath: FilePath,
     private loadingCtrl: LoadingController,
   ) { 
-    
   }
-
   ngOnInit() {
     var eventAddPage = this;
     this.storage.get(TOKEN_USERNAME).then(userObject => {
@@ -59,7 +53,6 @@ export class EventAddPage implements OnInit {
       eventAddPage.router.navigateByUrl('/login');
     }
   }
-
   async presentAlert(success, stringNotification) {
     const alertFailed = await this.alertController.create({
       header: 'Error',
@@ -81,7 +74,6 @@ export class EventAddPage implements OnInit {
     if(success) { await alertSuccess.present(); }
     else { await alertFailed.present(); }
   }
-
   async onPickLocation() {
     const modal = await this.modalController.create({
       component: MapModalComponent
@@ -97,7 +89,6 @@ export class EventAddPage implements OnInit {
     });
     return await modal.present();
   }
-
   private getAddress(lat: number, lng: number) {
     return this.http.get<any>(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${environment.mapsAPIKey}`)
     .pipe(
@@ -110,7 +101,6 @@ export class EventAddPage implements OnInit {
       })
     )
   }
-
   onAddEvent(form) {
     var stringNotification = "";
     var eventGames: string[];
@@ -118,7 +108,6 @@ export class EventAddPage implements OnInit {
     var success = false;
     var counter = 0;
     var eventAddPage = this;
-
     if(!form.value.eventName || 
        !form.value.eventType || 
        !form.value.eventGames || 
@@ -130,78 +119,80 @@ export class EventAddPage implements OnInit {
        !form.value.eventSite) {
         stringNotification += "Please enter ";
         if(!form.value.eventName) {
-        stringNotification += "event name";
-        counter++;
+          stringNotification += "event name";
+          counter++;
         }
         if(!form.value.eventType) {
-        if(counter>0){
-          stringNotification += ", ";
-        }
-        stringNotification += "event type";
-        counter++;
+          if(counter>0){
+            stringNotification += ", ";
+          }
+          stringNotification += "event type";
+          counter++;
         }
         if(!form.value.eventGames) {
-        if(counter>0){
-          stringNotification += ", ";
-        }
-        stringNotification += "event games";
-        counter++;
+          if(counter>0){
+            stringNotification += ", ";
+          }
+          stringNotification += "event games";
+          counter++;
         }
         if(!form.value.description) {
-        if(counter>0){
-          stringNotification += ", ";
-        }
-        stringNotification += "description";
-        counter++;
+          if(counter>0){
+            stringNotification += ", ";
+          }
+          stringNotification += "description";
+          counter++;
         }
         if(!form.value.startDate) {
-        if(counter>0){
-          stringNotification += ", ";
-        }
-        stringNotification += "start date";
-        counter++;
+          if(counter>0){
+            stringNotification += ", ";
+          }
+          stringNotification += "start date";
+          counter++;
         }
         if(!form.value.endDate) {
-        if(counter>0){
-          stringNotification += ", ";
-        }
-        stringNotification += "end date";
-        counter++;
+          if(counter>0){
+            stringNotification += ", ";
+          }
+          stringNotification += "end date";
+          counter++;
         }
         if(!form.value.startTime) {
-        if(counter>0){
-          stringNotification += ", ";
-        }
-        stringNotification += "start time";
-        counter++;
+          if(counter>0){
+            stringNotification += ", ";
+          }
+          stringNotification += "start time";
+          counter++;
         }
         if(!form.value.eventTag) {
-        if(counter>0){
-          stringNotification += ", ";
-        }
-        stringNotification += "event tag";
-        counter++;
+          if(counter>0){
+            stringNotification += ", ";
+          }
+          stringNotification += "event tag";
+          counter++;
         }
         if(!form.value.eventSite) {
-        if(counter>0){
-          stringNotification += ", ";
+          if(counter>0){
+            stringNotification += ", ";
+          }
+          stringNotification += "event site";
+          counter++;
         }
-        stringNotification += "event site";
-        counter++;
-        }
+        eventAddPage.presentAlert(success, stringNotification);
     }
     else if(form.value.eventSite == "Onsite" && !this.pickedLocation) {
       stringNotification = "Please enter event location";
+      eventAddPage.presentAlert(success, stringNotification);
     }
     else if(this.fileLocation == ""){
       stringNotification = "Please input event poster";
+      eventAddPage.presentAlert(success, stringNotification);
     }
-    
     else {
+      form.reset();
       eventGames = [form.value.eventGames];
       eventCategory = [form.value.eventTag];
       success = true;
-
       this.presentLoading(this.loadingCtrl);
       axios({
         method: 'put',
@@ -232,7 +223,6 @@ export class EventAddPage implements OnInit {
       })
     }
   }
-
   onChooseFile() {
     this.fileChooser.open().then(uri => {
       this.filePath.resolveNativePath(uri).then((nativePath) => {
@@ -250,29 +240,24 @@ export class EventAddPage implements OnInit {
       console.log(e);
     })
   }
-
   calculateImageSize(base64String) {
     let padding, inBytes, base64StringLength;
     if(base64String.endsWith("==")) padding = 2;
     else if (base64String.endsWith("=")) padding = 1;
     else padding = 0;
-
     base64StringLength = base64String.length;
     inBytes =(base64StringLength / 4 ) * 3 - padding;
     this.kbytes = inBytes / 1000;
     return this.kbytes;
   }
-
   changeType(eventType) {
     this.eventType = eventType;
     console.log(eventType);
   }
-
   changeTag(eventTag) {
     this.eventTag = eventTag;
     console.log(eventTag);
   }
-
   changeSite(eventSite) {
     if(eventSite == "Onsite"){
       this.showButtonLocation = true;
@@ -282,8 +267,7 @@ export class EventAddPage implements OnInit {
     this.eventSite = eventSite;
     console.log(eventSite);
   }
-
-  presentLoading(stringLoading){
+  presentLoading(stringLoading) {
     console.log("mulai present")
     this.loadingCtrl.create({
       keyboardClose: true,

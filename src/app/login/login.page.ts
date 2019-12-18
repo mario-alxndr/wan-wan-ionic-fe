@@ -101,6 +101,7 @@ export class LoginPage implements OnInit {
           tempUsername = response.data.username;
         }
         if(loginSuccess){
+          form.reset();
           loginPage.setUserToStorage(tempUsername);
         } else {
           loginPage.loadingCtrl.dismiss();

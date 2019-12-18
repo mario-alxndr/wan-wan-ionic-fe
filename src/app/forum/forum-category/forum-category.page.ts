@@ -67,7 +67,7 @@ export class ForumCategoryPage implements OnInit {
           if(forumCategoryPage.threadList[i].makerImage === ""){
             forumCategoryPage.threadList[i].makerImage = environment.defaultImageProfile;
           }
-          forumCategoryPage.threadList[i].timestamp =  moment(forumCategoryPage.threadList[i].timestamp).startOf('day').fromNow();
+          forumCategoryPage.threadList[i].timestamp =  moment(forumCategoryPage.threadList[i].timestamp).format("MMM Do YY")
         }
         forumCategoryPage.maxPage = tempMaxPage
         forumCategoryPage.maxPageArr = forumCategoryPage.toBeArray(tempMaxPage);

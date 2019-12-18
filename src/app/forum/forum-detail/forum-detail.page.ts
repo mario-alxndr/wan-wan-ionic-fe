@@ -81,11 +81,13 @@ export class ForumDetailPage implements OnInit {
               forumDetailPage.thread.makerImage = environment.defaultImageProfile;
             }
             forumDetailPage.comments = tempResponse.commentList;
-            for(let i=0; i<tempResponse.commentList.length; i++) {
-              if(forumDetailPage.comments[i].profileImage === ""){
-                forumDetailPage.comments[i].profileImage = environment.defaultImageProfile;
+            if(tempResponse.commentList != null) {
+              for(let i=0; i<tempResponse.commentList.length; i++) {
+                if(forumDetailPage.comments[i].profileImage === ""){
+                  forumDetailPage.comments[i].profileImage = environment.defaultImageProfile;
+                }
+                forumDetailPage.comments[i].timestamp = moment(moment.utc(forumDetailPage.comments[i].timestamp).toDate()).tz("Asia/Jakarta").format("MMM Do YY");
               }
-              forumDetailPage.comments[i].timestamp = moment(moment.utc(forumDetailPage.comments[i].timestamp).toDate()).tz("Asia/Jakarta").format("MMM Do YY");
             }
             forumDetailPage.maxPage = tempMaxPage;
             forumDetailPage.maxPageArr = forumDetailPage.toBeArray(tempMaxPage);

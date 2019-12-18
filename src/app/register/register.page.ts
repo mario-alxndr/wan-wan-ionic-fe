@@ -5,18 +5,14 @@ import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { LoginService } from '../login/login.service';
-
 const TOKEN_USERNAME = 'username-key';
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
-
 export class RegisterPage implements OnInit {
   stringLoading = "Please wait. We are registering your account."
-
   constructor(
     public alertController: AlertController,
     public router: Router,
@@ -24,7 +20,6 @@ export class RegisterPage implements OnInit {
     private storage: Storage,
     private loadingCtrl: LoadingController
   ) { }
-
   ngOnInit() {
     this.storage.get(TOKEN_USERNAME).then(username => {
       if(username){
@@ -32,22 +27,18 @@ export class RegisterPage implements OnInit {
       }
     });
   }
-
   validateEmail(email) {
     var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return regex.test(String(email).toLowerCase());
   }
-
   validatePhoneNumber(phonenumber) {
     var regex = /^[+|0-9][0-9]{7,15}$/;
     return regex.test(phonenumber);
   }
-
   validatePassword(password) {
     var regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,}$/;
     return regex.test(password);
   }
-
   async presentAlert(success, stringNotification) {
     const alertFailed = await this.alertController.create({
       header: 'Error',
@@ -69,13 +60,12 @@ export class RegisterPage implements OnInit {
     if(success) { await alertSuccess.present(); }
     else { await alertFailed.present(); }
   }
-
   onRegister(form) {
     var stringNotification = "";
     var success = false;
     var counter = 0;
     var registerPage = this;
-
+    console.log(form);
     if(!form.value.email || !form.value.password || !form.value.retypepassword || !form.value.username || !form.value.phonenumber) {
       stringNotification += "Please enter your ";
       if(!form.value.email){
@@ -83,45 +73,50 @@ export class RegisterPage implements OnInit {
         counter++;
       } 
       if(!form.value.password){
-        if(counter>0){
+        if(counter>0) {
           stringNotification += ", ";
         }
         stringNotification += "password";
         counter++;
       } 
       if(!form.value.retypepassword){
-        if(counter>0){
+        if(counter>0) {
           stringNotification += ", ";
         }
         stringNotification += " retype password";
         counter++;
       } 
-      if(!form.value.username){
-        if(counter>0){
+      if(!form.value.username) {
+        if(counter>0) {
           stringNotification += ", ";
         }
         stringNotification += " username";
         counter++;
       } 
-      if(!form.value.phonenumber){
+      if(!form.value.phonenumber) {
         if(counter>0){
           stringNotification += ", ";
         }
         stringNotification += " phone number";
         counter++;
-      } 
+      }
+      registerPage.presentAlert(success, stringNotification);
     }
-    else if(!this.validateEmail(form.value.email)){
+    else if(!this.validateEmail(form.value.email)) {
       stringNotification = "Please input valid email!";
+      registerPage.presentAlert(success, stringNotification);
     }
     else if(form.value.password !== form.value.retypepassword) {
       stringNotification = "Please retype correct password!";
+      registerPage.presentAlert(success, stringNotification);
     }
     else if((form.value.phonenumber.length < 8 && form.value.phonenumber.length > 15) || !this.validatePhoneNumber(form.value.phonenumber)) {
       stringNotification = "Please input valid phone number!";
+      registerPage.presentAlert(success, stringNotification);
     }
     else if(!this.validatePassword(form.value.password)) {
-      stringNotification = "Please input valid password! Minimum 8 characters with at least 1 alphabet and 1 number.";
+      stringNotification = "Please input valid password! Minimum 7 characters with at least 1 alphabet and 1 number.";
+      registerPage.presentAlert(success, stringNotification);
     }
     else {
       registerPage.presentLoading(this.stringLoading);
@@ -140,6 +135,7 @@ export class RegisterPage implements OnInit {
         }
       })
       .then(function (response) {
+        form.reset();
         registerPage.loadingCtrl.dismiss();
         if(response.data.Response.responseCode == "FAILED"){
           stringNotification = response.data.Response.message;
@@ -155,7 +151,6 @@ export class RegisterPage implements OnInit {
       });
     }
   }
-
   presentLoading(stringLoading){
     console.log("mulai present")
     this.loadingCtrl.create({

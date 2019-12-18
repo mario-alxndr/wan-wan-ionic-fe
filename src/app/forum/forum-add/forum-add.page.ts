@@ -89,6 +89,7 @@ export class ForumAddPage implements OnInit {
   }
 
   addComment(form) {
+    form.reset();
     var forumAddPage = this;
     this.presentLoading(this.stringLoading);
     this.storage.get(TOKEN_USERNAME).then(username => {
