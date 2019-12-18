@@ -21,6 +21,7 @@ export class EventMinePage implements OnInit {
   myEventList: Promise<Event[]>;
   searchEmpty: boolean;
   stringLoading = "Please wait. We are loading the My Event Page contents."
+  empty;
 
   constructor(
     private loginSrvc: LoginService,
@@ -28,6 +29,7 @@ export class EventMinePage implements OnInit {
     private router: Router,
     private loadingCtrl: LoadingController
   ) {
+    this.empty = environment.defaultEmptyImage;
   }
 
   ionViewWillEnter() {

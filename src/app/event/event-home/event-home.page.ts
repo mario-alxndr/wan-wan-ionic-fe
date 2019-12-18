@@ -29,6 +29,7 @@ export class EventHomePage implements OnInit {
   maxPage: Number;
   searchEmpty: boolean;
   stringLoading = "Please wait. We are loading the Event Home contents."
+  empty;
 
   constructor(
     private loginSrvc: LoginService,
@@ -37,7 +38,9 @@ export class EventHomePage implements OnInit {
     private geolocation: Geolocation,
     public alertController: AlertController,
     private loadingCtrl: LoadingController,
-  ) { }
+  ) { 
+    this.empty = environment.defaultEmptyImage;
+  }
 
   ionViewWillEnter() {
     this.getLocationAndEvents(this.selectedPage);
@@ -80,6 +83,11 @@ export class EventHomePage implements OnInit {
                 eventHomePage.events = null;
               }
               else {
+                for(let i = 0; i < tempResponse.eventList.length; i++){
+                  if(tempResponse.eventList[i].makerImage === ""){
+                    tempResponse.eventList[i].makerImage = environment.defaultImageProfile;
+                  }
+                }
                 eventHomePage.events = tempResponse.eventList;
                 eventHomePage.maxPage = tempResponse.maxPage;
                 eventHomePage.maxPageArr = eventHomePage.toBeArray(tempResponse.maxPage);
@@ -131,6 +139,11 @@ export class EventHomePage implements OnInit {
               .then(response => {
                 if(response.data) {
                   console.log(response);
+                  for(let i = 0; i < response.data.eventList.length; i++){
+                    if(response.data.eventList[i].makerImage === ""){
+                      response.data.eventList[i].makerImage = environment.defaultImageProfile;
+                    }
+                  }
                   tempResponse = response.data;
                 }
                 if(tempResponse == undefined) {

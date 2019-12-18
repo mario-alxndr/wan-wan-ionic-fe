@@ -18,7 +18,7 @@ const TOKEN_USERNAME = 'username-key';
 })
 export class ForumAddPage implements OnInit {
   user: User = new User();
-  stringLoading = "Please wait. We are adding your new forum."
+  stringLoading = "Please wait. We are adding your new forum.";
 
   constructor(
     private storage: Storage,
@@ -27,7 +27,6 @@ export class ForumAddPage implements OnInit {
     private router: Router,
     private loadingCtrl: LoadingController
   ) {
-    
   }
 
   ngOnInit() {
@@ -37,6 +36,9 @@ export class ForumAddPage implements OnInit {
       this.user = tempUserObject;
       if(!forumAddPage.loginSrvc.userIsLoggedIn) {
         forumAddPage.router.navigateByUrl('/login');
+      }
+      if(this.user.profileImage === ""){
+        this.user.profileImage = environment.defaultImageProfile;
       }
     });
     

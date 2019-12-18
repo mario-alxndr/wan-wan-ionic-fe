@@ -15,6 +15,7 @@ const TOKEN_USERNAME = 'username-key';
 })
 export class LoginPage implements OnInit {
   isFormValid = false; 
+  logo = "assets/login-crop.png";
   stringLoading = "Please wait. We are checking your login informations."
   
   constructor(
@@ -26,7 +27,7 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // console.log(this.loginSrvc.userIsLoggedIn);
+    console.log(this.loginSrvc.userIsLoggedIn);
     this.storage.get(TOKEN_USERNAME).then(username => {
       if(username){
         this.router.navigateByUrl('/forum/forum-home');
@@ -49,7 +50,7 @@ export class LoginPage implements OnInit {
     await alertFailed.present();
   }
 
-  onLogin(form) {
+  async onLogin(form) {
     console.log(new Date);
     var stringNotification = "Please try login again.";
     var counter = 0;
@@ -58,7 +59,7 @@ export class LoginPage implements OnInit {
     var loginPage = this;
 
     if(!form.value.email || !form.value.password) {
-      stringNotification += "Please enter your ";
+      stringNotification += " Please enter your ";
       if(!form.value.email){
         stringNotification += "email";
         counter++;
@@ -70,9 +71,11 @@ export class LoginPage implements OnInit {
         stringNotification += "password";
         counter++;
       }
+      loginPage.presentAlert(stringNotification);
     }
     else if(!this.validateEmail(form.value.email)) {
       stringNotification = "Please input valid email!";
+      loginPage.presentAlert(stringNotification);
     }
     else {
       loginPage.presentLoading(this.stringLoading);

@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { Storage } from '@ionic/storage';
 import { Thread } from '../thread.model';
 import { LoadingController } from '@ionic/angular';
+import { CoreEnvironment } from '@angular/compiler/src/compiler_facade_interface';
 
 const TOKEN_LOGIN = 'login-key';
 const TOKEN_USERNAME = 'username-key';
@@ -23,7 +24,8 @@ export class ForumHomePage implements OnInit {
   maxPage: Number;
   searchEmpty: boolean;
   stringLoading = "Please wait. We are loading the Forum Page contents."
-
+  empty;
+  
   private selectedPage = 1;
 
   constructor(
@@ -32,7 +34,7 @@ export class ForumHomePage implements OnInit {
     private storage: Storage,
     private loadingCtrl: LoadingController
   ) {
-    
+    this.empty = environment.defaultEmptyImage;
   }
 
   ionViewWillEnter() {
@@ -70,6 +72,7 @@ export class ForumHomePage implements OnInit {
             tempMaxPage = response.data.maxPage;
           }
           forumHomePage.threadList = tempThreadList;
+          
           if(forumHomePage.threadList == undefined) {
             forumHomePage.searchEmpty = true;
             forumHomePage.maxPage = 0;
@@ -78,6 +81,9 @@ export class ForumHomePage implements OnInit {
           else {
             for(let i=0; i< tempThreadList.length; i++) { 
               forumHomePage.threadList[i].timestamp =  moment(forumHomePage.threadList[i].timestamp).startOf('day').fromNow();
+              if(forumHomePage.threadList[i].makerImage === ""){
+                forumHomePage.threadList[i].makerImage = environment.defaultImageProfile;
+              }
             }
             forumHomePage.maxPage = tempMaxPage;
             forumHomePage.maxPageArr = forumHomePage.toBeArray(tempMaxPage);
@@ -117,6 +123,9 @@ export class ForumHomePage implements OnInit {
         forumHomePage.threadList = tempThreadList;
         console.log(forumHomePage.threadList);
         for(let i=0; i< tempThreadList.length; i++) { 
+          if(forumHomePage.threadList[i].makerImage === ""){
+            forumHomePage.threadList[i].makerImage = environment.defaultImageProfile;
+          }
           forumHomePage.threadList[i].timestamp =  moment(forumHomePage.threadList[i].timestamp).startOf('day').fromNow();
         }
         forumHomePage.maxPage = tempMaxPage;

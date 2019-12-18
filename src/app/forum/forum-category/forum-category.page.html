@@ -12,7 +12,7 @@
     <ion-row>
       <ion-col size="8" offset="2">
         <ion-card>
-          <ion-select 
+          <ion-select style="background-color: white;"
             placeholder="Moba"
             ngModel
             #selectedCategory="ngModel"
@@ -25,7 +25,7 @@
       </ion-col>
     </ion-row>
     <ion-row text-right align-items-center ion-justify-content-end>
-      <ion-col size="1.5" offset="4">
+      <ion-col size="2" offset="3.5">
         <ion-label>Page</ion-label>
       </ion-col>
       <ion-col size="1.5">
@@ -48,7 +48,7 @@
       <ion-col size="12">
         <ion-card [routerLink]="['/','forum', 'forum-detail', thread.id]">
           <ion-item>
-            <ion-col size="2">
+            <ion-col size="3">
               <ion-thumbnail>
                 <ion-img src={{thread.makerImage}}></ion-img>
               </ion-thumbnail>
@@ -68,14 +68,14 @@
               <ion-label>{{thread.timestamp}}</ion-label>
             </ion-col>
           </ion-item>
-          <ion-row>
+          <ion-row style="background-color: white;">
             <ion-col>
                 <p style="margin: 3%; border: solid 1px black; padding: 4px;">
                   {{thread.description}}
                 </p>
             </ion-col>
           </ion-row>
-          <ion-row align-items-center text-right>
+          <ion-row style="background-color: white;" align-items-center text-right>
             <ion-col size="0.5" offset="10">
               <ion-icon name="chatboxes"></ion-icon>
             </ion-col>

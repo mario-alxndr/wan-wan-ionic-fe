@@ -10,14 +10,14 @@
   max-height:  175px;
 
   .headerCommentCard{
-    height: 70px;
+    height: 90px;
   }
 }
 
 .commentImage {
   border-radius: 50%;
   height: 40px;
-  weight: 40px;
+  width: 40px;
 }
 
 .commentTitle {
@@ -34,4 +34,13 @@
   font-size: 0.7em;
   margin: 20px;
   padding: 4px;
+}
+
+ion-content{
+  --background: url(../../../assets/background/4.jpg) 0 0/100% 100% no-repeat;
+  --background-size: cover;  
+}
+
+.list-md {
+  background: transparent;
 }

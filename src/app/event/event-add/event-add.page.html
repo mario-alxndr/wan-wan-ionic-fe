@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar>
-      <ion-title>Add Event</ion-title>
+      <ion-title text-center style="margin: auto;">Add Event</ion-title>
       <ion-buttons slot="start">
         <ion-back-button defaultHref="event"></ion-back-button>
       </ion-buttons>
@@ -12,7 +12,7 @@
   
   <ion-content padding>
     <form #f="ngForm" (ngSubmit)="onSubmit()">
-      <ion-grid style="margin-top: 5%;">
+      <ion-grid style="background-color: white; margin-top: 5%; opacity: 80%;">
         <ion-row align-items-center>
           <ion-col size="3" offset="1">
             <ion-label>Event Name</ion-label>
@@ -107,7 +107,7 @@
               </ion-datetime>
             </ion-card>
           </ion-col>
-          <ion-col size="0.8">to</ion-col>
+          <ion-col size="1">to</ion-col>
           <ion-col size="3">
             <ion-card>
               <ion-datetime
