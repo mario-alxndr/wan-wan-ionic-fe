@@ -15,7 +15,7 @@
       <ion-grid style="background-color: white; margin-top: 5%; opacity: 80%;">
         <ion-row align-items-center>
           <ion-col size="3" offset="1">
-            <ion-label>Event Name</ion-label>
+            <ion-label class="event-title">Event Name</ion-label>
           </ion-col>
           <ion-col size="7">
             <ion-card>
@@ -34,7 +34,7 @@
         </ion-row>
         <ion-row align-items-center>
           <ion-col size="3" offset="1">
-            <ion-label>Event Type</ion-label>
+            <ion-label class="event-title">Event Type</ion-label>
           </ion-col>
           <ion-col size="7">
             <ion-card>
@@ -53,7 +53,7 @@
         </ion-row>
         <ion-row align-items-center>
           <ion-col size="3" offset="1">
-            <ion-label>Event Games</ion-label>
+            <ion-label class="event-title">Event Games</ion-label>
           </ion-col>
           <ion-col size="7">
             <ion-card>
@@ -71,7 +71,7 @@
         </ion-row>
         <ion-row>
           <ion-col size="3" offset="1" style="margin-top: 3%;">
-            <ion-label>Description</ion-label>
+            <ion-label class="event-title">Description</ion-label>
           </ion-col>
           <ion-col size="7">
             <ion-card>
@@ -91,14 +91,15 @@
         </ion-row>
         <ion-row align-items-center>
           <ion-col size="3" offset="1">
-            <ion-label>Event Date</ion-label>
+            <ion-label class="event-title">Event Start</ion-label>
           </ion-col>
-          <ion-col size="3">
+          <ion-col size="7">
             <ion-card>
               <ion-datetime
                 ngModel
                 name="startDate"
                 required
+                [min]="2019"
                 startDate
                 type="datetime"
                 displayFormat="D/M/YYYY"
@@ -107,8 +108,12 @@
               </ion-datetime>
             </ion-card>
           </ion-col>
-          <ion-col size="1">to</ion-col>
-          <ion-col size="3">
+        </ion-row>
+        <ion-row *ngIf="startDateCtrl.value">
+          <ion-col size="3" offset="1">
+            <ion-label class="event-title">Event End</ion-label>
+          </ion-col>
+          <ion-col size="7">
             <ion-card>
               <ion-datetime
                 ngModel
@@ -116,6 +121,7 @@
                 required
                 endDate
                 [min]="startDateCtrl.value"
+                [max]="2022"
                 type="datetime"  
                 displayFormat="D/M/YYYY"
                 pickerFormat="DD MMMM YYYY"></ion-datetime>
@@ -124,7 +130,7 @@
         </ion-row>
         <ion-row align-items-center>
           <ion-col size="3" offset="1">
-            <ion-label>Start Time</ion-label>
+            <ion-label class="event-title">Start Time</ion-label>
           </ion-col>
           <ion-col size="1" style="margin-left: 5%;">
             <ion-icon name="time" style="font-size: 30px;"></ion-icon>
@@ -143,7 +149,7 @@
         </ion-row>
         <ion-row align-items-center>
           <ion-col size="3" offset="1">
-            <ion-label>Event Tag</ion-label>
+            <ion-label class="event-title">Event Tag</ion-label>
           </ion-col>
           <ion-col size="7">
             <ion-card>
@@ -162,7 +168,7 @@
         </ion-row>
         <ion-row align-items-center>
           <ion-col size="3" offset="1">
-            <ion-label>Event Site</ion-label>
+            <ion-label class="event-title">Event Site</ion-label>
           </ion-col>
           <ion-col size="7">
             <ion-card>
@@ -181,7 +187,7 @@
         </ion-row>
         <ion-row align-items-center *ngIf="showButtonLocation">
           <ion-col size="3" offset="1">
-            <ion-label>Event Location</ion-label>
+            <ion-label class="event-title">Event Location</ion-label>
           </ion-col>
           <ion-col size="6">
             <ion-button (click)="onPickLocation()">
@@ -195,7 +201,7 @@
         </ion-row>
         <ion-row align-items-center>
           <ion-col size="3" offset="1">
-            <ion-label>Event Poster</ion-label>
+            <ion-label class="font-title">Event Poster</ion-label>
           </ion-col>
           <ion-col>
             <ion-button (click)="onChooseFile()">Choose File</ion-button>
