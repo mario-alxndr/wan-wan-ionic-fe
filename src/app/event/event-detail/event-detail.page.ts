@@ -5,7 +5,7 @@ import axios from 'axios';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ToastController, LoadingController } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
 import { LoginService } from './../../login/login.service';
 import { Event } from '../event.model';
@@ -30,6 +30,7 @@ export class EventDetailPage implements OnInit {
   private userId;
   private locationAddress;
   private bookmark : String;
+  stringLoading = "Please wait. We are loading the Event information."
 
   constructor(
     private loginSrvc: LoginService,
@@ -39,7 +40,8 @@ export class EventDetailPage implements OnInit {
     private geolocation: Geolocation,
     public alertController: AlertController,
     public toastController: ToastController,
-    private http: HttpClient
+    private http: HttpClient,
+    private loadingCtrl: LoadingController,
   ) {
     this.getLocDetailEvent();
   }
@@ -52,6 +54,8 @@ export class EventDetailPage implements OnInit {
       this.router.navigateByUrl('/login');
     }
     else {
+      this.stringLoading = "Please wait. We are loading the Event information."
+      this.presentLoading(this.stringLoading)
       this.storage.get(TOKEN_ID).then(userId => {
         this.userId = userId;
         this.route.paramMap.subscribe(paramMap => {
@@ -73,8 +77,10 @@ export class EventDetailPage implements OnInit {
                 }
               })
               .then(response => {
+                console.log(response);
                 tempResponse = response;
                 if(tempResponse == undefined) {
+                  eventDetailPage.loadingCtrl.dismiss();
                   location.reload();
                 }
                 else {
@@ -89,6 +95,7 @@ export class EventDetailPage implements OnInit {
                     console.log(response);
                     eventDetailPage.locationAddress = response.data.results[0].formatted_address;
                   });
+                  eventDetailPage.loadingCtrl.dismiss();
                 }
               })
               .catch(error => {
@@ -142,13 +149,17 @@ export class EventDetailPage implements OnInit {
   }
 
   onSaveOrRemoveEvent() {
+    var eventDetailPage = this;
     console.log(this.userId);
     this.storage.get(TOKEN_USERNAME).then(username => {
+      this.stringLoading = "Please wait. We are saving this event for you."
       var endPointExt = "add";
       if(this.bookmark === "true") {
         endPointExt = "remove";
+        this.stringLoading = "Please wait. We are removing this event for you."
       }
       console.log(endPointExt);
+      this.presentLoading(this.stringLoading);
       axios({
         method: 'put',
         url: environment.endPointConstant.saveorremoveMyEvent + endPointExt,
@@ -161,6 +172,7 @@ export class EventDetailPage implements OnInit {
         }
       }).then(response => {
         console.log(response);
+        eventDetailPage.loadingCtrl.dismiss();
         this.presentToast();
         this.getLocDetailEvent();
       });
@@ -169,5 +181,17 @@ export class EventDetailPage implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  presentLoading(stringLoading){
+    console.log("mulai present")
+    this.loadingCtrl.create({
+      keyboardClose: true,
+      message: stringLoading
+    })
+    .then(loadingEl => {
+      loadingEl.present();
+    })
+    console.log("selesai present")
   }
 }

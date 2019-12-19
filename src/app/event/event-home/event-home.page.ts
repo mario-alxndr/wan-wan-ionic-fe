@@ -43,7 +43,8 @@ export class EventHomePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.getLocationAndEvents(this.selectedPage);
+    this.selectedPage = 1;
+    this.getLocationAndEvents(1);
   }
 
   public getSearchData(searchFilter){
@@ -115,6 +116,7 @@ export class EventHomePage implements OnInit {
       this.router.navigateByUrl('/login');
     }
     else {
+      this.presentLoading(this.stringLoading);
       this.geolocation.getCurrentPosition()
       .then((response) => {
         this.currLatitude = response.coords.latitude;
@@ -125,9 +127,9 @@ export class EventHomePage implements OnInit {
         this.storage.set(TOKEN_POSITION, position).then((response) => {
           if(!this.currLatitude && !this.currLongitude) {
             this.presentAlertGeolocation("Error when receive current location.");
+            eventHomePage.loadingCtrl.dismiss();
           }
           else {
-            this.presentLoading(this.stringLoading)
             this.storage.get(TOKEN_ID).then(userId => {
               axios({
                 method: 'get',

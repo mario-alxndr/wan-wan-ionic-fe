@@ -30,6 +30,7 @@ export class EventAddPage implements OnInit {
   private fileLocation = "";
   private kbytes;
   private showButtonLocation = false;
+  private showLocation = "";
   stringLoading = "Please wait. We are adding your new event."
   constructor(
     private storage: Storage,
@@ -189,11 +190,10 @@ export class EventAddPage implements OnInit {
       eventAddPage.presentAlert(success, stringNotification);
     }
     else {
-      form.reset();
       eventGames = [form.value.eventGames];
       eventCategory = [form.value.eventTag];
       success = true;
-      this.presentLoading(this.loadingCtrl);
+      this.presentLoading(this.stringLoading);
       axios({
         method: 'put',
         url: environment.endPointConstant.createEvent + '/' + this.username,
@@ -219,6 +219,7 @@ export class EventAddPage implements OnInit {
       .then(function (response) {
         console.log(response);
         eventAddPage.loadingCtrl.dismiss();
+        form.reset();
         eventAddPage.presentAlert(success, stringNotification);
       })
     }
@@ -231,6 +232,7 @@ export class EventAddPage implements OnInit {
             alert("Please upload an image below 3000 MB.");
           }
           else {
+            this.showLocation = nativePath;
             this.fileLocation = base64string;
           }
         })
@@ -240,6 +242,7 @@ export class EventAddPage implements OnInit {
       console.log(e);
     })
   }
+
   calculateImageSize(base64String) {
     let padding, inBytes, base64StringLength;
     if(base64String.endsWith("==")) padding = 2;
@@ -250,14 +253,17 @@ export class EventAddPage implements OnInit {
     this.kbytes = inBytes / 1000;
     return this.kbytes;
   }
+
   changeType(eventType) {
     this.eventType = eventType;
     console.log(eventType);
   }
+
   changeTag(eventTag) {
     this.eventTag = eventTag;
     console.log(eventTag);
   }
+
   changeSite(eventSite) {
     if(eventSite == "Onsite"){
       this.showButtonLocation = true;
@@ -267,6 +273,7 @@ export class EventAddPage implements OnInit {
     this.eventSite = eventSite;
     console.log(eventSite);
   }
+  
   presentLoading(stringLoading) {
     console.log("mulai present")
     this.loadingCtrl.create({

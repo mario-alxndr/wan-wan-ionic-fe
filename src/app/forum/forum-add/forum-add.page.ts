@@ -89,7 +89,6 @@ export class ForumAddPage implements OnInit {
   }
 
   addComment(form) {
-    form.reset();
     var forumAddPage = this;
     this.presentLoading(this.stringLoading);
     this.storage.get(TOKEN_USERNAME).then(username => {
@@ -109,7 +108,7 @@ export class ForumAddPage implements OnInit {
       })
       .then(response => {
         console.log(response);
-        form.clear;
+        form.reset();
         forumAddPage.loadingCtrl.dismiss();
         forumAddPage.presentAddThreadDone();
       })

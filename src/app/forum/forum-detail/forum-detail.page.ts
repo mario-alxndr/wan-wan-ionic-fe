@@ -90,6 +90,9 @@ export class ForumDetailPage implements OnInit {
               }
             }
             forumDetailPage.maxPage = tempMaxPage;
+            if(tempMaxPage == 0){
+              forumDetailPage.maxPage = 1;
+            }
             forumDetailPage.maxPageArr = forumDetailPage.toBeArray(tempMaxPage);
             console.log("coey", forumDetailPage.maxPageArr);
             forumDetailPage.commentCount = tempResponse.thread.commentCount;

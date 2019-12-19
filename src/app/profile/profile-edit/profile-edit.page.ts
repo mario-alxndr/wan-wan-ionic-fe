@@ -7,7 +7,6 @@ import { LoginService } from 'src/app/login/login.service';
 import { Storage } from '@ionic/storage';
 import { NgForm } from '@angular/forms';
 import { Base64 } from '@ionic-native/base64/ngx';
-import { present } from '@ionic/core/dist/types/utils/overlays';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { toBase64String } from '@angular/compiler/src/output/source_map';
@@ -33,6 +32,7 @@ export class ProfileEditPage implements OnInit {
   fileLocation = "";
   private kbytes;
   stringLoading = "";
+  showLocation = "";
 
   constructor(private loginSrvc: LoginService,
     private router: Router,
@@ -139,6 +139,7 @@ export class ProfileEditPage implements OnInit {
             profileEditPage.loadingCtrl.dismiss();
             profileEditPage.presentAlert(stringNotification);
           }
+          location.reload();
         })
         .catch(error => {
           console.log("edit-profile-error", error);
@@ -173,6 +174,7 @@ export class ProfileEditPage implements OnInit {
         profileEditPage.setToStorage();
         profileEditPage.loadingCtrl.dismiss();
         profileEditPage.presentAlert(stringNotification);
+        location.reload();
       })
       .catch(error => {
         console.log("axios error " + error);
@@ -213,6 +215,7 @@ export class ProfileEditPage implements OnInit {
             profileEditPage.setToStorage();
             profileEditPage.loadingCtrl.dismiss();
             profileEditPage.presentAlert(stringNotification);
+            location.reload();
           })
           .catch(error => {
             console.log("edit-profile-error", error);
@@ -244,7 +247,9 @@ export class ProfileEditPage implements OnInit {
             alert("Please upload an image below 1500 MB.");
           }
           else {
+            this.showLocation = nativePath;
             this.fileLocation = base64string;
+            this.profileImage = base64string;
           }
         })
       })
@@ -261,11 +266,8 @@ export class ProfileEditPage implements OnInit {
     else padding = 0;
 
     base64StringLength = base64String.length;
-    alert("STRING LENGTH" + base64StringLength);
     inBytes =(base64StringLength / 4 ) * 3 - padding;
-    alert("IN BYTES" + inBytes);
     this.kbytes = inBytes / 1000;
-    alert("IN KBytes" + this.kbytes);
     return this.kbytes;
   }
 

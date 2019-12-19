@@ -26,7 +26,7 @@ export class ForumHomePage implements OnInit {
   stringLoading = "Please wait. We are loading the Forum Page contents."
   empty;
   
-  private selectedPage = 1;
+  public selectedPage = 1;
 
   constructor(
     private loginSrvc: LoginService,
@@ -38,6 +38,7 @@ export class ForumHomePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.selectedPage = 1;
     this.getThreads(1);
   }
   
@@ -95,7 +96,7 @@ export class ForumHomePage implements OnInit {
         })
       });
     }
-  }  
+  } 
 
   getThreads(selectedPage) {
     var tempThreadList = undefined;
