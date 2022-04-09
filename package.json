@@ -38,7 +38,7 @@
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-sqlite-storage": "^4.0.0",
     "core-js": "^2.5.4",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "moment-timezone": "^0.5.27",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
